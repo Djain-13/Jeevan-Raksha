@@ -66,9 +66,8 @@ html {
   color: #4682b4;
 }
 
-.start-btn,
-.start-btn-hero,
-.explore-btn {
+.register-btn,
+.start-btn-hero{
   padding: 12px 28px;
   background: #ff6f61;
   color: #fff;
@@ -80,9 +79,8 @@ html {
   box-shadow: 0 4px 14px rgba(255, 111, 97, 0.4);
 }
 
-.start-btn:hover,
-.start-btn-hero:hover,
-.explore-btn:hover {
+.register-btn:hover,
+.start-btn-hero:hover{
   background: #e65b50;
   transform: translateY(-3px);
 }
@@ -147,7 +145,7 @@ html {
 /* Designs Section */
 .designs-section {
   text-align: center;
-  padding: 90px 20px;
+  padding: 50px 20px;
   background: #fff;
 }
 
@@ -192,6 +190,56 @@ html {
   font-weight: bold;
   text-align: center;
   font-size: 1.1em;
+}
+
+/* Helpline Section (Corrected and Added) */
+.helpline-section {
+  text-align: center;
+  padding: 90px 20px;
+  background: #e6f0f5; /* A light, calming background */
+}
+
+.helpline-card {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 30px;
+  background: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.helpline-text {
+  font-size: 1.2em;
+  margin-bottom: 25px;
+  color: #555;
+  line-height: 1.6;
+}
+
+.helpline-numbers {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.number-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 25px;
+  background: #f8f9fa;
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+}
+
+.number-item span:first-child {
+  font-weight: 600;
+  color: #333;
+}
+
+.number {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #4a90e2; /* A strong blue to highlight numbers */
 }
 
 /* Footer */
