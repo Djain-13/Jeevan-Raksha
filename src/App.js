@@ -6,15 +6,15 @@ function App() {
     <div className="landing-page">
       {/* Navbar */}
       <header className="navbar">
-        <div className="logo">🌍 DisasterEd</div>
+        <div className="logo">🌍 JEEVAN RAKSHA</div>
+        <div className="nav-right">
         <nav className="nav-links">
-          <a href="#modules">Modules</a>
-          <a href="#quizes">Quizes</a>
-          <a href="#safety">Safety Tips</a>
+         <a href="Helpline Contacts">Helpline Contacts</a>
         </nav>
         <div className="auth-buttons">
           <button className="login-btn-nav">Log In</button>
           <button className="register-btn">Register</button>
+        </div>
         </div>
       </header>
 
@@ -94,10 +94,9 @@ function App() {
           <div className="safety-card fancy">
             <h3>⏳ Before a Disaster</h3>
             <div className="icon-grid">
-              <div className="icon-item glow"><span>📡</span><p>Stay Informed</p></div>
+              <div className="icon-item glow"><span>📝</span><p>Plan</p></div>
               <div className="icon-item glow"><span>🎒</span><p>Emergency Kit</p></div>
-              <div className="icon-item glow"><span>👨‍👩‍👧</span><p>Family Plan</p></div>
-              <div className="icon-item glow"><span>🏠</span><p>Secure Home</p></div>
+              <div className="icon-item glow"><span>📦</span><p>Stock Supplies</p></div>
               <div className="icon-item glow"><span>📞</span><p>Know Helplines</p></div>
             </div>
           </div>
@@ -107,11 +106,9 @@ function App() {
             <h3>⚠️ During a Disaster</h3>
             <div className="icon-grid">
               <div className="icon-item glow"><span>🧘</span><p>Stay Calm</p></div>
-              <div className="icon-item glow"><span>🚶</span><p>Evacuate Safely</p></div>
-              <div className="icon-item glow"><span>🌎</span><p>Earthquake</p></div>
-              <div className="icon-item glow"><span>🌊</span><p>Flood</p></div>
-              <div className="icon-item glow"><span>🔥</span><p>Fire</p></div>
-              <div className="icon-item glow"><span>🌪️</span><p>Cyclone</p></div>
+              <div className="icon-item glow"><span>🛡️</span><p>Protect Yourself</p></div>
+              <div className="icon-item glow"><span>📢</span><p>Alert Others</p></div>
+              <div className="icon-item glow"><span>🚶</span><p>Move to Safety</p></div>
             </div>
           </div>
 
@@ -120,8 +117,8 @@ function App() {
             <h3>🌈 After a Disaster</h3>
             <div className="icon-grid">
               <div className="icon-item glow"><span>⛑️</span><p>Check Injuries</p></div>
-              <div className="icon-item glow"><span>🏚️</span><p>Inspect Home</p></div>
-              <div className="icon-item glow"><span>🚰</span><p>Clean Water</p></div>
+              <div className="icon-item glow"><span>📞</span><p>Reports Incidents</p></div>
+              <div className="icon-item glow"><span>❤️</span><p>Care for Victims</p></div>
               <div className="icon-item glow"><span>📡</span><p>Stay Connected</p></div>
             </div>
           </div>
