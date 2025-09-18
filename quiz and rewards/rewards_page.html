@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Rewards & Badges</title>
+    <link rel="stylesheet" href="rewards_styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-trophy"></i> My Rewards</h1>
+            <p>Your achievements in disaster preparedness!</p>
+            <a href="quiz_main.html" class="back-to-quiz">← Back to Quiz</a>
+        </header>
+
+        <section class="user-profile">
+            <div class="profile-card">
+                <img src="https://i.ibb.co/28J7p9s/profile-avatar.png" alt="User Avatar" class="avatar">
+                <h2 id="user-name">Guest</h2>
+                <p class="rank" id="user-rank">Novice</p>
+                <div class="points">
+                    <i class="fa-solid fa-star"></i>
+                    <span id="user-points">0 Points</span>
+                </div>
+            </div>
+        </section>
+
+        <main class="badge-gallery">
+            <h2>Your Badge Collection</h2>
+            <div class="badge-grid">
+                <div class="badge" data-id="quakeProof" data-title="Quake Proof" data-description="Ace the quiz on Earthquake preparedness."><div class="badge-icon"><i class="fa-solid fa-house-crack"></i></div><p class="badge-name">Quake Proof</p></div>
+                <div class="badge" data-id="floodReady" data-title="Flood Ready" data-description="Master the Flood Safety module."><div class="badge-icon"><i class="fa-solid fa-house-flood-water"></i></div><p class="badge-name">Flood Ready</p></div>
+                <div class="badge" data-id="firstAid" data-title="First Aid Certified" data-description="Answer questions correctly on First Aid & CPR."><div class="badge-icon"><i class="fa-solid fa-first-aid"></i></div><p class="badge-name">First Aid Certified</p></div>
+                <div class="badge" data-id="fireSafety" data-title="Fire Safety Marshal" data-description="Complete Fire Safety challenges."><div class="badge-icon"><i class="fa-solid fa-fire-extinguisher"></i></div><p class="badge-name">Fire Safety Marshal</p></div>
+                <div class="badge" data-id="cycloneSentinel" data-title="Cyclone Sentinel" data-description="Answer correctly on cyclone warnings and safety."><div class="badge-icon"><i class="fa-solid fa-cyclone"></i></div><p class="badge-name">Cyclone Sentinel</p></div>
+                <div class="badge" data-id="goBagGuru" data-title="Go-Bag Guru" data-description="Correctly identify items for an emergency kit."><div class="badge-icon"><i class="fa-solid fa-briefcase-medical"></i></div><p class="badge-name">Go-Bag Guru</p></div>
+                <div class="badge" data-id="preparedness" data-title="Preparedness Pro" data-description="Show expertise in general preparedness."><div class="badge-icon"><i class="fa-solid fa-shield-halved"></i></div><p class="badge-name">Preparedness Pro</p></div>
+                <div class="badge" data-id="disasterHero" data-title="Disaster Hero" data-description="Awarded for acing a hard quiz with 80%+ score."><div class="badge-icon"><i class="fas fa-medal"></i></div><p class="badge-name">Disaster Hero</p></div>
+            </div>
+        </main>
+    </div>
+
+    <div id="badge-tooltip"></div>
+    <script src="rewards_logic.js"></script>
+</body>
+</html>
