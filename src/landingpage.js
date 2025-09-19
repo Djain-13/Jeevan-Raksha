@@ -1,7 +1,8 @@
 import React from "react";
 
 import "./App.css";
-import MapComponent from "./MapComponent";
+// import MapComponent from "./MapComponent";
+import DisasterMap from './DisasterMap'; 
 
 
 function LandingPage({onLoginClick,onHelplineClick}) {
@@ -73,7 +74,7 @@ function LandingPage({onLoginClick,onHelplineClick}) {
             <h2>🗺️ Disaster Risk Map</h2>
           </center>
           <div className="map-container">
-            <MapComponent />
+            <DisasterMap />
           </div>
         </div>
       </section>

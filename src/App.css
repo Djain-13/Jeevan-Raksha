@@ -259,10 +259,17 @@ body, html {
   text-align: center;
 }
 
-.map-container iframe {
+
+ .map-container {
+  width: 100%;
+  max-width: 2000px;
+  margin: 20px auto;
   border-radius: 15px;
-  box-shadow: 0 6px 25px rgba(0,0,0,0.15);
+  overflow: hidden;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
 }
+
+
 
 /* Footer */
 .footer {
