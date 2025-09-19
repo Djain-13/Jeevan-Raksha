@@ -24,7 +24,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Poppins', sans-serif;
-            background: var(--background);
+            background: #D8E5FF; /* <-- THIS IS THE ONLY CHANGE */
             color: var(--text-dark);
             min-height: 100vh;
             padding: 20px;
@@ -212,7 +212,6 @@
             { type: "truefalse", difficulty: "hard", question: "P-waves (Primary waves) are the most destructive type of seismic wave during an earthquake.", options: ["True", "False"], answer: "b", explanation: "False. P-waves are the fastest and arrive first, but the S-waves (Secondary waves) and especially the Surface waves are much more destructive.", topic: "quakeProof" },
             { type: "mcq", difficulty: "hard", question: "What is the safest action if your car stalls in rising floodwater?", options: ["Stay in the vehicle and call for help", "Get out immediately and move to higher ground", "Try to restart the engine repeatedly", "Get on the roof of the car"], answer: "b", explanation: "If water is rising, you should abandon the vehicle immediately and move to higher ground. Cars can be quickly swept away.", topic: "floodReady" }
         ];
-
         const setupScreen = document.getElementById('setup-screen');
         const quizContainer = document.getElementById('quiz-container');
         const resultsSection = document.getElementById('results-section');
@@ -230,15 +229,12 @@
         const userNameInput = document.getElementById('user-name');
         const startBtn = document.getElementById('start-btn');
         const difficultyBtns = document.querySelectorAll('.difficulty-btn');
-
         let currentQuestionIndex, score, userAnswers, selectedDifficulty, filteredQuestions;
-
         function saveUserData(userData) { localStorage.setItem('disasterQuizUser', JSON.stringify(userData)); }
         function loadUserData() {
             const data = localStorage.getItem('disasterQuizUser');
             return data ? JSON.parse(data) : { name: "", totalPoints: 0, badgesEarned: [] };
         }
-
         function initializeSetup() {
             difficultyBtns.forEach(btn => btn.classList.remove('selected'));
             difficultyBtns[0].classList.add('selected');
@@ -246,7 +242,6 @@
             const userData = loadUserData();
             userNameInput.value = userData.name || "";
         }
-
         difficultyBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 difficultyBtns.forEach(b => b.classList.remove('selected'));
@@ -254,7 +249,6 @@
                 selectedDifficulty = btn.dataset.difficulty;
             });
         });
-
         function startQuiz() {
             setupScreen.style.display = 'none';
             resultsSection.style.display = 'none';
@@ -268,7 +262,6 @@
             difficultyBadge.textContent = selectedDifficulty.charAt(0).toUpperCase() + selectedDifficulty.slice(1);
             showQuestion();
         }
-
         function showQuestion() {
             nextBtn.disabled = true;
             const question = filteredQuestions[currentQuestionIndex];
@@ -289,11 +282,9 @@
             });
             nextBtn.textContent = (currentQuestionIndex === filteredQuestions.length - 1) ? 'Submit Quiz' : 'Next';
         }
-        
         function handleAnswer(selectedValue, selectedElement) {
             const question = filteredQuestions[currentQuestionIndex];
             const isCorrect = selectedValue === question.answer;
-
             if (userAnswers[currentQuestionIndex] === null) {
                 userAnswers[currentQuestionIndex] = { answer: selectedValue, correct: isCorrect, topic: question.topic };
                 if (isCorrect) {
@@ -301,7 +292,6 @@
                     scoreElement.textContent = score;
                 }
             }
-
             document.querySelectorAll('.option').forEach(opt => {
                 opt.style.pointerEvents = 'none';
                 if (opt.dataset.value === question.answer) {
@@ -312,7 +302,6 @@
             });
             nextBtn.disabled = false;
         }
-
         function goToNextOrShowResults() {
             if (currentQuestionIndex < filteredQuestions.length - 1) {
                 currentQuestionIndex++;
@@ -321,27 +310,22 @@
                 showResults();
             }
         }
-        
         nextBtn.addEventListener('click', goToNextOrShowResults);
-
         function showResults() {
             quizContainer.style.display = 'none';
             resultsSection.style.display = 'block';
             const percentage = Math.round((score / filteredQuestions.length) * 100);
             finalScoreElement.textContent = `${percentage}%`;
-
             if (percentage >= 90) scoreMessageElement.textContent = "Outstanding! You're a disaster preparedness expert!";
             else if (percentage >= 75) scoreMessageElement.textContent = "Excellent! You're well-prepared!";
             else if (percentage >= 50) scoreMessageElement.textContent = "Good job! You have solid knowledge.";
             else scoreMessageElement.textContent = "Keep learning to be more disaster-ready!";
         }
-
         function resetQuiz() {
             resultsSection.style.display = 'none';
             setupScreen.style.display = 'block';
             initializeSetup();
         }
-        
         function saveProgress() {
             const userName = userNameInput.value.trim();
             if (!userName) {
@@ -351,7 +335,6 @@
             let userData = loadUserData();
             userData.name = userName;
             userData.totalPoints = (userData.totalPoints || 0) + (score * 10);
-
             userAnswers.forEach(ans => {
                 if (ans && ans.correct && !userData.badgesEarned.includes(ans.topic)) {
                     userData.badgesEarned.push(ans.topic);
@@ -363,11 +346,9 @@
             saveUserData(userData);
             alert(`Progress saved for ${userName}!`);
         }
-
         startBtn.addEventListener('click', startQuiz);
         restartBtn.addEventListener('click', resetQuiz);
         downloadBtn.addEventListener('click', saveProgress);
-
         initializeSetup();
     </script>
 </body>
