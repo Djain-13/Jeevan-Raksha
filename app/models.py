@@ -1,5 +1,6 @@
 from app import db, bcrypt
 from datetime import datetime
+from sqlalchemy.dialects.postgresql import JSON
 
 class User(db.Model):
     """
@@ -9,7 +10,7 @@ class User(db.Model):
     username = db.Column(db.String(64), index=True, unique=True, nullable=False)
     email = db.Column(db.String(120), index=True, unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
-    role = db.Column(db.String(10), default='student', nullable=False) 
+    role = db.Column(db.String(10), default='student', nullable=False) # Roles: 'student', 'admin'
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     def set_password(self, password):
@@ -30,12 +31,12 @@ class DisasterModule(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(150), nullable=False)
     content = db.Column(db.Text, nullable=False)
-    category = db.Column(db.String(50), index=True) 
+    category = db.Column(db.String(50), index=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __repr__(self):
         return f'<DisasterModule {self.title}>'
-    
+
 class Alert(db.Model):
     """
     Model for storing real-time disaster alerts.
@@ -43,14 +44,12 @@ class Alert(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
     message = db.Column(db.Text, nullable=False)
-    severity = db.Column(db.String(20), default='Medium', index=True) 
+    severity = db.Column(db.String(20), default='Medium', index=True)
     region = db.Column(db.String(100), index=True)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 
     def __repr__(self):
         return f'<Alert {self.title}>'
-    
-
 
 class RescueService(db.Model):
     """
@@ -58,11 +57,9 @@ class RescueService(db.Model):
     """
     id = db.Column(db.Integer, primary_key=True)
     service_name = db.Column(db.String(150), nullable=False)
-    service_type = db.Column(db.String(50), index=True, nullable=False) 
-
+    service_type = db.Column(db.String(50), index=True, nullable=False)
     latitude = db.Column(db.Float, nullable=False)
     longitude = db.Column(db.Float, nullable=False)
-    
     contact_number = db.Column(db.String(20), nullable=False)
 
     def __repr__(self):
