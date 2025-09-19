@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import DisasterMap from './DisasterMap'; // Import the new map component
 import "./App.css";
 
 // A simple modal component for login/register forms
@@ -55,7 +56,7 @@ const AuthModal = ({ mode, onClose, onSubmit }) => {
 function App() {
   const [modalMode, setModalMode] = useState(null); // 'login', 'register', or null
 
-  // Function to handle API requests
+  // Function to handle API requests for both login and registration
   const handleAuth = async (formData) => {
     const isLogin = modalMode === 'login';
     const endpoint = isLogin ? '/api/login' : '/api/register';
@@ -80,7 +81,7 @@ function App() {
       }
     } catch (error) {
       console.error("There was an error connecting to the server:", error);
-      alert("Could not connect to the backend server.");
+      alert("Could not connect to the backend server. Is it running?");
     }
   };
 
@@ -99,8 +100,8 @@ function App() {
           <div className="logo">🌍 JEEVAN RAKSHA</div>
           <div className="nav-right">
             <nav className="nav-links">
-              <a href="#safety">Safety Steps</a>
-              <a href="#maps">Risk Map</a>
+             <a href="#safety">Safety Steps</a>
+             <a href="#maps">Risk Map</a>
             </nav>
             <div className="auth-buttons">
               <button className="login-btn-nav" onClick={() => setModalMode('login')}>Log In</button>
@@ -151,24 +152,14 @@ function App() {
           </div>
         </main>
 
-        {/* Maps Section */}
+        {/* Maps Section - UPDATED */}
         <section className="maps-section" id="maps">
           <div className="container">
             <center>
               <h2>🗺️ Disaster Risk Map</h2>
             </center>
             <div className="map-container">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d121059.04711156066!2d73.78056543181198!3d18.524598599378!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2bf2e67461101%3A0x828d43bf9d9ee343!2sPune%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1667830233660!5m2!1sen!2sin"
-                width="100%"
-                height="450"
-                style={{ border: 0 }}
-                allowFullScreen=""
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Disaster Risk Map"
-                className="map-iframe"
-              ></iframe>
+              <DisasterMap />
             </div>
           </div>
         </section>
