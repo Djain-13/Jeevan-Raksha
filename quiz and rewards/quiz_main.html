@@ -4,268 +4,297 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Disaster Preparedness Quiz</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #2c3e50;
-            --secondary: #3498db;
-            --accent: #e74c3c;
-            --success: #2ecc71;
-            --warning: #f39c12;
-            --light: #ecf0f1;
-            --dark: #2c3e50;
-            --earthquake: #e67e22;
-            --flood: #3498db;
-            --fire: #e74c3c;
-            --hurricane: #9b59b6;
-            --easy: #2ecc71;
-            --medium: #f39c12;
-            --hard: #e74c3c;
+            --bg-start: #e9eefa;
+            --bg-end: #d8e5ff;
+            --card-bg: rgba(255, 255, 255, 0.8);
+            --card-border: rgba(255, 255, 255, 0.6);
+            --shadow: rgba(102, 126, 234, 0.1);
+            --hover-shadow: rgba(102, 126, 234, 0.3);
+            --text-dark: #2c3e50;
+            --text-light: #5a6a79;
+            --accent-start: #ff6ec4;
+            --accent-end: #7873f5;
+            --header-purple: #8e44ad;
+            --primary-blue: #3498db;
+            --success-green: #2ecc71;
+            --warning-orange: #f39c12;
+            --danger-red: #e74c3c;
         }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #333;
-            line-height: 1.6;
+            background: linear-gradient(135deg, var(--bg-start), var(--bg-end));
+            color: var(--text-dark);
             min-height: 100vh;
             padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
         }
+
         .quiz-app {
             width: 100%;
-            max-width: 900px;
-            background: white;
+            max-width: 800px;
+            background: #ffffff;
             border-radius: 20px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 15px 40px var(--shadow);
             overflow: hidden;
-            position: relative;
         }
+        
+        /* --- Header --- */
         .app-header {
-            background: linear-gradient(rgba(44, 62, 80, 0.9), rgba(44, 62, 80, 0.9)), url('https://images.unsplash.com/photo-1593113630400-ea4288922497?ixlib=rb-4.0.3&auto=format&fit=crop&w=1770&q=80');
-            background-size: cover;
-            background-position: center;
-            color: white;
             padding: 30px;
             text-align: center;
-            position: relative;
+            background: var(--bg-start);
         }
+        
         .app-header h1 {
             font-family: 'Montserrat', sans-serif;
-            font-size: 2.8rem;
+            font-size: 2.5rem;
             margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            position: relative;
+            display: inline-block;
+            color: #005f99;
         }
+
+        .app-header h1::after {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70%;
+            height: 4px;
+            border-radius: 2px;
+            background: linear-gradient(90deg, var(--accent-start), var(--accent-end));
+        }
+
         .app-header p {
-            font-size: 1.2rem;
-            max-width: 800px;
-            margin: 0 auto;
-            opacity: 0.9;
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-top: 20px;
         }
-        .setup-screen, .quiz-container, .results-section { padding: 40px 30px; }
-        .setup-screen { text-align: center; }
+
+        /* --- Screens --- */
+        .setup-screen, .quiz-container, .results-section {
+            padding: 40px;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Setup Screen --- */
         .setup-screen h2 {
-            color: var(--primary);
+            text-align: center;
+            font-size: 1.8rem;
             margin-bottom: 30px;
-            font-size: 2rem;
+            color: var(--text-dark);
         }
-        .difficulty-selector, .timer-btns {
-            display: flex;
-            justify-content: center;
+
+        .difficulty-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 20px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
+            margin-bottom: 40px;
         }
+        
         .difficulty-btn {
-            padding: 15px 25px;
-            background: var(--light);
-            border: 2px solid #ddd;
-            border-radius: 10px;
+            padding: 20px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
             font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            min-width: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
         }
-        .difficulty-btn.easy { color: var(--easy); border-color: var(--easy); }
-        .difficulty-btn.medium { color: var(--medium); border-color: var(--medium); }
-        .difficulty-btn.hard { color: var(--hard); border-color: var(--hard); }
-        .difficulty-btn:hover, .difficulty-btn.selected { color: white; }
-        .difficulty-btn.easy:hover, .difficulty-btn.easy.selected { background: var(--easy); }
-        .difficulty-btn.medium:hover, .difficulty-btn.medium.selected { background: var(--medium); }
-        .difficulty-btn.hard:hover, .difficulty-btn.hard.selected { background: var(--hard); }
-        .timer-options h3 { margin-bottom: 15px; color: var(--primary); }
-        .timer-btn {
-            padding: 10px 20px;
-            background: var(--light);
-            border: 2px solid #ddd;
-            border-radius: 30px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .timer-btn:hover, .timer-btn.selected {
-            background: var(--secondary);
+
+        .difficulty-btn i { font-size: 2rem; }
+        .difficulty-btn.easy { color: var(--success-green); }
+        .difficulty-btn.medium { color: var(--warning-orange); }
+        .difficulty-btn.hard { color: var(--danger-red); }
+
+        .difficulty-btn:hover, .difficulty-btn.selected {
+            transform: translateY(-5px);
             color: white;
-            border-color: var(--secondary);
+            box-shadow: 0 10px 20px var(--shadow);
         }
-        .start-quiz-btn, .download-btn, .restart-btn, .rewards-btn {
-            padding: 15px 40px;
+
+        .difficulty-btn.easy.selected { background-color: var(--success-green); border-color: var(--success-green); }
+        .difficulty-btn.medium.selected { background-color: var(--warning-orange); border-color: var(--warning-orange); }
+        .difficulty-btn.hard.selected { background-color: var(--danger-red); border-color: var(--danger-red); }
+
+        .start-quiz-btn {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(90deg, var(--accent-start), var(--accent-end));
             color: white;
             border: none;
-            border-radius: 50px;
+            border-radius: 15px;
             font-size: 1.2rem;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            justify-content: center;
+            box-shadow: 0 5px 20px rgba(120, 115, 245, 0.4);
         }
-        .start-quiz-btn { background: var(--success); box-shadow: 0 4px 15px rgba(46, 204, 113, 0.4); }
-        .start-quiz-btn:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(46, 204, 113, 0.6); }
+
+        .start-quiz-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(120, 115, 245, 0.6);
+        }
+        
+        /* --- Quiz Container --- */
         .quiz-container { display: none; }
+
         .quiz-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid var(--light);
+            margin-bottom: 20px;
         }
-        .quiz-info { display: flex; gap: 20px; }
+
         .info-badge {
             padding: 8px 15px;
-            background: var(--light);
+            background: #e9eefa;
             border-radius: 20px;
             font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 5px;
         }
-        .difficulty-badge.easy { background: rgba(46, 204, 113, 0.2); color: var(--easy); }
-        .difficulty-badge.medium { background: rgba(243, 156, 18, 0.2); color: var(--medium); }
-        .difficulty-badge.hard { background: rgba(231, 76, 60, 0.2); color: var(--hard); }
-        .timer {
-            background: var(--primary);
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            margin-bottom: 5px;
+        }
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-start), var(--accent-end));
+            border-radius: 4px;
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+        .question-count { text-align: right; font-size: 0.9rem; color: var(--text-light); margin-bottom: 20px; }
+        
+        .question h3 { font-size: 1.4rem; margin-bottom: 20px; line-height: 1.5; }
+        .options { display: grid; gap: 15px; }
+        .option {
+            padding: 15px;
+            background: #f8fafc;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .option:hover { border-color: var(--primary-blue); background: #eaf5fc; }
+        .option.selected { border-color: var(--primary-blue); background: #eaf5fc; }
+        .option.correct { border-color: var(--success-green); background: #eafaf1; }
+        .option.incorrect { border-color: var(--danger-red); background: #fbeae8; }
+        .quiz-controls { margin-top: 30px; text-align: right; }
+        .next-btn {
+            padding: 12px 30px;
+            background: var(--primary-blue);
             color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
             font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
-        .progress-container { margin-bottom: 25px; }
-        .progress-bar { height: 12px; background: var(--light); border-radius: 10px; overflow: hidden; }
-        .progress { height: 100%; background: linear-gradient(to right, var(--secondary), var(--accent)); border-radius: 10px; width: 0%; transition: width 0.5s ease; }
-        .question-count { display: flex; justify-content: space-between; color: var(--dark); font-size: 0.9rem; margin-top: 5px; }
-        .question { margin-bottom: 25px; padding: 25px; background: var(--light); border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); position: relative; }
-        .question h3 { color: var(--primary); margin-bottom: 20px; font-size: 1.3rem; line-height: 1.5; }
-        .options { display: grid; grid-template-columns: 1fr; gap: 12px; }
-        .option { padding: 15px; background: white; border: 2px solid #ddd; border-radius: 10px; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; }
-        .option:hover { border-color: var(--secondary); background: rgba(52, 152, 219, 0.1); }
-        .option input { margin-right: 12px; }
-        .quiz-controls { display: flex; justify-content: flex-end; margin-top: 30px; }
-        .quiz-btn { padding: 12px 25px; background: var(--primary); color: white; border: none; border-radius: 30px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px; }
-        .quiz-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); }
-        .next-btn { background: var(--success); }
-        .next-btn:hover { background: #27ae60; }
-        .feedback { padding: 20px; border-radius: 10px; margin-top: 20px; display: none; animation: fadeIn 0.5s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .feedback.correct { background: rgba(46, 204, 113, 0.2); color: #27ae60; border: 1px solid #2ecc71; }
-        .feedback.incorrect { background: rgba(231, 76, 60, 0.2); color: #c0392b; border: 1px solid #e74c3c; }
-        .feedback h4 { margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
-        .results-section { text-align: center; display: none; }
-        .results-section h2 { color: var(--primary); margin-bottom: 20px; font-size: 2.2rem; }
-        .score-container { background: var(--light); border-radius: 15px; padding: 30px; margin-bottom: 30px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); }
-        .score { font-size: 3.5rem; font-weight: 700; color: var(--primary); margin: 15px 0; }
-        .score-text { font-size: 1.3rem; color: var(--dark); margin-bottom: 20px; }
-        .certificate-form { background: var(--light); border-radius: 15px; padding: 30px; margin: 30px auto; max-width: 500px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); }
-        .certificate-form h3 { color: var(--primary); margin-bottom: 20px; }
-        .certificate-form input { width: 100%; padding: 15px; border: 2px solid #ddd; border-radius: 10px; margin-bottom: 20px; font-size: 1rem; transition: border-color 0.3s ease; }
-        .certificate-form input:focus { border-color: var(--secondary); outline: none; }
-        .download-btn { background: var(--success); }
-        .restart-btn { background: var(--primary); }
-        .rewards-btn { background: var(--warning); box-shadow: 0 4px 15px rgba(243, 156, 18, 0.4); }
-        .results-actions { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .next-btn:disabled { background: #bdc3c7; cursor: not-allowed; }
+        .next-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4); }
+
+        /* --- Results Section --- */
+        .results-section { display: none; text-align: center; }
+        .results-section h2 { font-size: 2rem; color: var(--text-dark); margin-bottom: 10px; }
+        .score-container { padding: 30px; margin-bottom: 30px; }
+        .score { font-family: 'Montserrat', sans-serif; font-size: 4.5rem; font-weight: 800; background: linear-gradient(90deg, var(--accent-start), var(--accent-end)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .score-text { font-size: 1.2rem; margin-top: 5px; color: var(--text-light); }
+        .certificate-form { background: #f8fafc; padding: 30px; border-radius: 15px; margin-bottom: 20px; }
+        .certificate-form input { width: 100%; padding: 15px; border: 2px solid #e0e0e0; border-radius: 10px; margin-bottom: 15px; font-size: 1rem; }
+        .results-actions { display: flex; gap: 15px; justify-content: center; }
+        .download-btn, .restart-btn, .rewards-btn {
+            padding: 15px 30px;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .download-btn { background: var(--success-green); }
+        .restart-btn { background: var(--primary-blue); }
+        .rewards-btn { background: var(--warning-orange); }
+        .download-btn:hover, .restart-btn:hover, .rewards-btn:hover { transform: translateY(-3px); box-shadow: 0 6px 20px var(--shadow); }
     </style>
 </head>
 <body>
     <div class="quiz-app">
         <div class="app-header">
-            <h1>Disaster Preparedness Quiz</h1>
-            <p>Test your knowledge and learn how to stay safe during emergencies</p>
+            <h1>🌟 Safety Steps for Disasters 🌟</h1>
+            <p>Stay safe before, during, and after any disaster</p>
         </div>
 
         <section class="setup-screen" id="setup-screen">
-            <h2>Quiz Setup</h2>
+            <h2>Choose Your Challenge</h2>
             <div class="difficulty-selector">
-                <button class="difficulty-btn easy" data-difficulty="easy">Easy</button>
-                <button class="difficulty-btn medium" data-difficulty="medium">Medium</button>
-                <button class="difficulty-btn hard" data-difficulty="hard">Hard</button>
+                <button class="difficulty-btn easy" data-difficulty="easy"><i class="fas fa-seedling"></i>Easy</button>
+                <button class="difficulty-btn medium" data-difficulty="medium"><i class="fas fa-burn"></i>Medium</button>
+                <button class="difficulty-btn hard" data-difficulty="hard"><i class="fas fa-meteor"></i>Hard</button>
             </div>
-            <div class="timer-options">
-                <h3>Timer Options (per question)</h3>
-                <div class="timer-btns">
-                    <button class="timer-btn" data-time="0">No Timer</button>
-                    <button class="timer-btn" data-time="15">15s</button>
-                    <button class="timer-btn" data-time="30">30s</button>
-                    <button class="timer-btn" data-time="60">60s</button>
-                </div>
-            </div>
-            <button class="start-quiz-btn" id="start-btn">Start Quiz <i class="fas fa-play"></i></button>
+            <button class="start-quiz-btn" id="start-btn">Start Quiz</button>
         </section>
 
         <section class="quiz-container" id="quiz-container">
             <div class="quiz-header">
-                <div class="quiz-info">
-                    <div class="info-badge difficulty-badge easy" id="difficulty-badge">Easy</div>
-                    <div class="info-badge"><i class="fas fa-check-circle"></i> <span id="score">0</span> Correct</div>
-                </div>
-                <div class="timer" id="timer"><i class="fas fa-clock"></i> <span id="time-left">0</span>s</div>
+                <div class="info-badge" id="difficulty-badge"></div>
+                <div class="info-badge"><i class="fas fa-check"></i> <span id="score">0</span></div>
             </div>
-            <div class="progress-container">
-                <div class="progress-bar"><div class="progress" id="progress"></div></div>
-                <div class="question-count">
-                    <span>Question <span id="current-question">1</span> of <span id="total-questions">10</span></span>
-                </div>
-            </div>
-            <div class="question" id="question-area">
-                </div>
-            <div class="feedback" id="feedback"></div>
+            <div class="progress-bar"><div class="progress" id="progress"></div></div>
+            <div class="question-count"><span id="current-question">1</span> / <span id="total-questions">10</span></div>
+            <div class="question" id="question-area"></div>
             <div class="quiz-controls">
-                <button class="quiz-btn next-btn" id="next-btn">Next <i class="fas fa-arrow-right"></i></button>
+                <button class="next-btn" id="next-btn" disabled>Next</button>
             </div>
         </section>
 
         <section class="results-section" id="results-section">
-            <h2>Your Quiz Results</h2>
+            <h2>Quiz Complete!</h2>
             <div class="score-container">
-                <p class="score-text">Your Final Score:</p>
                 <div class="score" id="final-score">0%</div>
-                <p class="score-text" id="score-message">Keep learning to be more disaster-ready!</p>
+                <p class="score-text" id="score-message"></p>
             </div>
             <div class="certificate-form">
-                <h3>Save Progress & Get Certificate</h3>
-                <input type="text" id="user-name" placeholder="Enter your full name here">
-                <button class="download-btn" id="download-btn"><i class="fas fa-download"></i> Save & Download</button>
+                <input type="text" id="user-name" placeholder="Enter your full name to save">
+                <button class="download-btn" id="download-btn">Save Progress</button>
             </div>
             <div class="results-actions">
-                <a href="rewards_page.html" class="rewards-btn"><i class="fas fa-trophy"></i> View My Rewards</a>
-                <button class="restart-btn" id="restart-btn"><i class="fas fa-redo"></i> Take Quiz Again</button>
+                <a href="rewards_page.html" class="rewards-btn">View My Rewards</a>
+                <button class="restart-btn" id="restart-btn">Try Again</button>
             </div>
         </section>
     </div>
 
     <script>
         const questions = [
-            // =================== EASY QUESTIONS (10) ===================
+            // Your existing 30 questions go here...
             { type: "mcq", difficulty: "easy", question: "What is the FIRST thing you should do in an earthquake?", options: ["Run outside", "Stand in a doorway", "Drop, Cover, and Hold On", "Call for help"], answer: "c", explanation: "Immediately Drop, Cover, and Hold On. This protects you from falling objects, which is the greatest danger.", topic: "quakeProof" },
             { type: "truefalse", difficulty: "easy", question: "You should always have a 'Go-Bag' or emergency kit ready.", options: ["True", "False"], answer: "a", explanation: "True. An emergency kit with essentials like water, food, and first aid is crucial for any disaster.", topic: "goBagGuru" },
             { type: "mcq", difficulty: "easy", question: "If you see floodwaters, what is the safest action?", options: ["Drive through it slowly", "Walk through if it's not deep", "Turn Around, Don't Drown®", "Wait for it to stop raining"], answer: "c", explanation: "Never enter floodwaters. It only takes a few inches of moving water to knock you down or float your vehicle.", topic: "floodReady" },
@@ -276,20 +305,16 @@
             { type: "mcq", difficulty: "easy", question: "After an earthquake, you should be prepared for...", options: ["Tsunamis, everywhere", "Aftershocks", "Heavy rain", "A sudden freeze"], answer: "b", explanation: "Aftershocks are smaller earthquakes that can occur for days or weeks after the main quake and can cause further damage.", topic: "quakeProof" },
             { type: "mcq", difficulty: "easy", question: "A good family emergency plan should include...", options: ["A list of favorite movies", "An out-of-town contact person", "Your social media passwords", "A plan to blame someone"], answer: "b", explanation: "It's often easier to call long-distance than locally after a disaster, so an out-of-town contact can help relay messages.", topic: "preparedness" },
             { type: "truefalse", difficulty: "easy", question: "If a tornado is approaching, you should open all the windows in your house.", options: ["True", "False"], answer: "b", explanation: "False. This is a myth that wastes precious time. Use that time to get to a safe shelter immediately.", topic: "cycloneSentinel" },
-
-            // =================== MEDIUM QUESTIONS (10) ===================
             { type: "truefalse", difficulty: "medium", question: "Opening windows during a hurricane helps equalize pressure and saves your house.", options: ["True", "False"], answer: "b", explanation: "False. This is a dangerous myth. Opening windows allows high winds to enter, which can lift the roof and destroy the home.", topic: "cycloneSentinel" },
             { type: "mcq", difficulty: "medium", question: "How often should you check and replace the supplies in your emergency kit?", options: ["Every month", "Every 6-12 months", "Every 5 years", "Only when something is used"], answer: "b", explanation: "You should review your kit every 6-12 months to replace expired food, water, medications, and dead batteries.", topic: "goBagGuru" },
             { type: "mcq", difficulty: "medium", question: "What does 'CPR' stand for in first aid?", options: ["Cardiac Pulse Recovery", "Cardiopulmonary Resuscitation", "Chest Pumping Routine", "Critical Patient Response"], answer: "b", explanation: "CPR stands for Cardiopulmonary Resuscitation, a life-saving technique used when someone's breathing or heartbeat has stopped.", topic: "firstAid" },
             { type: "mcq", difficulty: "medium", question: "What is the correct ratio of chest compressions to rescue breaths for adult CPR?", options: ["15 compressions, 1 breath", "30 compressions, 2 breaths", "5 compressions, 1 breath", "10 compressions, 3 breaths"], answer: "b", explanation: "The standard guideline for adult CPR is a cycle of 30 chest compressions followed by 2 rescue breaths.", topic: "firstAid" },
             { type: "truefalse", difficulty: "medium", question: "The 'eye' of a hurricane is the most dangerous and destructive part of the storm.", options: ["True", "False"], answer: "b", explanation: "False. The 'eye' is a calm area at the center. The 'eyewall' surrounding it has the strongest winds and rain.", topic: "cycloneSentinel" },
-            { type: "mcq", difficulty: "medium", question: "What is a 'flash flood'?", options: ["A flood that happens at night", "A flood caused by a dam breaking", "A flood that begins within 6 hours of a rain event", "A flood that only affects one street"], answer: "c", explanation: "Flash floods are rapid and extreme flow of high water in a normally dry area, or a rapid water level rise in a stream or creek, that begins within 6 hours of the rain.", topic: "floodReady" },
+            { type: "mcq", difficulty: "medium", question: "What is a 'flash flood'?", options: ["A flood that happens at night", "A flood caused by a dam breaking", "A flood that begins within 6 hours of a rain event", "A flood that only affects one street"], answer: "c", explanation: "Flash floods are rapid and extreme flow of high water in a normally dry area, that begins within 6 hours of the rain.", topic: "floodReady" },
             { type: "truefalse", difficulty: "medium", question: "If your clothes catch fire, you should immediately run to find water.", options: ["True", "False"], answer: "b", explanation: "False. You should immediately Stop, Drop, and Roll to smother the flames.", topic: "fireSafety" },
             { type: "mcq", difficulty: "medium", question: "What does the Richter scale measure in an earthquake?", options: ["The duration of shaking", "The amount of damage caused", "The magnitude (energy released)", "The depth of the epicenter"], answer: "c", explanation: "The Richter scale is a logarithmic scale used to measure the magnitude, or the amount of energy released, by an earthquake.", topic: "quakeProof" },
             { type: "mcq", difficulty: "medium", "question": "In a power outage, what is the safest way to light your home?", "options": ["Candles", "Gas lantern", "Battery-powered flashlights or lanterns", "A small, controlled fire"], "answer": "c", "explanation": "Battery-powered lights are the safest option as they don't pose a fire risk like candles or have fume risks like gas lanterns.", "topic": "preparedness" },
             { type: "truefalse", difficulty: "medium", "question": "It is safe to drink water from your home's hot water tank in an emergency.", "options": ["True", "False"], "answer": "a", "explanation": "True. The water in a hot water tank is generally safe to drink in an emergency, but be sure to shut off the incoming water valve first.", "topic": "goBagGuru" },
-
-            // =================== HARD QUESTIONS (10) ===================
             { type: "truefalse", difficulty: "hard", question: "It is safe to use a portable generator inside your garage if the door is open.", options: ["True", "False"], answer: "b", explanation: "False. Never use a generator indoors, in a garage, or near windows. They produce deadly carbon monoxide gas.", topic: "preparedness" },
             { type: "mcq", difficulty: "hard", question: "What type of clothing is safest to wear if you must move through a wildfire area?", options: ["Synthetic fabrics like nylon", "Loose, flowing clothes", "Dense natural fibers like wool or cotton", "A wet t-shirt"], answer: "c", explanation: "Natural fibers like dense wool and cotton are more resistant to melting and burning compared to synthetic fabrics.", topic: "fireSafety" },
             { type: "mcq", difficulty: "hard", question: "What is the '30/30 Rule' for lightning safety?", options: ["Seek shelter if lightning is 30 miles away, wait 30 minutes", "If thunder is 30 seconds after lightning, seek shelter; wait 30 minutes after last thunder", "Stay indoors for 30 minutes before and 30 minutes after a storm", "Limit outdoor time to 30 minutes during a storm"], answer: "b", explanation: "The 30/30 rule advises seeking shelter if the time between a lightning flash and its thunder is 30 seconds or less. Wait 30 minutes after the last thunder before resuming activities.", topic: "preparedness" },
@@ -298,7 +323,7 @@
             { type: "truefalse", difficulty: "hard", question: "A tourniquet should be the first choice for controlling severe bleeding from a limb.", options: ["True", "False"], answer: "b", explanation: "False. Direct pressure on the wound is the first step. A tourniquet is a last resort for life-threatening bleeding that cannot be controlled by other means.", topic: "firstAid" },
             { type: "mcq", difficulty: "hard", question: "What is a '100-year flood'?", options: ["A flood that happens exactly every 100 years", "The worst flood in the last 100 years", "A flood that is over 100 feet deep", "A flood that has a 1% chance of happening in any given year"], answer: "d", explanation: "A '100-year flood' is a statistical term meaning a flood event of that magnitude has a 1 in 100, or 1%, chance of occurring in any given year.", topic: "floodReady" },
             { type: "mcq", difficulty: "hard", question: "What does a 'Red Flag Warning' from the National Weather Service indicate?", options: ["A high tide warning for coastal areas", "Imminent tornado formation", "High-risk conditions for wildfires", "A severe thunderstorm warning"], answer: "c", explanation: "A Red Flag Warning is issued for weather events which may result in extreme fire behavior that will occur within 24 hours.", topic: "fireSafety" },
-            { type: "truefalse", difficulty: "hard", question: "P-waves (Primary waves) are the most destructive type of seismic wave during an earthquake.", options: ["True", "False"], answer: "b", explanation: "False. P-waves are the fastest and arrive first, but the S-waves (Secondary waves) and especially the Surface waves (Love and Rayleigh waves) are much more destructive.", topic: "quakeProof" },
+            { type: "truefalse", difficulty: "hard", question: "P-waves (Primary waves) are the most destructive type of seismic wave during an earthquake.", options: ["True", "False"], answer: "b", explanation: "False. P-waves are the fastest and arrive first, but the S-waves (Secondary waves) and especially the Surface waves are much more destructive.", topic: "quakeProof" },
             { type: "mcq", difficulty: "hard", question: "What is the safest action if your car stalls in rising floodwater?", options: ["Stay in the vehicle and call for help", "Get out immediately and move to higher ground", "Try to restart the engine repeatedly", "Get on the roof of the car"], answer: "b", explanation: "If water is rising, you should abandon the vehicle immediately and move to higher ground. Cars can be quickly swept away.", topic: "floodReady" }
         ];
 
@@ -307,13 +332,10 @@
         const resultsSection = document.getElementById('results-section');
         const difficultyBadge = document.getElementById('difficulty-badge');
         const scoreElement = document.getElementById('score');
-        const timeLeftElement = document.getElementById('time-left');
-        const timerElement = document.getElementById('timer');
         const currentQuestionElement = document.getElementById('current-question');
         const totalQuestionsElement = document.getElementById('total-questions');
         const progressElement = document.getElementById('progress');
         const questionArea = document.getElementById('question-area');
-        const feedbackElement = document.getElementById('feedback');
         const nextBtn = document.getElementById('next-btn');
         const finalScoreElement = document.getElementById('final-score');
         const scoreMessageElement = document.getElementById('score-message');
@@ -322,9 +344,8 @@
         const userNameInput = document.getElementById('user-name');
         const startBtn = document.getElementById('start-btn');
         const difficultyBtns = document.querySelectorAll('.difficulty-btn');
-        const timerBtns = document.querySelectorAll('.timer-btn');
 
-        let currentQuestionIndex, score, userAnswers, timeLeft, timer, selectedDifficulty, selectedTime, filteredQuestions;
+        let currentQuestionIndex, score, userAnswers, selectedDifficulty, filteredQuestions;
 
         function saveUserData(userData) {
             localStorage.setItem('disasterQuizUser', JSON.stringify(userData));
@@ -337,11 +358,8 @@
 
         function initializeSetup() {
             difficultyBtns.forEach(btn => btn.classList.remove('selected'));
-            timerBtns.forEach(btn => btn.classList.remove('selected'));
             difficultyBtns[0].classList.add('selected');
-            timerBtns[0].classList.add('selected');
             selectedDifficulty = 'easy';
-            selectedTime = 0;
             const userData = loadUserData();
             userNameInput.value = userData.name || "";
         }
@@ -351,14 +369,6 @@
                 difficultyBtns.forEach(b => b.classList.remove('selected'));
                 btn.classList.add('selected');
                 selectedDifficulty = btn.dataset.difficulty;
-            });
-        });
-
-        timerBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                timerBtns.forEach(b => b.classList.remove('selected'));
-                btn.classList.add('selected');
-                selectedTime = parseInt(btn.dataset.time, 10);
             });
         });
 
@@ -373,32 +383,36 @@
             scoreElement.textContent = score;
             totalQuestionsElement.textContent = filteredQuestions.length;
             difficultyBadge.textContent = selectedDifficulty.charAt(0).toUpperCase() + selectedDifficulty.slice(1);
-            difficultyBadge.className = `info-badge difficulty-badge ${selectedDifficulty}`;
             showQuestion();
         }
 
         function showQuestion() {
-            clearInterval(timer);
-            feedbackElement.style.display = 'none';
+            nextBtn.disabled = true;
             const question = filteredQuestions[currentQuestionIndex];
             progressElement.style.width = `${((currentQuestionIndex) / filteredQuestions.length) * 100}%`;
             currentQuestionElement.textContent = currentQuestionIndex + 1;
+
             let optionsHTML = question.options.map((option, index) => {
                 const optionLetter = String.fromCharCode(97 + index);
-                return `<label class="option"><input type="radio" name="answer" value="${optionLetter}"> ${option}</label>`;
+                return `<div class="option" data-value="${optionLetter}">${option}</div>`;
             }).join('');
+            
             questionArea.innerHTML = `<h3>${question.question}</h3><div class="options">${optionsHTML}</div>`;
-            document.querySelectorAll('.option input').forEach(input => {
-                input.addEventListener('change', (e) => handleAnswer(e.target.value));
+
+            document.querySelectorAll('.option').forEach(optionEl => {
+                optionEl.addEventListener('click', () => {
+                    document.querySelectorAll('.option').forEach(el => el.classList.remove('selected'));
+                    optionEl.classList.add('selected');
+                    handleAnswer(optionEl.dataset.value, optionEl);
+                });
             });
             nextBtn.textContent = (currentQuestionIndex === filteredQuestions.length - 1) ? 'Submit Quiz' : 'Next';
-            startTimer();
         }
         
-        function handleAnswer(selectedValue) {
-            clearInterval(timer);
+        function handleAnswer(selectedValue, selectedElement) {
             const question = filteredQuestions[currentQuestionIndex];
             const isCorrect = selectedValue === question.answer;
+
             if (userAnswers[currentQuestionIndex] === null) {
                 userAnswers[currentQuestionIndex] = { answer: selectedValue, correct: isCorrect, topic: question.topic };
                 if (isCorrect) {
@@ -406,29 +420,17 @@
                     scoreElement.textContent = score;
                 }
             }
-            feedbackElement.innerHTML = `<h4><i class="fas ${isCorrect ? 'fa-check-circle' : 'fa-times-circle'}"></i> ${isCorrect ? 'Correct!' : 'Incorrect!'}</h4><p>${question.explanation}</p>`;
-            feedbackElement.className = `feedback ${isCorrect ? 'correct' : 'incorrect'}`;
-            feedbackElement.style.display = 'block';
-            document.querySelectorAll('.option input').forEach(opt => opt.disabled = true);
-        }
 
-        function startTimer() {
-            if (selectedTime === 0) {
-                timerElement.style.display = 'none';
-                return;
-            }
-            timerElement.style.display = 'flex';
-            timeLeft = selectedTime;
-            timeLeftElement.textContent = timeLeft;
-            timer = setInterval(() => {
-                timeLeft--;
-                timeLeftElement.textContent = timeLeft;
-                if (timeLeft <= 0) {
-                    clearInterval(timer);
-                    handleAnswer(null);
-                    setTimeout(goToNextOrShowResults, 2000);
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.style.pointerEvents = 'none'; // Disable further clicks
+                if(opt.dataset.value === question.answer) {
+                    opt.classList.add('correct');
+                } else if (opt.dataset.value === selectedValue) {
+                    opt.classList.add('incorrect');
                 }
-            }, 1000);
+            });
+            
+            nextBtn.disabled = false;
         }
 
         function goToNextOrShowResults() {
@@ -440,17 +442,14 @@
             }
         }
         
-        nextBtn.addEventListener('click', () => {
-             clearInterval(timer);
-             if (userAnswers[currentQuestionIndex] === null) handleAnswer(null);
-             setTimeout(goToNextOrShowResults, 500);
-        });
+        nextBtn.addEventListener('click', goToNextOrShowResults);
 
         function showResults() {
             quizContainer.style.display = 'none';
             resultsSection.style.display = 'block';
             const percentage = Math.round((score / filteredQuestions.length) * 100);
             finalScoreElement.textContent = `${percentage}%`;
+
             if (percentage >= 90) scoreMessageElement.textContent = "Outstanding! You're a disaster preparedness expert!";
             else if (percentage >= 75) scoreMessageElement.textContent = "Excellent! You're well-prepared!";
             else if (percentage >= 50) scoreMessageElement.textContent = "Good job! You have solid knowledge.";
@@ -478,9 +477,9 @@
             initializeSetup();
         }
         
-        function downloadCertificate() {
+        function saveAndDownload() {
             const userName = userNameInput.value.trim() || "Participant";
-            alert(`Certificate generated for ${userName}! In a real app, this would trigger a PDF download.`);
+            alert(`Progress saved for ${userName}! In a real app, this would trigger a PDF certificate download.`);
             let userData = loadUserData();
             userData.name = userName;
             saveUserData(userData);
@@ -488,7 +487,7 @@
 
         startBtn.addEventListener('click', startQuiz);
         restartBtn.addEventListener('click', resetQuiz);
-        downloadBtn.addEventListener('click', downloadCertificate);
+        downloadBtn.addEventListener('click', saveAndDownload);
 
         initializeSetup();
     </script>
