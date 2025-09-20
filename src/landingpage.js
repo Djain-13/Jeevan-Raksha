@@ -1,27 +1,65 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 import "./App.css";
-// import MapComponent from "./MapComponent";
 import DisasterMap from './DisasterMap'; 
 
-
 function LandingPage({onLoginClick,onHelplineClick}) {
+  const navigate = useNavigate();
+
+  // Handler functions for navigation
+  const handleSosClick = () => navigate("/sos");
+  const handleAlertClick = () => navigate("/alert");
+
   return (
-   
     <div className="landing-page">
       {/* Navbar */}
-      <header className="navbar">
+      <header className="navbar" style={{position: "relative"}}>
         <div className="logo">🌍 JEEVAN RAKSHA</div>
-        <div className="nav-right">
-        <nav className="nav-links">
-         <button className="nav-btn" onClick={onHelplineClick}>
+        <div className="nav-right" style={{position: "relative"}}>
+          <nav className="nav-links" style={{display: "flex", alignItems: "center", position: "relative"}}>
+            <button className="nav-btn" onClick={onHelplineClick}>
               Helpline Contacts
             </button>
-        </nav>
-        <div className="auth-buttons">
-          <button className="login-btn-nav" onClick={onLoginClick}>Log In</button>
-          <button className="register-btn">Register</button>
-        </div>
+            {/* SOS Floating Icon Button (between Helpline and Log In) */}
+            <span style={{
+              position: "relative",
+              display: "flex",
+              alignItems: "center",
+              marginLeft: "20px",
+              marginRight: "0"
+            }}>
+              <a
+                href="/sos%20route.html"
+                className="floating-sos-btn"
+                title="Emergency SOS"
+                style={{
+                  position: "static",
+                  margin: "0",
+                  width: "48px",
+                  height: "48px",
+                  fontSize: "1.1rem",
+                  animation: "sosPulse 2s infinite",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  display: "flex",
+                  textDecoration: "none"
+                }}
+              >
+                <span style={{
+                  fontWeight: "bold",
+                  fontSize: "1.1em",
+                  color: "#e74c3c",
+                  lineHeight: "1"
+                }}>SOS</span>
+              </a>
+            </span>
+          </nav>
+          <div className="auth-buttons" style={{marginLeft: "0"}}>
+            <button className="login-btn-nav" onClick={onLoginClick}>Log In</button>
+            <button className="register-btn">Register</button>
+          </div>
         </div>
       </header>
 
@@ -80,13 +118,11 @@ function LandingPage({onLoginClick,onHelplineClick}) {
       </section>
 
       {/* Safety Steps Section */}
-            {/* Safety Steps Section */}
       <section className="safety-section" id="safety">
         <h2 className="fancy-title">🌟 Safety Steps for Disasters 🌟</h2>
         <p className="subtitle">Stay safe before, during, and after any disaster</p>
         
         <div className="safety-flex">
-          
           {/* Before */}
           <div className="safety-card fancy">
             <h3>⏳ Before a Disaster</h3>
@@ -97,7 +133,6 @@ function LandingPage({onLoginClick,onHelplineClick}) {
               <div className="icon-item glow"><span>📞</span><p>Know Helplines</p></div>
             </div>
           </div>
-
           {/* During */}
           <div className="safety-card fancy">
             <h3>⚠️ During a Disaster</h3>
@@ -108,7 +143,6 @@ function LandingPage({onLoginClick,onHelplineClick}) {
               <div className="icon-item glow"><span>🚶</span><p>Move to Safety</p></div>
             </div>
           </div>
-
           {/* After */}
           <div className="safety-card fancy">
             <h3>🌈 After a Disaster</h3>
@@ -122,6 +156,34 @@ function LandingPage({onLoginClick,onHelplineClick}) {
         </div>
       </section>
 
+      {/* Alert Floating Icon (Bottom Right) */}
+      <a
+        href="/alert%20route.html"
+        className="floating-alert-btn"
+        title="Live Disaster Alerts"
+        style={{
+          position: "fixed",
+          bottom: "32px",
+          right: "32px",
+          width: "62px",
+          height: "62px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          fontSize: "2.1rem",
+          borderRadius: "50%",
+          border: "2px solid #b3e0ff",
+          background: "linear-gradient(135deg, #e0f2f7 60%, #f0f4f8 100%)",
+          color: "#3498db",
+          boxShadow: "0 6px 24px rgba(52, 152, 219, 0.18)",
+          cursor: "pointer",
+          transition: "transform 0.18s, box-shadow 0.18s",
+          textDecoration: "none",
+          zIndex: 1000
+        }}
+      >
+        <i className="fa-solid fa-bullhorn"></i>
+      </a>
 
       {/* Footer */}
       <footer className="footer">

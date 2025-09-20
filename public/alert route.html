@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeevan Raksha | Live Disaster Dashboard</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <style>
+        /* --- CREATIVE LIGHT THEME CSS START --- */
+        :root {
+            --bg-color-light: #f0f4f8; /* Very light, soft blue-gray */
+            --bg-color-gradient-start: #e0f2f7; /* Lighter top for subtle gradient */
+            --bg-color-gradient-end: #f0f4f8; /* Darker bottom */
+            --primary-card-bg: #ffffff;
+            --secondary-card-bg: #fdfefe; /* Off-white for inputs */
+            
+            --text-dark: #2c3e50; /* Dark blue-gray for main text */
+            --text-medium: #5a6a7e; /* Medium blue-gray for descriptions */
+            --text-light: #8ba0b9; /* Light blue-gray for muted info */
+            --border-light: #e6eef5; /* Very subtle border */
+            
+            --accent-primary: #3498db; /* Clear, bright blue */
+            --accent-primary-hover: #2980b9;
+
+            /* Severity Colors */
+            --severity-low-color: #2ecc71; /* Emerald Green */
+            --severity-low-bg: #e6faed;
+            --severity-low-border: #9be6b4;
+
+            --severity-medium-color: #f1c40f; /* Sunflower Yellow */
+            --severity-medium-bg: #fff9e6;
+            --severity-medium-border: #fadc71;
+            
+            --severity-high-color: #e67e22; /* Carrot Orange */
+            --severity-high-bg: #fff0e6;
+            --severity-high-border: #f5b071;
+
+            --severity-critical-color: #e74c3c; /* Alizarin Red */
+            --severity-critical-bg: #ffe6e6;
+            --severity-critical-border: #ffb3b3;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background: linear-gradient(135deg, var(--bg-color-gradient-start), var(--bg-color-gradient-end));
+            color: var(--text-dark);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background-color: var(--primary-card-bg);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-bottom: 50px;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+
+        header h1 {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 700;
+            font-size: 3.5rem;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+        }
+        header p {
+            font-size: 1.2rem;
+            color: var(--text-medium);
+            font-weight: 500;
+        }
+        
+        main {
+            max-width: 1200px;
+            margin: 0 auto 60px auto;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 40px;
+            padding: 0 30px;
+            flex-grow: 1;
+        }
+
+        @media (max-width: 900px) {
+            main {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                padding: 0 20px;
+            }
+            header h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        h2 {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 700;
+            font-size: 2.2rem;
+            color: var(--text-dark);
+            border-bottom: 2px solid var(--border-light);
+            padding-bottom: 20px;
+            margin-top: 0;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        h2 i {
+            color: var(--accent-primary);
+            font-size: 1.8rem;
+        }
+
+        /* Card Container Styling */
+        .form-container, .alerts-display {
+            background-color: var(--primary-card-bg);
+            padding: 40px;
+            border-radius: 15px;
+            border: 1px solid var(--border-light);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+            transition: transform 0.2s ease-in-out;
+        }
+        .form-container:hover, .alerts-display:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Form Styling */
+        #alert-form {
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+        }
+
+        #alert-form input, #alert-form textarea, #alert-form select {
+            width: 100%;
+            padding: 16px;
+            border: 1px solid #dce4eb;
+            border-radius: 10px;
+            font-size: 1.05rem;
+            background-color: var(--secondary-card-bg);
+            color: var(--text-dark);
+            box-sizing: border-box;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        #alert-form input::placeholder, #alert-form textarea::placeholder, #alert-form select option:first-child {
+            color: var(--text-light);
+        }
+
+        #alert-form input:focus, #alert-form textarea:focus, #alert-form select:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 5px rgba(52, 152, 219, 0.18);
+        }
+
+        #alert-form textarea {
+            min-height: 150px; /* Taller textarea */
+            resize: vertical;
+        }
+
+        #alert-form button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 16px;
+            background-color: var(--accent-primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.15rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out, transform 0.15s ease-in-out, box-shadow 0.2s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        #alert-form button:hover {
+            background-color: var(--accent-primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.3);
+        }
+        
+        #alert-form button:active {
+            transform: translateY(1px);
+        }
+
+        #alert-form button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        #alert-form button:disabled i.fa-spinner {
+            animation: spin 1s linear infinite;
+        }
+
+        /* Alert Cards Display */
+        #alerts-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 20px; /* Increased gap between cards */
+        }
+        
+        #loading-indicator {
+            position: absolute;
+            top: 50%; /* Center vertically */
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px; /* Larger spinner */
+            height: 50px;
+            border: 5px solid var(--border-light);
+            border-top-color: var(--accent-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: none;
+            z-index: 10;
+        }
+        #alerts-container > p { /* Styling for "No alerts" message */
+            color: var(--text-light);
+            text-align: center;
+            padding: 40px 0;
+            font-size: 1.1rem;
+            font-style: italic;
+        }
+
+
+        .alert-card {
+            background-color: var(--primary-card-bg); /* Use primary for cards too */
+            padding: 25px; /* More padding */
+            border-radius: 12px;
+            border-left: 6px solid; /* Thicker left border */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08); /* Softer shadow */
+            animation: fadeIn 0.6s ease-out forwards;
+            color: var(--text-dark);
+            transition: transform 0.2s ease-in-out;
+        }
+        .alert-card:hover {
+            transform: translateY(-3px); /* Subtle lift */
+        }
+
+        .alert-card .header {
+            display: flex;
+            align-items: center;
+            gap: 18px; /* More space around icon */
+            margin-bottom: 12px;
+        }
+
+        .alert-card .header h3 {
+            margin: 0;
+            font-family: 'Raleway', sans-serif;
+            font-size: 1.45rem; /* Larger title */
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+        
+        .alert-card p {
+            margin: 0 0 18px 0; /* More space below message */
+            color: var(--text-medium);
+            line-height: 1.7; /* Increased line height for readability */
+        }
+
+        .alert-card .meta {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 0.95rem; /* Slightly larger meta info */
+            color: var(--text-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border-light); /* Separator line */
+        }
+        
+        .alert-card .meta .region-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+        .alert-card .meta .region-info i, .alert-card .meta span i {
+            color: var(--text-light); /* Muted icon color */
+        }
+
+        /* Severity Icons & Colors (Creative Palette) */
+        .severity-icon {
+            font-size: 2rem; /* Larger severity icon */
+            width: 35px;
+            text-align: center;
+        }
+        
+        .severity-Low { 
+            border-color: var(--severity-low-color); 
+            background-color: var(--severity-low-bg);
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.1);
+        }
+        .severity-Low .severity-icon { color: var(--severity-low-color); }
+
+        .severity-Medium { 
+            border-color: var(--severity-medium-color); 
+            background-color: var(--severity-medium-bg);
+            box-shadow: 0 4px 15px rgba(241, 196, 15, 0.1);
+        }
+        .severity-Medium .severity-icon { color: var(--severity-medium-color); }
+        
+        .severity-High { 
+            border-color: var(--severity-high-color); 
+            background-color: var(--severity-high-bg);
+            box-shadow: 0 4px 15px rgba(230, 126, 34, 0.1);
+        }
+        .severity-High .severity-icon { color: var(--severity-high-color); }
+
+        .severity-Critical { 
+            border-color: var(--severity-critical-color); 
+            background-color: var(--severity-critical-bg);
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.1);
+        }
+        .severity-Critical .severity-icon { color: var(--severity-critical-color); }
+        
+        /* --- CREATIVE LIGHT THEME CSS END --- */
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Jeevan Raksha</h1>
+        <p>Real-time Disaster Alert Dashboard: Stay Informed, Stay Safe.</p>
+    </header>
+
+    <main>
+        <section class="form-container">
+            <h2><i class="fa-solid fa-bullhorn"></i> Broadcast New Alert</h2>
+            <form id="alert-form">
+                <input type="text" id="title" placeholder="Alert Title (e.g., Heavy Rainfall Warning)" required>
+                <textarea id="message" placeholder="Detailed alert message (e.g., 'Expect localized flooding in low-lying areas, avoid non-essential travel. Emergency services are on standby...')" required></textarea>
+                <select id="severity">
+                    <option value="Low">Severity: Low (Minor Impact)</option>
+                    <option value="Medium" selected>Severity: Medium (Moderate Risk)</option>
+                    <option value="High">Severity: High (Significant Threat)</option>
+                    <option value="Critical">Severity: Critical (Immediate Danger)</option>
+                </select>
+                <input type="text" id="region" placeholder="Affected Region (e.g., Greater Noida, Entire City, North District)">
+                <button type="submit" id="submit-button">
+                    <i class="fa-solid fa-paper-plane"></i>
+                    <span>Create & Broadcast Alert</span>
+                </button>
+            </form>
+        </section>
+
+        <section class="alerts-display">
+            <h2><i class="fa-solid fa-satellite-dish"></i> Live Alert Feed</h2>
+            <div id="alerts-container">
+                <div id="loading-indicator"></div>
+                </div>
+        </section>
+    </main>
+
+    <script>
+        /* --- JAVASCRIPT START --- */
+        const API_URL = 'http://127.0.0.1:5000/api'; // Make sure this matches your backend URL
+
+        const alertsContainer = document.getElementById('alerts-container');
+        const alertForm = document.getElementById('alert-form');
+        const submitButton = document.getElementById('submit-button');
+        const loadingIndicator = document.getElementById('loading-indicator');
+
+        const severityIcons = {
+            'Low': 'fa-solid fa-circle-check', // Softer icon for low severity
+            'Medium': 'fa-solid fa-triangle-exclamation',
+            'High': 'fa-solid fa-house-damage', // Represents property damage/severe impact
+            'Critical': 'fa-solid fa-skull-crossbones'
+        };
+
+        const fetchAlerts = async () => {
+            loadingIndicator.style.display = 'block'; // Show spinner
+            // Clear alerts, but ensure the loading indicator is not removed
+            alertsContainer.innerHTML = ''; 
+            alertsContainer.appendChild(loadingIndicator); // Always ensure spinner is present
+            
+            try {
+                const response = await fetch(`${API_URL}/alerts`);
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                const alerts = await response.json();
+
+                // Clear alerts again, but now to populate with actual cards
+                alertsContainer.innerHTML = '';
+                alertsContainer.appendChild(loadingIndicator); // Re-append spinner for consistency during potential re-renders
+
+                if (alerts.length === 0) {
+                    alertsContainer.innerHTML += '<p>No active alerts. All systems clear and safe.</p>';
+                } else {
+                    alerts.forEach(alert => {
+                        const card = document.createElement('div');
+                        card.className = `alert-card severity-${alert.severity}`;
+                        const iconClass = severityIcons[alert.severity] || 'fa-solid fa-info-circle'; // Default icon
+                        const formattedTimestamp = new Date(alert.timestamp).toLocaleString();
+
+                        card.innerHTML = `
+                            <div class="header">
+                                <i class="severity-icon ${iconClass}"></i>
+                                <h3>${alert.title}</h3>
+                            </div>
+                            <p>${alert.message}</p>
+                            <div class="meta">
+                                <span class="region-info"><i class="fa-solid fa-map-marker-alt"></i>&nbsp;<strong>Region:</strong>&nbsp;${alert.region}</span>
+                                <span><i class="fa-solid fa-clock"></i>&nbsp;${formattedTimestamp}</span>
+                            </div>
+                        `;
+                        alertsContainer.appendChild(card);
+                    });
+                }
+            } catch (error) {
+                console.error("Failed to fetch alerts:", error);
+                alertsContainer.innerHTML = '<p style="text-align: center; color: var(--severity-critical-color); font-weight: 600;">Error: Could not retrieve alerts. Please check server connection.</p>';
+            } finally {
+                loadingIndicator.style.display = 'none'; // Hide spinner
+            }
+        };
+
+        const handleCreateAlert = async (event) => {
+            event.preventDefault();
+            
+            submitButton.disabled = true;
+            submitButton.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i><span>Broadcasting...</span>`;
+            
+            const alertData = {
+                title: document.getElementById('title').value,
+                message: document.getElementById('message').value,
+                severity: document.getElementById('severity').value,
+                region: document.getElementById('region').value || 'All',
+            };
+
+            try {
+                const response = await fetch(`${API_URL}/alerts`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(alertData),
+                });
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(`HTTP error! status: ${response.status} - ${errorData.error || response.statusText}`);
+                }
+                
+                alertForm.reset();
+                await fetchAlerts(); 
+            } catch (error) {
+                console.error("Failed to create alert:", error);
+                alert(`Failed to create the alert: ${error.message}. Please ensure all fields are valid and the server is running.`);
+            } finally {
+                submitButton.disabled = false;
+                submitButton.innerHTML = `<i class="fa-solid fa-paper-plane"></i><span>Create & Broadcast Alert</span>`;
+            }
+        };
+
+        // --- Event Listeners and Initializers ---
+        alertForm.addEventListener('submit', handleCreateAlert);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchAlerts();
+            setInterval(fetchAlerts, 30000); // Auto-refresh every 30 seconds
+        });
+        /* --- JAVASCRIPT END --- */
+    </script>
+</body>
+</html>
