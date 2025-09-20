@@ -4,7 +4,7 @@ from app import db
 from math import radians, sin, cos, sqrt, atan2
 
 # --- Main Page Routes ---
-# Blueprint for serving frontend pages
+# This blueprint now serves both the welcome page AND your new HTML pages.
 main_bp = Blueprint('main', __name__)
 
 @main_bp.route('/')
@@ -12,18 +12,23 @@ def index():
     """Serves a simple welcome page."""
     return "<h1>Welcome to Jeevan Raksha! Your backend is running.</h1>" 
 
-# Note: The routes for quiz_main.html and rewards_page.html are left here
-# but will cause an error if clicked, as we have removed the backend logic for them.
-@main_bp.route('/quiz')
-def quiz_page():
-    return render_template('quiz_main.html')
+# ===================================
+# NEW ROUTES TO SERVE YOUR HTML FILES
+# ===================================
+@main_bp.route('/alert-dashboard')
+def alert_dashboard_page():
+    """Serves the alert dashboard HTML page."""
+    # Flask's render_template looks inside the 'templates' folder automatically.
+    return render_template('alert route.html')
 
-@main_bp.route('/rewards')
-def rewards_page():
-    return render_template('rewards_page.html')
+@main_bp.route('/sos-hub')
+def sos_hub_page():
+    """Serves the SOS hub HTML page."""
+    return render_template('sos route.html')
 
 # --- API Routes ---
-# Blueprint for all backend API endpoints
+# This blueprint for your API endpoints remains exactly the same.
+# Your HTML files will talk to these routes.
 api_bp = Blueprint('api', __name__, url_prefix='/api')
 
 @api_bp.route('/status', methods=['GET'])
@@ -62,36 +67,6 @@ def login():
         "message": "Login successful.",
         "user": {"id": user.id, "username": user.username, "role": user.role}
     })
-
-@api_bp.route('/users/<username>', methods=['DELETE'])
-def delete_user(username):
-    """Temporary route to delete a user for debugging."""
-    user = User.query.filter_by(username=username).first()
-    if not user:
-        return jsonify({"error": "User not found."}), 404
-    db.session.delete(user)
-    db.session.commit()
-    return jsonify({"message": f"User '{username}' has been deleted."})
-
-# --- Module Management Routes ---
-
-@api_bp.route('/modules', methods=['POST'])
-def create_module():
-    """Endpoint to create a new disaster module."""
-    data = request.get_json()
-    if not data or not all(k in data for k in ['title', 'content']):
-        return jsonify({"error": "Title and content are required."}), 400
-    new_module = DisasterModule(title=data['title'], content=data['content'], category=data.get('category', 'General'))
-    db.session.add(new_module)
-    db.session.commit()
-    return jsonify({"message": "Module created successfully.", "id": new_module.id}), 201
-
-@api_bp.route('/modules', methods=['GET'])
-def get_all_modules():
-    """Endpoint to retrieve all disaster modules."""
-    modules = DisasterModule.query.order_by(DisasterModule.created_at.desc()).all()
-    results = [{"id": module.id, "title": module.title, "content": module.content, "category": module.category, "created_at": str(module.created_at)} for module in modules]
-    return jsonify(results)
 
 # --- Alert Routes ---
 
@@ -149,3 +124,4 @@ def handle_sos():
         "message": "SOS signal processed. The nearest rescue service has been identified.",
         "notified_service": {"name": closest_service.service_name, "type": closest_service.service_type, "contact": closest_service.contact_number}
     })
+
