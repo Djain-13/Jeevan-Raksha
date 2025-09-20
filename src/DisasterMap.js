@@ -1,9 +1,19 @@
 import React, { useEffect, useRef } from 'react';
+import { MapContainer, TileLayer, Marker, Popup, CircleMarker } from "react-leaflet";
+import 'leaflet/dist/leaflet.css';
+
+const getRiskColor = (level) => {
+  switch(level) {
+    case 1: return "green";
+    case 2: return "orange";
+    case 3: return "red";
+    case 4: return "darkred";
+    default: return "blue";
+  }
+};
 
 const DisasterMap = () => {
-  const mapRef = useRef(null);
-
-  useEffect(() => {
+  
     // --- PASTE YOUR DISASTER DATA HERE ---
     const disasterData = [
       // Paste the entire disasterData array from your map.html file here
@@ -644,68 +654,42 @@ const DisasterMap = () => {
 
         ];
 
-    const initMap = () => {
-      if (!mapRef.current) return;
-      const mapOptions = {
-        zoom: 5,
-        center: { lat: 22.5937, lng: 78.9629 },
-      };
-      const map = new window.google.maps.Map(mapRef.current, mapOptions);
-      const infowindow = new window.google.maps.InfoWindow();
+    return (
+    <MapContainer
+      center={[22.5937, 78.9629]} // Center on India
+      zoom={5}
+      style={{ width: "100%", height: "500px", borderRadius: "15px", boxShadow: "0 6px 25px rgba(0,0,0,0.15)" }}
+    >
+      {/* Base Map Layer */}
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
 
-      const getRiskText = (level) => {
-        switch(level) {
-            case 1: return '<span style="color: green; font-weight:bold;">Low</span>';
-            case 2: return '<span style="color: darkorange; font-weight:bold;">Medium</span>';
-            case 3: return '<span style="color: red; font-weight:bold;">High</span>';
-            case 4: return '<span style="color: darkred; font-weight:bold;">Very High</span>';
-            default: return 'Unknown';
-        }
-      }
-
-      disasterData.forEach(place => {
-        let iconUrl;
-        if (place.riskLevel === 1) iconUrl = "http://maps.google.com/mapfiles/ms/icons/green-dot.png";
-        else if (place.riskLevel === 2) iconUrl = "http://maps.google.com/mapfiles/ms/icons/yellow-dot.png";
-        else if (place.riskLevel === 3) iconUrl = "http://maps.google.com/mapfiles/ms/icons/orange-dot.png";
-        else iconUrl = "http://maps.google.com/mapfiles/ms/icons/red-dot.png";
-
-        const locationName = place.name || place.state;
-        const marker = new window.google.maps.Marker({
-          position: { lat: place.lat, lng: place.lng },
-          map: map,
-          title: locationName,
-          icon: { url: iconUrl }
-        });
-
-        marker.addListener('click', () => {
-          const content = `<div><strong>${locationName}</strong><br>` +
-                        `<b>Risk Level:</b> ${getRiskText(place.riskLevel)}<br>` +
-                        `<b>Common Disasters:</b> ${place.disasters}</div>`;
-          infowindow.setContent(content);
-          infowindow.open(map, marker);
-        });
-      });
-    };
-
-    // Load the Google Maps script if it's not already loaded
-    if (!window.google) {
-      const script = document.createElement('script');
-      // --- IMPORTANT: REPLACE WITH YOUR API KEY ---
-      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyAXuZiBgzAAftj2BsZjXxMB8e31m_rQHFU&callback=initMap`;
-      script.async = true;
-      script.defer = true;
-      window.initMap = initMap;
-      document.head.appendChild(script);
-    } else {
-      initMap();
-    }
-
-  }, []); // The empty array ensures this effect runs only once
-
-  // The map will be rendered into this div
-  return <div ref={mapRef} style={{ width: '100%', height: '500px', borderRadius: '15px', boxShadow: '0 6px 25px rgba(0,0,0,0.15)' }} />;
+      {/* Disaster Risk Markers */}
+      {disasterData.map((place, index) => (
+        <CircleMarker
+          key={index}
+          center={[place.lat, place.lng]}
+          radius={10}
+          fillColor={getRiskColor(place.riskLevel)}
+          color="black"
+          weight={1}
+          fillOpacity={0.8}
+        >
+          <Popup>
+            <strong>{place.state}</strong>
+            <br />
+            <b>Risk Level:</b> {place.riskLevel}
+            <br />
+            <b>Disasters:</b> {place.disasters}
+          </Popup>
+        </CircleMarker>
+      ))}
+    </MapContainer>
+  );
 };
 
 export default DisasterMap;
 
+  
