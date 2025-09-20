@@ -1,10 +1,10 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 
 import "./App.css";
 import DisasterMap from './DisasterMap'; 
 
-function LandingPage({onLoginClick,onHelplineClick}) {
+function LandingPage({onLoginClick,onHelplineClick,onRegisterClick,onSosClick,onAlertClick}) {
   const navigate = useNavigate();
 
   // Handler functions for navigation
@@ -14,51 +14,21 @@ function LandingPage({onLoginClick,onHelplineClick}) {
   return (
     <div className="landing-page">
       {/* Navbar */}
-      <header className="navbar" style={{position: "relative"}}>
+      <header className="navbar" >
         <div className="logo">🌍 JEEVAN RAKSHA</div>
-        <div className="nav-right" style={{position: "relative"}}>
-          <nav className="nav-links" style={{display: "flex", alignItems: "center", position: "relative"}}>
+        <div className="nav-right">
+          <div className="nav-buttons" >
             <button className="nav-btn" onClick={onHelplineClick}>
               Helpline Contacts
             </button>
             {/* SOS Floating Icon Button (between Helpline and Log In) */}
-            <span style={{
-              position: "relative",
-              display: "flex",
-              alignItems: "center",
-              marginLeft: "20px",
-              marginRight: "0"
-            }}>
-              <a
-                href="/sos%20route.html"
-                className="floating-sos-btn"
-                title="Emergency SOS"
-                style={{
-                  position: "static",
-                  margin: "0",
-                  width: "48px",
-                  height: "48px",
-                  fontSize: "1.1rem",
-                  animation: "sosPulse 2s infinite",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  display: "flex",
-                  textDecoration: "none"
-                }}
-              >
-                <span style={{
-                  fontWeight: "bold",
-                  fontSize: "1.1em",
-                  color: "#e74c3c",
-                  lineHeight: "1"
-                }}>SOS</span>
-              </a>
-            </span>
-          </nav>
-          <div className="auth-buttons" style={{marginLeft: "0"}}>
+            <button className="floating-sos-btn" title="Emergency SOS" onClick={onSosClick}>
+        <span>SOS</span>
+      </button>
+    
+          {/* <div className="auth-buttons" > */}
             <button className="login-btn-nav" onClick={onLoginClick}>Log In</button>
-            <button className="register-btn">Register</button>
+            <button className="register-btn" onClick={onRegisterClick}>Register</button>
           </div>
         </div>
       </header>
@@ -74,7 +44,7 @@ function LandingPage({onLoginClick,onHelplineClick}) {
               Learn how to protect yourself and others during natural disasters
               with interactive, life-saving modules.
             </p>
-            <button className="start-btn-hero">Start Learning Now 🚀</button>
+            <button className="start-btn-hero" onClick={onRegisterClick}>Start Learning Now 🚀</button>
           </div>
           <div className="image-content">
             <div className="template-preview">
@@ -119,48 +89,97 @@ function LandingPage({onLoginClick,onHelplineClick}) {
 
       {/* Safety Steps Section */}
       <section className="safety-section" id="safety">
-        <h2 className="fancy-title">🌟 Safety Steps for Disasters 🌟</h2>
+        <h2 className="fancy-title">⚠ Safety Steps for Disasters ⚠</h2>
         <p className="subtitle">Stay safe before, during, and after any disaster</p>
         
         <div className="safety-flex">
           {/* Before */}
           <div className="safety-card fancy">
-            <h3>⏳ Before a Disaster</h3>
+            <h3>
+              <span className="card-icon">
+                <i className="fa-regular fa-clock" style={{color:"#888a8c"}}></i>
+              </span> Before a Disaster
+            </h3>
             <div className="icon-grid">
-              <div className="icon-item glow"><span>📝</span><p>Plan</p></div>
-              <div className="icon-item glow"><span>🎒</span><p>Emergency Kit</p></div>
-              <div className="icon-item glow"><span>📦</span><p>Stock Supplies</p></div>
-              <div className="icon-item glow"><span>📞</span><p>Know Helplines</p></div>
+              <div className="icon-item glow">
+                <span><i className="fa-solid fa-list-check" style={{color:"#888a8c"}}></i></span>
+                <p>Plan</p>
+              </div>
+              <div className="icon-item glow">
+                <span><i className="fa-solid fa-kit-medical" style={{color:"#888a8c"}}></i></span>
+                <p>Emergency Kit</p>
+              </div>
+              <div className="icon-item glow">
+                <span><i className="fa-solid fa-boxes-stacked" style={{color:"#888a8c"}}></i></span>
+                <p>Stock Supplies</p>
+              </div>
+              <div className="icon-item glow">
+                <span><i className="fa-solid fa-phone-volume" style={{color:"#888a8c"}}></i></span>
+                <p>Know Helplines</p>
+              </div>
             </div>
           </div>
           {/* During */}
           <div className="safety-card fancy">
-            <h3>⚠️ During a Disaster</h3>
+            <h3>
+              <span className="card-icon">
+                <i className="fa-solid fa-triangle-exclamation" style={{color:"#888a8c"}}></i>
+              </span> During a Disaster
+            </h3>
             <div className="icon-grid">
-              <div className="icon-item glow"><span>🧘</span><p>Stay Calm</p></div>
-              <div className="icon-item glow"><span>🛡️</span><p>Protect Yourself</p></div>
-              <div className="icon-item glow"><span>📢</span><p>Alert Others</p></div>
-              <div className="icon-item glow"><span>🚶</span><p>Move to Safety</p></div>
+              <div className="icon-item glow">
+                <span><i className="fa-solid fa-brain" style={{color:"#888a8c"}}></i></span>
+                <p>Stay Calm</p>
+              </div>
+              <div className="icon-item glow">
+                <span><i className="fa-solid fa-shield-halved" style={{color:"#888a8c"}}></i></span>
+                <p>Protect Yourself</p>
+              </div>
+              <div className="icon-item glow">
+                <span><i className="fa-solid fa-bullhorn" style={{color:"#888a8c"}}></i></span>
+                <p>Alert Others</p>
+              </div>
+              <div className="icon-item glow">
+                <span><i className="fa-solid fa-person-walking" style={{color:"#888a8c"}}></i></span>
+                <p>Move to Safety</p>
+              </div>
             </div>
           </div>
           {/* After */}
           <div className="safety-card fancy">
-            <h3>🌈 After a Disaster</h3>
+            <h3>
+              <span className="card-icon">
+                <i className="fa-solid fa-phone" style={{color:"#888a8c"}}></i>
+              </span> After a Disaster
+            </h3>
             <div className="icon-grid">
-              <div className="icon-item glow"><span>⛑️</span><p>Check Injuries</p></div>
-              <div className="icon-item glow"><span>📞</span><p>Reports Incidents</p></div>
-              <div className="icon-item glow"><span>❤️</span><p>Care for Victims</p></div>
-              <div className="icon-item glow"><span>📡</span><p>Stay Connected</p></div>
+              <div className="icon-item glow">
+                <span><i className="fa-solid fa-user-nurse" style={{color:"#888a8c"}}></i></span>
+                <p>Check Injuries</p>
+              </div>
+              <div className="icon-item glow">
+                <span><i className="fa-solid fa-phone" style={{color:"#888a8c"}}></i></span>
+                <p>Reports Incidents</p>
+              </div>
+              <div className="icon-item glow">
+                <span><i className="fa-solid fa-hand-holding-heart" style={{color:"#888a8c"}}></i></span>
+                <p>Care for Victims</p>
+              </div>
+              <div className="icon-item glow">
+                <span><i className="fa-solid fa-satellite-dish" style={{color:"#888a8c"}}></i></span>
+                <p>Stay Connected</p>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Alert Floating Icon (Bottom Right) */}
-      <a
-        href="/alert%20route.html"
+      <button
+        
         className="floating-alert-btn"
         title="Live Disaster Alerts"
+        onClick={onAlertClick}
         style={{
           position: "fixed",
           bottom: "32px",
@@ -178,12 +197,11 @@ function LandingPage({onLoginClick,onHelplineClick}) {
           boxShadow: "0 6px 24px rgba(52, 152, 219, 0.18)",
           cursor: "pointer",
           transition: "transform 0.18s, box-shadow 0.18s",
-          textDecoration: "none",
           zIndex: 1000
         }}
       >
         <i className="fa-solid fa-bullhorn"></i>
-      </a>
+      </button>
 
       {/* Footer */}
       <footer className="footer">

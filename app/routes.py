@@ -19,12 +19,12 @@ def index():
 def alert_dashboard_page():
     """Serves the alert dashboard HTML page."""
     # Flask's render_template looks inside the 'templates' folder automatically.
-    return render_template('alert route.html')
+    return render_template('alert route.js')
 
 @main_bp.route('/sos-hub')
 def sos_hub_page():
     """Serves the SOS hub HTML page."""
-    return render_template('sos route.html')
+    return render_template('sos route.js')
 
 # --- API Routes ---
 # This blueprint for your API endpoints remains exactly the same.

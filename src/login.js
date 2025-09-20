@@ -9,7 +9,7 @@ import {
 } from "react-icons/fa";
 import "./login.css";
 
-const SignInApp = () => {
+const SignInApp = ({onRegisterClick, onLoginSuccess}) => {
   const [userType, setUserType] = useState("student");
   const [formData, setFormData] = useState({
     email: "",
@@ -28,12 +28,14 @@ const SignInApp = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Sign In Data:", { ...formData, userType });
-    alert("Sign in successful! Redirecting to dashboard...");
+    alert("Sign in successful! Redirecting to Home Page...");
+    if (onLoginSuccess) onLoginSuccess(); // ✅ Redirect to HomePage
     // Redirect logic would go here
   };
 
   const handleSignUpRedirect = () => {
-    window.location.href = "/register.html"; // Redirect to register page
+    if(onRegisterClick) onRegisterClick();
+    // window.location.href = "/register.html"; // Redirect to register page
   };
 
   return (

@@ -1,0 +1,148 @@
+:root {
+  --bg-color-light: #f0f4f8;
+  --bg-color-gradient-start: #e0f2f7;
+  --bg-color-gradient-end: #f0f4f8;
+  --primary-card-bg: #ffffff;
+  --secondary-card-bg: #fdfefe;
+  --text-dark: #2c3e50;
+  --text-medium: #5a6a7e;
+  --text-light: #8ba0b9;
+  --border-light: #e6eef5;
+  --accent-primary: #3498db;
+  --accent-primary-hover: #2980b9;
+
+  --severity-low-color: #2ecc71;
+  --severity-low-bg: #e6faed;
+  --severity-medium-color: #f1c40f;
+  --severity-medium-bg: #fff9e6;
+  --severity-high-color: #e67e22;
+  --severity-high-bg: #fff0e6;
+  --severity-critical-color: #e74c3c;
+  --severity-critical-bg: #ffe6e6;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  background: linear-gradient(135deg, var(--bg-color-gradient-start), var(--bg-color-gradient-end));
+  color: var(--text-dark);
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  text-align: center;
+  padding: 40px 20px;
+  background-color: var(--primary-card-bg);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+header h1 { font-family: 'Raleway', sans-serif; font-weight: 700; font-size: 3rem; }
+header p { font-size: 1.2rem; color: var(--text-medium); }
+
+main {
+  max-width: 1200px;
+  margin: 0 auto 60px auto;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 40px;
+  padding: 0 30px;
+}
+
+@media (max-width: 900px) {
+  main { grid-template-columns: 1fr; gap: 30px; padding: 0 20px; }
+  header h1 { font-size: 2.5rem; }
+}
+
+h2 {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 700;
+  font-size: 2.2rem;
+  color: var(--text-dark);
+  border-bottom: 2px solid var(--border-light);
+  padding-bottom: 20px;
+  margin-top: 0;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.form-container, .alerts-display {
+  background-color: var(--primary-card-bg);
+  padding: 40px;
+  border-radius: 15px;
+  border: 1px solid var(--border-light);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+}
+
+form { display: flex; flex-direction: column; gap: 22px; }
+
+input, textarea, select {
+  width: 100%;
+  padding: 16px;
+  border: 1px solid #dce4eb;
+  border-radius: 10px;
+  font-size: 1.05rem;
+  background-color: var(--secondary-card-bg);
+  color: var(--text-dark);
+}
+
+textarea { min-height: 150px; resize: vertical; }
+
+button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px;
+  background-color: var(--accent-primary);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out, transform 0.15s ease-in-out, box-shadow 0.2s;
+}
+button:hover { background-color: var(--accent-primary-hover); transform: translateY(-2px); }
+button:disabled { background-color: #cccccc; cursor: not-allowed; transform: none; }
+
+.alerts-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+}
+
+.loading-indicator {
+  width: 50px;
+  height: 50px;
+  border: 5px solid var(--border-light);
+  border-top-color: var(--accent-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.alert-card {
+  background-color: var(--primary-card-bg);
+  padding: 25px;
+  border-radius: 12px;
+  border-left: 6px solid;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.alert-card .header { display: flex; align-items: center; gap: 18px; margin-bottom: 12px; }
+.alert-card .header h3 { margin: 0; font-family: 'Raleway', sans-serif; font-size: 1.45rem; font-weight: 700; }
+.alert-card p { margin: 0 0 18px 0; color: var(--text-medium); line-height: 1.7; }
+.alert-card .meta { font-family: 'Open Sans', sans-serif; font-size: 0.95rem; color: var(--text-light); display: flex; justify-content: space-between; border-top: 1px solid var(--border-light); padding-top: 10px; }
+
+.severity-icon { font-size: 2rem; width: 35px; text-align: center; }
+.severity-Low { border-color: var(--severity-low-color); background-color: var(--severity-low-bg); }
+.severity-Medium { border-color: var(--severity-medium-color); background-color: var(--severity-medium-bg); }
+.severity-High { border-color: var(--severity-high-color); background-color: var(--severity-high-bg); }
+.severity-Critical { border-color: var(--severity-critical-color); background-color: var(--severity-critical-bg); }

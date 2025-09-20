@@ -30,12 +30,19 @@ body, html {
 .nav-right{
   display:flex;
   align-items:center;
-  gap:25px;
+  gap:20px;
 }
 .logo {
   font-size: 1.6em;
   font-weight: bold;
 }
+
+.nav-buttons {
+  display: flex;
+  align-items: center;   /* vertical center */
+  gap: 15px;             /* horizontal spacing */
+}
+
 
 .nav-links a {
   margin-left: 25px;
@@ -43,6 +50,12 @@ body, html {
   color: white;
   font-weight: 500;
   transition: color 0.3s ease;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
 .nav-links a:hover {
@@ -257,16 +270,19 @@ body, html {
 .maps-section {
   padding: 80px 20px;
   text-align: center;
+  background-color: #f8fafc;
 }
 
 
  .map-container {
   width: 100%;
   max-width: 2000px;
+  height:500px;
   margin: 20px auto;
   border-radius: 15px;
   overflow: hidden;
-  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+  background-color: #ffffff;
+  box-shadow: 0 6px 25px rgba(0,0,0,0.15);
 }
 
 
@@ -347,7 +363,7 @@ body, html {
 
 /* Fancy Safety Card */
 .safety-card {
-  flex: 1 1 280px;
+  flex: 1 1 250px;
   max-width: 340px;
   padding: 30px;
   border-radius: 25px;
@@ -372,13 +388,22 @@ body, html {
 
 /* Gradient Header */
 .safety-card h3 {
-  font-size: 1.9em;
-  margin-bottom: 25px;
-  background: linear-gradient(90deg, #ff6ec4, #7873f5);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5em;
+  margin-bottom: 20px;
+  color:#00bfff;
   text-shadow: 0px 0px 10px rgba(0,0,0,0.15);
 }
+
+.card-icon {
+  font-size: 2.5em;
+  margin-bottom: 10px;
+  display: block;
+}
+
 
 /* Icon Grid */
 .icon-grid {
@@ -419,8 +444,8 @@ body, html {
 .icon-item.glow:hover {
   background: rgba(255, 255, 255, 0.3);
   transform: translateY(-8px) scale(1.12);
-  box-shadow: 0 0 25px rgba(120, 115, 245, 0.6),
-              0 0 40px rgba(255, 110, 196, 0.4);
+  box-shadow: 0 0 25px #97ccdd,   /* blue glow */
+              0 0 40px rgba(227, 223, 225, 0.4);
 }
 
 .safety-card p {
@@ -442,75 +467,22 @@ body, html {
   }
 }
 
-/* Add to App.css or your main CSS file */
-.floating-sos-btn, .floating-alert-btn {
-  position: fixed;
-  z-index: 1000;
-  width: 62px;
-  height: 62px;
-  border-radius: 50%;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2.1rem;
-  box-shadow: 0 6px 24px rgba(52, 152, 219, 0.18);
-  cursor: pointer;
-  transition: transform 0.18s, box-shadow 0.18s;
-  background: linear-gradient(135deg, #e0f2f7 60%, #f0f4f8 100%);
-  color: #e74c3c;
-}
-
 .floating-sos-btn {
-  top: 32px;
-  right: 32px;
-  background: linear-gradient(135deg, #ffe6e6 60%, #f0f4f8 100%);
-  color: #e74c3c;
-  border: 2px solid #ffb3b3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #e74c3c;
+  text-decoration: none;
   animation: sosPulse 2s infinite;
-}
-@keyframes sosPulse {
-  0% { box-shadow: 0 0 0 0 rgba(231,76,60,0.4);}
-  70% { box-shadow: 0 0 0 18px rgba(231,76,60,0);}
-  100% { box-shadow: 0 0 0 0 rgba(231,76,60,0);}
+  cursor: pointer;
 }
 
-.floating-alert-btn {
-  bottom: 32px;
-  right: 32px;
-  background: linear-gradient(135deg, #e0f2f7 60%, #f0f4f8 100%);
-  color: #3498db;
-  border: 2px solid #b3e0ff;
-}
-.floating-sos-btn:hover, .floating-alert-btn:hover {
-  transform: scale(1.08);
-  box-shadow: 0 10px 32px rgba(52, 152, 219, 0.22);
-  filter: brightness(1.08);
-}
-@media (max-width: 600px) {
-  .floating-sos-btn, .floating-alert-btn {
-    width: 48px;
-    height: 48px;
-    font-size: 1.3rem;
-    top: 16px;
-    right: 16px;
-    bottom: 16px;
-  }
-  .floating-sos-btn { top: 16px; right: 16px; }
-  .floating-alert-btn { bottom: 16px; right: 16px; }
-}
-
-/* SOS Navbar Button */
-.sos-navbar-btn {
-  background: #ffe6e6 !important;
-  color: #e74c3c !important;
-  border: 2px solid #ffb3b3 !important;
+.floating-sos-btn span {
   font-weight: bold;
-  box-shadow: 0 2px 8px rgba(231,76,60,0.08);
-  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
-}
-.sos-navbar-btn:hover {
-  background: #ffb3b3 !important;
-  color: #fff !important;
-  box-shadow: 0 4px 16px rgba(231,76,60,0.15);
+  font-size: 1.1em;
+  color: #e74c3c;
 }

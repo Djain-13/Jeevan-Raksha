@@ -4,215 +4,245 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jeevan Raksha | Emergency Hub</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;700&family=Raleway:wght@400;600;700&display=swap" rel="stylesheet">
-    
+    <!-- Professional Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    
     <style>
-        /* --- CSS STYLES START (Creative Light Theme) --- */
         :root {
-            --bg-color-light: #f0f4f8; /* Very light, soft blue-gray */
-            --bg-color-gradient-start: #e0f2f7; /* Lighter top for subtle gradient */
-            --bg-color-gradient-end: #f0f4f8; /* Darker bottom */
-            --primary-card-bg: #ffffff;
-            --secondary-card-bg: #fdfefe; /* Off-white for inputs */
-            
-            --text-dark: #2c3e50; /* Dark blue-gray for main text */
-            --text-medium: #5a6a7e; /* Medium blue-gray for descriptions */
-            --text-light: #8ba0b9; /* Light blue-gray for muted info */
-            --border-light: #e6eef5; /* Very subtle border */
-            
-            --accent-primary: #3498db; /* Clear, bright blue */
-            --accent-primary-hover: #2980b9;
-            --accent-danger: #e74c3c; /* Striking red for SOS */
-            --accent-danger-hover: #c0392b;
-
-            --success-bg: #e6f7e9; /* Light green background */
-            --success-text: #28a745;
-            --success-border: #a4e1ae;
-
-            --error-bg: #ffe6e6; /* Light red background */
-            --error-text: #dc3545;
-            --error-border: #ffb3b3;
+            --navy: #1a2746;
+            --blue: #2563eb;
+            --blue-hover: #1746a0;
+            --gray-bg: #f5f7fa;
+            --white: #fff;
+            --gray: #e5e8ef;
+            --text-main: #222b45;
+            --text-muted: #6b7280;
+            --primary: #2563eb;
+            --primary-hover: #1746a0;
+            --danger: #e74c3c;
+            --danger-hover: #c0392b;
         }
-
-        /* Basic animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7); }
-            70% { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(220, 53, 69, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        body {
-            font-family: 'Open Sans', sans-serif;
-            background: linear-gradient(135deg, var(--bg-color-gradient-start), var(--bg-color-gradient-end));
-            color: var(--text-dark);
+        html, body {
+            background: var(--gray-bg);
+            color: var(--text-main);
+            font-family: 'Roboto', 'Open Sans', Arial, sans-serif;
             margin: 0;
             padding: 0;
-            line-height: 1.6;
             min-height: 100vh;
+        }
+        body {
             display: flex;
             flex-direction: column;
+            min-height: 100vh;
         }
-
-        header {
-            text-align: center;
-            padding: 40px 20px;
-            background-color: var(--primary-card-bg);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            margin-bottom: 50px;
-            border-bottom-left-radius: 20px;
-            border-bottom-right-radius: 20px;
-        }
-
-        header h1 {
-            font-family: 'Raleway', sans-serif;
-            font-weight: 700;
-            font-size: 3.5rem;
-            color: var(--text-dark);
-            margin-bottom: 10px;
-            letter-spacing: -1px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
-        }
-        header p {
-            font-size: 1.2rem;
-            color: var(--text-medium);
-            font-weight: 500;
-        }
-        
-        main {
-            max-width: 1100px;
-            margin: 0 auto 60px auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            padding: 0 30px;
-            flex-grow: 1; /* Allow main to take available space */
-        }
-
-        @media (max-width: 768px) {
-            main {
-                grid-template-columns: 1fr;
-                gap: 30px;
-                padding: 0 20px;
-            }
-            header h1 {
-                font-size: 2.5rem;
-            }
-        }
-
-        h2 {
-            font-family: 'Raleway', sans-serif;
-            font-weight: 700;
-            font-size: 2.2rem;
-            color: var(--text-dark);
-            border-bottom: 2px solid var(--border-light);
-            padding-bottom: 20px;
-            margin-top: 0;
-            margin-bottom: 30px;
+        /* Top Navigation Bar */
+        .top-nav {
             display: flex;
             align-items: center;
-            gap: 15px;
+            background: var(--white);
+            border-bottom: 1.5px solid var(--gray);
+            height: 56px;
+            padding: 0 32px;
+            box-shadow: 0 2px 8px rgba(26,39,70,0.03);
         }
-        
-        h2 i {
-            color: var(--accent-primary);
-            font-size: 1.8rem;
+        .nav-back {
+            color: var(--primary);
+            background: none;
+            border: none;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: color 0.18s;
+            margin-right: 18px;
         }
-
+        .nav-back:hover {
+            color: var(--primary-hover);
+        }
+        .logo-bar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo-img {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            object-fit: cover;
+            background: var(--gray-bg);
+            border: 1.5px solid var(--gray);
+        }
+        .logo-title {
+            font-family: 'Roboto', Arial, sans-serif;
+            font-weight: 700;
+            font-size: 1.35rem;
+            color: var(--navy);
+            letter-spacing: 0.5px;
+        }
+        /* Header Section */
+        header {
+            text-align: center;
+            padding: 38px 0 10px 0;
+            background: var(--white);
+            border-bottom-left-radius: 18px;
+            border-bottom-right-radius: 18px;
+            box-shadow: 0 4px 18px rgba(26,39,70,0.04);
+            margin-bottom: 28px;
+        }
+        .main-title {
+            font-family: 'Roboto', Arial, sans-serif;
+            font-weight: 900;
+            font-size: 2.3rem;
+            color: var(--navy);
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+        .platform-name {
+            font-family: 'Roboto', Arial, sans-serif;
+            font-weight: 900;
+            font-size: 2.2rem;
+            color: #2563eb;
+            margin-bottom: 10px;
+        }
+        .tagline {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-bottom: 0;
+        }
+        /* Main Layout */
+        main {
+            max-width: 900px;
+            margin: 0 auto 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+            padding: 0 18px 40px 18px;
+            flex: 1;
+        }
+        /* Location Panel */
+        .location-panel {
+            display: flex;
+            align-items: center;
+            background: var(--white);
+            border: 1.5px solid var(--gray);
+            border-radius: 10px;
+            padding: 10px 18px;
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            margin: 0 auto 18px auto;
+            max-width: 340px;
+            box-shadow: 0 2px 10px rgba(26,39,70,0.03);
+            gap: 10px;
+        }
+        .location-panel i {
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
         /* Card Container Styling */
+        .form-row {
+            display: flex;
+            gap: 32px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
         .form-container {
-            background-color: var(--primary-card-bg);
-            padding: 40px;
-            border-radius: 15px; /* Slightly more rounded */
-            border: 1px solid var(--border-light);
-            box-shadow: 0 8px 30px rgba(0,0,0,0.08); /* Soft, deep shadow */
-            transition: transform 0.2s ease-in-out;
+            background: var(--white);
+            padding: 32px 28px;
+            border-radius: 15px;
+            border: 1.5px solid var(--gray);
+            box-shadow: 0 4px 18px rgba(26,39,70,0.06);
+            min-width: 320px;
+            max-width: 400px;
+            flex: 1 1 340px;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
         }
-        .form-container:hover {
-            transform: translateY(-5px); /* Subtle lift on hover */
+        .form-container h2 {
+            font-family: 'Roboto', Arial, sans-serif;
+            font-weight: 600;
+            font-size: 1.25rem;
+            color: var(--navy);
+            border: none;
+            padding: 0;
+            margin: 0 0 22px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
-
+        .form-container h2 i {
+            color: var(--primary);
+            font-size: 1.3rem;
+        }
         .form-container form {
             display: flex;
             flex-direction: column;
-            gap: 22px;
+            gap: 18px;
         }
-
-        .form-container input, .form-container select {
+        .form-container input,
+        .form-container select {
             width: 100%;
-            padding: 16px; /* Even larger padding */
-            border: 1px solid #dce4eb; /* Softer input border */
-            border-radius: 10px; /* More rounded inputs */
-            font-size: 1.05rem;
-            background-color: var(--secondary-card-bg);
-            color: var(--text-dark);
-            box-sizing: border-box;
-            transition: border-color 0.2s, box-shadow 0.2s;
+            padding: 13px 12px;
+            border: 1.5px solid var(--gray);
+            border-radius: 8px;
+            font-size: 1rem;
+            background: var(--gray-bg);
+            color: var(--text-main);
+            font-family: 'Roboto', 'Open Sans', Arial, sans-serif;
+            transition: border-color 0.18s, box-shadow 0.18s;
         }
-
-        .form-container input::placeholder, .form-container select option:first-child {
-            color: var(--text-light);
-        }
-
-        .form-container input:focus, .form-container select:focus {
+        .form-container input:focus,
+        .form-container select:focus {
             outline: none;
-            border-color: var(--accent-primary);
-            box-shadow: 0 0 0 5px rgba(52, 152, 219, 0.18); /* More ethereal focus glow */
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37,99,235,0.13);
         }
-
+        .form-container input::placeholder {
+            color: #b0b8c9;
+            font-size: 0.97em;
+        }
+        .form-container select option:first-child {
+            color: #b0b8c9;
+        }
         .form-container button {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            padding: 16px;
+            gap: 10px;
+            padding: 14px 0;
             color: white;
             border: none;
-            border-radius: 10px;
-            font-size: 1.15rem;
-            font-weight: 700;
+            border-radius: 8px;
+            font-size: 1.08rem;
+            font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.3s ease-in-out, transform 0.15s ease-in-out, box-shadow 0.2s;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: background 0.18s, box-shadow 0.18s, transform 0.13s;
+            box-shadow: 0 2px 10px rgba(37,99,235,0.07);
         }
-        
-        /* Specific button styling */
-        #add-service-button {
-            background-color: var(--accent-primary);
-        }
-        #add-service-button:hover {
-            background-color: var(--accent-primary-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.3);
-        }
+        /* Primary Action Button */
         #sos-button {
-            background-color: var(--accent-danger);
-            font-size: 1.6rem;
-            padding: 22px;
-            margin-top: 30px;
-            box-shadow: 0 8px 25px rgba(231, 76, 60, 0.4);
-            animation: pulse 2s infinite; /* Pulsing animation for SOS */
+            background: var(--danger);
+            font-size: 1.18rem;
+            margin-top: 18px;
+            box-shadow: 0 6px 18px rgba(231, 76, 60, 0.13);
+            animation: pulse 2s infinite;
         }
         #sos-button:hover {
-            background-color: var(--accent-danger-hover);
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 10px 30px rgba(231, 76, 60, 0.5);
-            animation: none; /* Stop pulse on hover */
+            background: var(--danger-hover);
+            transform: translateY(-2px) scale(1.03);
+            animation: none;
         }
-
+        /* Secondary Action Button */
+        #add-service-button {
+            background: var(--primary);
+        }
+        #add-service-button:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
         .form-container button:disabled {
-            background-color: #cccccc;
+            background: #bfc8d6;
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
@@ -221,185 +251,205 @@
         .form-container button:disabled i.fa-spinner {
             animation: spin 1s linear infinite;
         }
-
         /* Message Display */
         .message {
-            margin-top: 30px;
-            padding: 18px 25px;
-            border-radius: 10px;
-            font-weight: 600;
+            margin-top: 18px;
+            padding: 13px 18px;
+            border-radius: 8px;
+            font-weight: 500;
             display: none;
             animation: fadeIn 0.6s ease-out forwards;
-            font-size: 1rem;
+            font-size: 0.98rem;
             line-height: 1.4;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.04);
         }
-
         .message.success {
-            background-color: var(--success-bg);
-            color: var(--success-text);
-            border: 1px solid var(--success-border);
+            background: #e6f7e9;
+            color: #28a745;
+            border: 1px solid #a4e1ae;
         }
-
         .message.error {
-            background-color: var(--error-bg);
-            color: var(--error-text);
-            border: 1px solid var(--error-border);
+            background: #ffe6e6;
+            color: #dc3545;
+            border: 1px solid #ffb3b3;
         }
-
         /* Latitude/Longitude Display for SOS */
         #sos-current-location {
-            font-family: 'Quicksand', sans-serif;
-            font-size: 1.05rem;
-            color: var(--text-medium);
-            margin: 15px 0 25px 0;
+            font-family: 'Roboto', 'Open Sans', Arial, sans-serif;
+            font-size: 1.01rem;
+            color: var(--text-muted);
+            margin: 10px 0 18px 0;
             text-align: center;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 8px;
             font-weight: 500;
+            background: #f5f7fa;
+            border-radius: 7px;
+            padding: 7px 0;
         }
-        
         #sos-current-location i {
-            color: var(--accent-primary);
-            font-size: 1.2rem;
+            color: var(--primary);
+            font-size: 1.1rem;
         }
-        
         #sos-current-location .fa-spinner {
-            color: var(--accent-primary);
+            color: var(--primary);
             animation: spin 1s linear infinite;
         }
-        /* --- CSS STYLES END --- */
+        /* Footer */
+        footer {
+            background: var(--white);
+            color: #8ba0b9;
+            text-align: center;
+            font-size: 0.98rem;
+            padding: 14px 0 10px 0;
+            border-top: 1.5px solid var(--gray);
+            margin-top: auto;
+            letter-spacing: 0.01em;
+        }
+        /* Responsive */
+        @media (max-width: 900px) {
+            .form-row {
+                flex-direction: column;
+                gap: 24px;
+                align-items: center;
+            }
+            .form-container {
+                min-width: 0;
+                max-width: 98vw;
+                width: 100%;
+            }
+            main {
+                padding: 0 4vw 40px 4vw;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Top Navigation Bar -->
+    <div class="top-nav">
+        <button class="nav-back" onclick="window.history.back()" aria-label="Back to previous page">
+            <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <div class="logo-bar">
+            <!-- Removed logo image and map icon from the top -->
+        </div>
+    </div>
     <header>
-        <h1>Jeevan Raksha</h1>
-        <p>Your Lifeline in Emergencies: Quick, Responsive, Empowering.</p>
+        <div class="platform-name" style="font-family:'Roboto',Arial,sans-serif;font-weight:900;font-size:2.2rem;color:#2563eb;margin-bottom:10px;">
+            Jeevan Raksha
+        </div>
+        <div class="tagline">Your Lifeline in Emergencies: Quick, Reliable, Empowering.</div>
     </header>
-
     <main>
-        <section class="form-container">
-            <h2><i class="fa-solid fa-people-carry-box"></i> Manage Rescue Services</h2>
-            <form id="add-service-form">
-                <input type="text" id="service-name" placeholder="Service Name (e.g., City Fire Dept.)" required>
-                <select id="service-type" required>
-                    <option value="">Select Service Type</option>
-                    <option value="Fire">Fire Rescue</option>
-                    <option value="Medical">Medical Aid</option>
-                    <option value="Flood">Flood Response</option>
-                    <option value="Earthquake">Earthquake Relief</option>
-                    <option value="Police">Police Assistance</option>
-                    <option value="General">General Emergency</option>
+        <div class="location-panel" id="location-panel">
+            <i class="fa-solid fa-location-dot"></i>
+            <span id="location-text">Acquiring precise location...</span>
+        </div>
+        <div class="form-row">
+            <section class="form-container">
+                <h2><i class="fa-solid fa-people-carry-box"></i> Manage Rescue Resources</h2>
+                <form id="add-service-form">
+                    <input type="text" id="service-name" placeholder="Service Name (e.g., City Fire Dept.)" required>
+                    <select id="service-type" required>
+                        <option value="">Select Service Type</option>
+                        <option value="Fire">Fire Rescue</option>
+                        <option value="Medical">Medical Aid</option>
+                        <option value="Flood">Flood Response</option>
+                        <option value="Earthquake">Earthquake Relief</option>
+                        <option value="Police">Police Assistance</option>
+                        <option value="General">General Emergency</option>
                     </select>
-                <input type="number" id="service-lat" placeholder="Latitude (e.g., 28.5355)" step="0.000001" required>
-                <input type="number" id="service-lon" placeholder="Longitude (e.g., 77.3910)" step="0.000001" required>
-                <input type="tel" id="contact-number" placeholder="Contact Number (e.g., +919876543210)" pattern="[0-9+ ]+" title="Please enter a valid phone number (digits, +, spaces)" required>
-                <button type="submit" id="add-service-button">
-                    <i class="fa-solid fa-plus-circle"></i>
-                    <span>Add Rescue Service</span>
-                </button>
-            </form>
-            <div id="service-response-message" class="message"></div>
-        </section>
-
-        <section class="form-container">
-            <h2><i class="fa-solid fa-life-ring"></i> Send Emergency SOS</h2>
-            <form id="sos-form">
-                <p style="color: var(--text-medium); text-align: center;">Press the button below for immediate assistance. Your exact location will be shared.</p>
-                <div id="sos-current-location"><i class="fa-solid fa-map-marker-alt"></i> Acquiring precise location...</div>
-                
-                <select id="emergency-type" required>
-                    <option value="">Select Emergency Type</option>
-                    <option value="Fire">Fire Emergency</option>
-                    <option value="Medical">Medical Emergency</option>
-                    <option value="Flood">Flood Situation</option>
-                    <option value="Earthquake">Earthquake Damage</option>
-                    <option value="Police">Crime/Security</option>
-                    <option value="General">Other Urgent Help</option>
+                    <input type="number" id="service-lat" placeholder="Latitude (e.g., 28.5355)" step="0.000001" required>
+                    <input type="number" id="service-lon" placeholder="Longitude (e.g., 77.3910)" step="0.000001" required>
+                    <input type="tel" id="contact-number" placeholder="Contact Number (e.g., +919876543210)" pattern="[0-9+ ]+" title="Please enter a valid phone number (digits, +, spaces)" required>
+                    <button type="submit" id="add-service-button">
+                        <i class="fa-solid fa-plus-circle"></i>
+                        <span>Submit Rescue Resource</span>
+                    </button>
+                </form>
+                <div id="service-response-message" class="message"></div>
+            </section>
+            <section class="form-container">
+                <h2><i class="fa-solid fa-life-ring"></i> Submit Emergency Request</h2>
+                <form id="sos-form">
+                    <p style="color: var(--text-muted); text-align: center; font-size: 0.98rem;">
+                        Press the button below for immediate assistance. Your exact location will be shared.
+                    </p>
+                    <select id="emergency-type" required>
+                        <option value="">Select Emergency Type</option>
+                        <option value="Fire">Fire Emergency</option>
+                        <option value="Medical">Medical Emergency</option>
+                        <option value="Flood">Flood Situation</option>
+                        <option value="Earthquake">Earthquake Damage</option>
+                        <option value="Police">Crime/Security</option>
+                        <option value="General">Other Urgent Help</option>
                     </select>
-                <button type="submit" id="sos-button" disabled>
-                    <i class="fa-solid fa-hand-paper"></i>
-                    <span>SOS: GET HELP NOW!</span>
-                </button>
-            </form>
-            <div id="sos-response-message" class="message"></div>
-        </section>
+                    <button type="submit" id="sos-button" disabled>
+                        <i class="fa-solid fa-hand-paper"></i>
+                        <span>SOS: GET HELP NOW!</span>
+                    </button>
+                </form>
+                <div id="sos-current-location"></div>
+                <div id="sos-response-message" class="message"></div>
+            </section>
+        </div>
     </main>
-
+    <footer>
+        &copy; 2025 Jeevan Raksha &mdash; Contact: support@jeevanraksha.org
+    </footer>
     <script>
-        /* --- JAVASCRIPT START --- */
-        const API_URL = 'http://127.0.0.1:5000/api'; // Make sure this matches your backend URL
-
-        // --- Add Service Form Elements ---
+        // --- Location Panel and SOS Location ---
+        let userLatitude = null, userLongitude = null;
+        const locationText = document.getElementById('location-text');
+        const sosCurrentLocation = document.getElementById('sos-current-location');
+        const sosButton = document.getElementById('sos-button');
+        function updateLocationPanel(lat, lon) {
+            locationText.innerHTML = `Lat: ${lat.toFixed(6)}, Lon: ${lon.toFixed(6)}`;
+            sosCurrentLocation.innerHTML = `<i class="fa-solid fa-location-dot"></i> Lat: ${lat.toFixed(6)}, Lon: ${lon.toFixed(6)}`;
+            sosButton.disabled = false;
+        }
+        function showLocationError(msg) {
+            locationText.innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="color:#e74c3c"></i> ${msg}`;
+            sosCurrentLocation.innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="color:#e74c3c"></i> ${msg}`;
+            sosButton.disabled = true;
+        }
+        if (navigator.geolocation) {
+            locationText.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Acquiring precise location...`;
+            sosCurrentLocation.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Acquiring precise location...`;
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    userLatitude = position.coords.latitude;
+                    userLongitude = position.coords.longitude;
+                    updateLocationPanel(userLatitude, userLongitude);
+                },
+                (error) => {
+                    let errorMessage = "Unable to get your location.";
+                    if (error.code === error.PERMISSION_DENIED) {
+                        errorMessage = "Location permission denied.";
+                    } else if (error.code === error.POSITION_UNAVAILABLE) {
+                        errorMessage = "Location unavailable.";
+                    } else if (error.code === error.TIMEOUT) {
+                        errorMessage = "Location request timed out.";
+                    }
+                    showLocationError(errorMessage);
+                },
+                { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 }
+            );
+        } else {
+            showLocationError("Geolocation is not supported by your browser.");
+        }
+        // --- Add Service and SOS Form Logic (same as before, just update button text if needed) ---
+        const API_URL = 'http://127.0.0.1:5000/api';
+        // Add Service
         const addServiceForm = document.getElementById('add-service-form');
         const serviceResponseMessage = document.getElementById('service-response-message');
         const addServiceButton = document.getElementById('add-service-button');
-
-        // --- SOS Form Elements ---
-        const sosForm = document.getElementById('sos-form');
-        const sosResponseMessage = document.getElementById('sos-response-message');
-        const sosButton = document.getElementById('sos-button');
-        const sosCurrentLocation = document.getElementById('sos-current-location');
-        const emergencyTypeSelect = document.getElementById('emergency-type');
-
-        let userLatitude = null;
-        let userLongitude = null;
-
-        // --- Helper Function to Display Messages ---
-        const displayMessage = (element, message, type) => {
-            element.textContent = message;
-            element.className = `message ${type}`; // 'success' or 'error'
-            element.style.display = 'block';
-            setTimeout(() => {
-                element.style.display = 'none';
-                element.textContent = '';
-                element.className = 'message'; // Reset class after hiding
-            }, 6000); // Hide after 6 seconds
-        };
-
-        // --- Geolocation Functionality ---
-        const getUserLocation = () => {
-            if (navigator.geolocation) {
-                sosCurrentLocation.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Acquiring precise location...`;
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        userLatitude = position.coords.latitude;
-                        userLongitude = position.coords.longitude;
-                        sosCurrentLocation.innerHTML = `<i class="fa-solid fa-location-dot"></i> Lat: ${userLatitude.toFixed(6)}, Lon: ${userLongitude.toFixed(6)}`;
-                        sosButton.disabled = false; // Enable SOS button once location is found
-                    },
-                    (error) => {
-                        console.error("Geolocation error:", error);
-                        let errorMessage = "Unable to get your location. Please enable location services and refresh.";
-                        if (error.code === error.PERMISSION_DENIED) {
-                            errorMessage = "Location permission denied. Please allow location access in your browser settings.";
-                        } else if (error.code === error.POSITION_UNAVAILABLE) {
-                            errorMessage = "Location information is unavailable. Try moving to an open area.";
-                        } else if (error.code === error.TIMEOUT) {
-                            errorMessage = "Location request timed out. Please check your connection.";
-                        }
-                        sosCurrentLocation.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> ${errorMessage}`;
-                        sosButton.disabled = true; // Keep SOS button disabled if location fails
-                        displayMessage(sosResponseMessage, errorMessage, 'error');
-                    },
-                    { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 } // Increased timeout for better accuracy
-                );
-            } else {
-                sosCurrentLocation.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Geolocation is not supported by your browser.`;
-                sosButton.disabled = true; // Disable if not supported
-                displayMessage(sosResponseMessage, "Geolocation is not supported by your browser. Please update or use a different browser.", 'error');
-            }
-        };
-
-        // --- Event Listener for Add Service Form ---
         addServiceForm.addEventListener('submit', async (event) => {
             event.preventDefault();
-
             addServiceButton.disabled = true;
-            addServiceButton.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i><span>Adding Service...</span>`;
-
+            addServiceButton.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i><span>Submitting...</span>`;
             const serviceData = {
                 service_name: document.getElementById('service-name').value,
                 service_type: document.getElementById('service-type').value,
@@ -407,7 +457,6 @@
                 longitude: parseFloat(document.getElementById('service-lon').value),
                 contact_number: document.getElementById('contact-number').value,
             };
-
             try {
                 const response = await fetch(`${API_URL}/services`, {
                     method: 'POST',
@@ -415,44 +464,51 @@
                     body: JSON.stringify(serviceData),
                 });
                 const result = await response.json();
-
                 if (response.ok) {
-                    displayMessage(serviceResponseMessage, result.message, 'success');
+                    serviceResponseMessage.textContent = result.message;
+                    serviceResponseMessage.className = 'message success';
+                    serviceResponseMessage.style.display = 'block';
                     addServiceForm.reset();
                 } else {
-                    displayMessage(serviceResponseMessage, result.error || 'Failed to add service. Check input data.', 'error');
+                    serviceResponseMessage.textContent = result.error || 'Failed to add service. Check input data.';
+                    serviceResponseMessage.className = 'message error';
+                    serviceResponseMessage.style.display = 'block';
                 }
             } catch (error) {
-                console.error("Error adding service:", error);
-                displayMessage(serviceResponseMessage, "Network error or server unreachable. Check console for details.", 'error');
+                serviceResponseMessage.textContent = "Network error or server unreachable.";
+                serviceResponseMessage.className = 'message error';
+                serviceResponseMessage.style.display = 'block';
             } finally {
                 addServiceButton.disabled = false;
-                addServiceButton.innerHTML = `<i class="fa-solid fa-plus-circle"></i><span>Add Rescue Service</span>`;
+                addServiceButton.innerHTML = `<i class="fa-solid fa-plus-circle"></i><span>Submit Rescue Resource</span>`;
+                setTimeout(() => { serviceResponseMessage.style.display = 'none'; }, 6000);
             }
         });
-
-        // --- Event Listener for SOS Form ---
+        // SOS Form
+        const sosForm = document.getElementById('sos-form');
+        const sosResponseMessage = document.getElementById('sos-response-message');
         sosForm.addEventListener('submit', async (event) => {
             event.preventDefault();
-
             if (!userLatitude || !userLongitude) {
-                displayMessage(sosResponseMessage, "Your location is not available. Please allow location access and retry.", 'error');
+                sosResponseMessage.textContent = "Your location is not available. Please allow location access and retry.";
+                sosResponseMessage.className = 'message error';
+                sosResponseMessage.style.display = 'block';
                 return;
             }
-            if (!emergencyTypeSelect.value) {
-                displayMessage(sosResponseMessage, "Please select an emergency type to proceed.", 'error');
+            const emergencyType = document.getElementById('emergency-type').value;
+            if (!emergencyType) {
+                sosResponseMessage.textContent = "Please select an emergency type to proceed.";
+                sosResponseMessage.className = 'message error';
+                sosResponseMessage.style.display = 'block';
                 return;
             }
-
             sosButton.disabled = true;
             sosButton.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i><span>Sending SOS...</span>`;
-
             const sosData = {
-                emergency_type: emergencyTypeSelect.value,
+                emergency_type: emergencyType,
                 latitude: userLatitude,
                 longitude: userLongitude,
             };
-
             try {
                 const response = await fetch(`${API_URL}/sos`, {
                     method: 'POST',
@@ -460,30 +516,25 @@
                     body: JSON.stringify(sosData),
                 });
                 const result = await response.json();
-
                 if (response.ok) {
-                    let successMsg = result.message;
-                    if (result.notified_service) {
-                        successMsg += `<br>Nearest help: <strong>${result.notified_service.name}</strong> (${result.notified_service.contact})`;
-                    }
-                    displayMessage(sosResponseMessage, successMsg, 'success');
+                    sosResponseMessage.innerHTML = result.message;
+                    sosResponseMessage.className = 'message success';
+                    sosResponseMessage.style.display = 'block';
                 } else {
-                    displayMessage(sosResponseMessage, result.error || 'Failed to send SOS. Try again.', 'error');
+                    sosResponseMessage.textContent = result.error || 'Failed to send SOS. Try again.';
+                    sosResponseMessage.className = 'message error';
+                    sosResponseMessage.style.display = 'block';
                 }
             } catch (error) {
-                console.error("Error sending SOS:", error);
-                displayMessage(sosResponseMessage, "Network error or server unreachable. Check console for details.", 'error');
+                sosResponseMessage.textContent = "Network error or server unreachable.";
+                sosResponseMessage.className = 'message error';
+                sosResponseMessage.style.display = 'block';
             } finally {
                 sosButton.disabled = false;
                 sosButton.innerHTML = `<i class="fa-solid fa-hand-paper"></i><span>SOS: GET HELP NOW!</span>`;
+                setTimeout(() => { sosResponseMessage.style.display = 'none'; }, 6000);
             }
         });
-
-        // --- Initialize on Page Load ---
-        document.addEventListener('DOMContentLoaded', () => {
-            getUserLocation(); // Attempt to get location immediately
-        });
-        /* --- JAVASCRIPT END --- */
     </script>
 </body>
 </html>
