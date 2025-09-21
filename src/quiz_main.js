@@ -135,9 +135,9 @@ const Quiz = () => {
                     <p>Disaster Preparedness Quiz Challenge</p>
                 </header>
                 <div className="level-selection fade-in">
-                    <LevelCard icon={faChild} title="School Level" desc="Learn the fundamental safety basics." reward="🏆 Earn Skill Badges" onClick={() => startQuiz('easy')} />
-                    <LevelCard icon={faUserGraduate} title="Teen Level" desc="Advance your response techniques." reward="⚡ Earn More XP" onClick={() => startQuiz('medium')} />
-                    <LevelCard icon={faUniversity} title="College Level" desc="Master complex scenarios to become a hero." reward="💎 Unlock Hero Badge" onClick={() => startQuiz('hard')} />
+                    <LevelCard icon={faChild} title="Beginner" desc="Learn the fundamental safety basics." reward="🏆 Earn Skill Badges" onClick={() => startQuiz('easy')} />
+                    <LevelCard icon={faUserGraduate} title="Intermediate" desc="Advance your response techniques." reward="⚡ Earn More XP" onClick={() => startQuiz('medium')} />
+                    <LevelCard icon={faUniversity} title="Advance" desc="Master complex scenarios to become a hero." reward="💎 Unlock Hero Badge" onClick={() => startQuiz('hard')} />
                 </div>
             </div>
         );
