@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Module.css";
 
-function App() {
+function ModulesPages() {
   const [activeDisaster, setActiveDisaster] = useState("earthquake");
   const [activeTab, setActiveTab] = useState("prepare");
+  const navigate = useNavigate(); // Add this line
 
   const disasters = [
     {
@@ -37,13 +39,21 @@ function App() {
   };
 
   return (
-    <div className="container">
+    <div className="modules-container">
+      {/* Back Button */}
+      <button
+        className="modules-back-btn"
+        onClick={onBack => navigate("/")}
+        aria-label="Back to Home"
+      >
+        <i className="fas fa-arrow-left"></i> Back
+      </button>
       {/* Sidebar */}
-      <div className="sidebar">
-        <div className="sidebar-header">
+      <div className="modules-sidebar">
+        <div className="modules-sidebar-header">
           <h2>Disaster Preparedness</h2>
         </div>
-        <ul className="disaster-menu">
+        <ul className="modules-disaster-menu">
           {disasters.map((disaster) => (
             <li
               key={disaster.id}
@@ -57,9 +67,9 @@ function App() {
       </div>
 
       {/* Main Content */}
-      <div className="main-content">
+      <div className="modules-main-content">
         {/* Header with image */}
-        <div className="header">
+        <div className="modules-header">
           <h1>Disaster Preparedness Hub</h1>
           <p>
             Your comprehensive guide to staying safe before, during, and after
@@ -68,11 +78,11 @@ function App() {
         </div>
 
         {/* Navigation Tabs */}
-        <div className="nav-tabs">
+        <div className="modules-nav-tabs">
           {tabs.map((tab) => (
             <div
               key={tab.id}
-              className={`nav-tab ${activeTab === tab.id ? "active" : ""}`}
+              className={`modules-nav-tab ${activeTab === tab.id ? "active" : ""}`}
               onClick={() => handleTabChange(tab.id)}
             >
               {tab.name}
@@ -99,17 +109,17 @@ function App() {
 // Component for Earthquake Content
 const EarthquakeContent = ({ activeTab }) => {
   return (
-    <div id="earthquake-content" className="disaster-content">
+    <div id="earthquake-content" className="earthquake-content-section">
       {/* Prepare Before Section */}
-      <div id="earthquake-prepare" className="content-section">
-        <span className="section-indicator" id="prepare"></span>
-        <h2 className="section-title">
+      <div id="earthquake-prepare" className="earthquake-content-section">
+        <span className="earthquake-section-indicator" id="prepare"></span>
+        <h2 className="earthquake-section-title">
           <i className="fas fa-clipboard-list"></i> Prepare Before an Earthquake
         </h2>
 
         {/* YouTube Video */}
-        <div className="video-container">
-          <div className="video-wrapper">
+        <div className="earthquake-video-container">
+          <div className="earthquake-video-wrapper">
             <iframe
               src="https://www.youtube.com/embed/BLEPakj1YTY"
               title="Earthquake Preparedness Video"
@@ -124,8 +134,8 @@ const EarthquakeContent = ({ activeTab }) => {
           </strong>
         </p>
 
-        <div className="component-section">
-          <h3 className="component-title">Understanding Earthquake</h3>
+        <div className="earthquake-component-section">
+          <h3 className="earthquake-component-title">Understanding Earthquake</h3>
           <div className="earthquake-info">
             <h2 style={{ color: "rgb(0,121,158)" }}>Earthquakes</h2>
             <p>
@@ -167,8 +177,8 @@ const EarthquakeContent = ({ activeTab }) => {
             </ul>
           </div>
 
-          <div className="steps-container">
-            <div className="step-card">
+          <div className="earthquake-steps-container">
+            <div className="earthquake-step-card">
               <h4>Secure Your Space</h4>
               <p>
                 Identify hazards and secure movable items to reduce damage and
@@ -181,7 +191,7 @@ const EarthquakeContent = ({ activeTab }) => {
               </ul>
             </div>
 
-            <div className="step-card">
+            <div className="earthquake-step-card">
               <h4>Plan to be Safe</h4>
               <p>
                 Create a family emergency communications plan and have a shelter
@@ -195,7 +205,7 @@ const EarthquakeContent = ({ activeTab }) => {
             </div>
           </div>
 
-          <div className="step-card">
+          <div className="earthquake-step-card">
             <h4>Organize Disaster Supplies</h4>
             <p>
               Have emergency supplies ready at home, at work, and in your
@@ -210,15 +220,15 @@ const EarthquakeContent = ({ activeTab }) => {
           </div>
         </div>
 
-        <div className="info-grid">
-          <div className="info-card">
-            <div className="card-img">
+        <div className="earthquake-info-grid">
+          <div className="earthquake-info-card">
+            <div className="earthquake-card-img">
               <img
                 src="https://tse4.mm.bing.net/th/id/OIP.1otJ1f1JJS8yopuaHfxEPAHaE8?rs=1&pid=ImgDetMain&o=7&rm=3"
                 alt="Family making an emergency plan with a kit ready."
               />
             </div>
-            <div className="card-content">
+            <div className="earthquake-card-content">
               <h3>Make an Emergency Plan</h3>
               <p>
                 Create a family emergency communications plan that has an
@@ -232,14 +242,14 @@ const EarthquakeContent = ({ activeTab }) => {
             </div>
           </div>
 
-          <div className="info-card">
-            <div className="card-img">
+          <div className="earthquake-info-card">
+            <div className="earthquake-card-img">
               <img
                 src="https://blog.strongtie.com/wp-content/uploads/2018/01/earthquake-featured.jpg"
                 alt="Secure Home"
               />
             </div>
-            <div className="card-content">
+            <div className="earthquake-card-content">
               <h3>Protect Your Home</h3>
               <p>
                 Secure heavy items in your home to prevent injuries and damage
@@ -255,19 +265,19 @@ const EarthquakeContent = ({ activeTab }) => {
         </div>
 
         {/* Earthquake Statistics */}
-        <div className="component-section">
-          <h3 className="component-title">Earthquake Facts & Statistics</h3>
-          <div className="stats-container">
-            <div className="stat-box">
-              <div className="stat-number">500,000</div>
+        <div className="earthquake-component-section">
+          <h3 className="earthquake-component-title">Earthquake Facts & Statistics</h3>
+          <div className="earthquake-stats-container">
+            <div className="earthquake-stat-box">
+              <div className="earthquake-stat-number">500,000</div>
               <p>Detectable earthquakes occur annually worldwide</p>
             </div>
-            <div className="stat-box">
-              <div className="stat-number">100</div>
+            <div className="earthquake-stat-box">
+              <div className="earthquake-stat-number">100</div>
               <p>Earthquakes cause damage each year</p>
             </div>
-            <div className="stat-box">
-              <div className="stat-number">20</div>
+            <div className="earthquake-stat-box">
+              <div className="earthquake-stat-number">20</div>
               <p>Major earthquakes (M7.0+) occur each year</p>
             </div>
           </div>
@@ -275,19 +285,19 @@ const EarthquakeContent = ({ activeTab }) => {
       </div>
 
       {/* During an Earthquake Section */}
-      <div id="earthquake-during" className="content-section">
-        <span className="section-indicator" id="during"></span>
-        <h2 className="section-title">
+      <div id="earthquake-during" className="earthquake-content-section">
+        <span className="earthquake-section-indicator" id="during"></span>
+        <h2 className="earthquake-section-title">
           <i className="fas fa-exclamation-circle"></i> During an Earthquake
         </h2>
 
-        <div className="component-section">
+        <div className="earthquake-component-section">
           <p>
             Knowing what to do during an earthquake can help prevent injuries
           </p>
 
-          <div className="steps-container">
-            <div className="step-card">
+          <div className="earthquake-steps-container">
+            <div className="earthquake-step-card">
               <h4>1. If You Are Inside</h4>
               <p>
                 Stay inside. Do not run outside or stay in doorways. Move away
@@ -296,7 +306,7 @@ const EarthquakeContent = ({ activeTab }) => {
               </p>
             </div>
 
-            <div className="step-card">
+            <div className="earthquake-step-card">
               <h4>2. If You Are in Bed</h4>
               <p>
                 Turn face down and cover your head and neck with a pillow. Hold
@@ -305,8 +315,8 @@ const EarthquakeContent = ({ activeTab }) => {
             </div>
           </div>
 
-          <div className="steps-container">
-            <div className="step-card">
+          <div className="earthquake-steps-container">
+            <div className="earthquake-step-card">
               <h4>3. If You Are Outside</h4>
               <p>
                 Move to an open area away from buildings, trees, streetlights,
@@ -314,7 +324,7 @@ const EarthquakeContent = ({ activeTab }) => {
               </p>
             </div>
 
-            <div className="step-card">
+            <div className="earthquake-step-card">
               <h4>4. If You Are in a Vehicle</h4>
               <p>
                 Pull over and stop. Set your parking brake. Avoid overpasses,
@@ -324,7 +334,7 @@ const EarthquakeContent = ({ activeTab }) => {
           </div>
 
           {/* Emergency Contact Info */}
-          <div className="emergency-contact">
+          <div className="earthquake-emergency-contact">
             <h3>
               <i className="fas fa-phone-alt"></i> Emergency Contacts
             </h3>
@@ -343,17 +353,17 @@ const EarthquakeContent = ({ activeTab }) => {
       </div>
 
       {/* After an Earthquake Section */}
-      <div id="earthquake-after" className="content-section">
-        <span className="section-indicator" id="after"></span>
-        <h2 className="section-title">
+      <div id="earthquake-after" className="earthquake-content-section">
+        <span className="earthquake-section-indicator" id="after"></span>
+        <h2 className="earthquake-section-title">
           <i className="fas fa-first-aid"></i> After an Earthquake
         </h2>
 
-        <div className="component-section">
-          <h3 className="component-title">After an Earthquake</h3>
+        <div className="earthquake-component-section">
+          <h3 className="earthquake-component-title">After an Earthquake</h3>
           <p>What to do once the shaking stops to ensure your safety</p>
 
-          <div className="alert-box">
+          <div className="earthquake-alert-box">
             <h3>If you are a disaster survivor, please visit FEMA.gov</h3>
             <p>
               For up-to-date information on current disaster declarations and
@@ -364,8 +374,8 @@ const EarthquakeContent = ({ activeTab }) => {
             </p>
           </div>
 
-          <div className="steps-container">
-            <div className="step-card">
+          <div className="earthquake-steps-container">
+            <div className="earthquake-step-card">
               <h4>Expect Aftershocks</h4>
               <p>
                 After an earthquake, be aware that aftershocks may follow and
@@ -378,7 +388,7 @@ const EarthquakeContent = ({ activeTab }) => {
               </ul>
             </div>
 
-            <div className="step-card">
+            <div className="earthquake-step-card">
               <h4>Check for Damage</h4>
               <p>
                 Inspect your home for damage and gas leaks. If you smell gas,
@@ -393,7 +403,7 @@ const EarthquakeContent = ({ activeTab }) => {
             </div>
           </div>
 
-          <div className="step-card">
+          <div className="earthquake-step-card">
             <h4>Provide First Aid</h4>
             <p>
               Check yourself and others for injuries. Provide first aid for
@@ -407,12 +417,12 @@ const EarthquakeContent = ({ activeTab }) => {
           </div>
 
           {/* Recovery Checklist */}
-          <div className="checklist">
-            <h3 className="component-title">
+          <div className="earthquake-checklist">
+            <h3 className="earthquake-component-title">
               Post-Earthquake Recovery Checklist
             </h3>
-            <div className="checklist-item">
-              <div className="checklist-icon">
+            <div className="earthquake-checklist-item">
+              <div className="earthquake-checklist-icon">
                 <i className="fas fa-check-circle"></i>
               </div>
               <div>
@@ -423,8 +433,8 @@ const EarthquakeContent = ({ activeTab }) => {
                 </p>
               </div>
             </div>
-            <div className="checklist-item">
-              <div className="checklist-icon">
+            <div className="earthquake-checklist-item">
+              <div className="earthquake-checklist-icon">
                 <i className="fas fa-check-circle"></i>
               </div>
               <div>
@@ -435,8 +445,8 @@ const EarthquakeContent = ({ activeTab }) => {
                 </p>
               </div>
             </div>
-            <div className="checklist-item">
-              <div className="checklist-icon">
+            <div className="earthquake-checklist-item">
+              <div className="earthquake-checklist-icon">
                 <i className="fas fa-check-circle"></i>
               </div>
               <div>
@@ -452,19 +462,19 @@ const EarthquakeContent = ({ activeTab }) => {
       </div>
 
       {/* Additional Resources Section */}
-      <div id="earthquake-resources" className="content-section">
-        <span className="section-indicator" id="resources"></span>
-        <h2 className="section-title">
+      <div id="earthquake-resources" className="earthquake-content-section">
+        <span className="earthquake-section-indicator" id="resources"></span>
+        <h2 className="earthquake-section-title">
           <i className="fas fa-book"></i> Additional Resources
         </h2>
 
-        <div className="component-section">
-          <h3 className="component-title">
+        <div className="earthquake-component-section">
+          <h3 className="earthquake-component-title">
             Educational materials and tools to help you prepare for earthquakes
           </h3>
 
-          <div className="resource-grid">
-            <div className="resource-card">
+          <div className="earthquake-resource-grid">
+            <div className="earthquake-resource-card">
               <h4>Videos</h4>
               <ul>
                 <li>
@@ -497,7 +507,8 @@ const EarthquakeContent = ({ activeTab }) => {
               </ul>
             </div>
 
-            <div className="resource-card">
+
+            <div className="earthquake-resource-card">
               <h4>Social Media and Graphics</h4>
               <ul>
                 <li>
@@ -530,7 +541,7 @@ const EarthquakeContent = ({ activeTab }) => {
               </ul>
             </div>
 
-            <div className="resource-card">
+            <div className="earthquake-resource-card">
               <h4>Tip Sheets</h4>
               <ul>
                 <li>
@@ -563,17 +574,17 @@ const EarthquakeContent = ({ activeTab }) => {
 // Component for Drought Content
 const DroughtContent = ({ activeTab }) => {
   return (
-    <div id="drought-content" className="disaster-content">
+    <div id="drought-content" className="drought-content-section">
       {/* Prepare Before Section */}
-      <div id="drought-prepare" className="content-section">
-        <span className="section-indicator" id="prepare"></span>
-        <h2 className="section-title">
+      <div id="drought-prepare" className="drought-content-section">
+        <span className="drought-section-indicator" id="prepare"></span>
+        <h2 className="drought-section-title">
           <i className="fas fa-clipboard-list"></i> Prepare for Drought
         </h2>
 
         {/* YouTube Video */}
-        <div className="video-container">
-          <div className="video-wrapper">
+        <div className="drought-video-container">
+          <div className="drought-video-wrapper">
             <iframe
               src="https://www.youtube.com/embed/FIx50wkbEUg"
               title="Drought Preparedness Video"
@@ -582,8 +593,8 @@ const DroughtContent = ({ activeTab }) => {
           </div>
         </div>
 
-        <div className="component-section">
-          <h3 className="component-title">Understanding Drought</h3>
+        <div className="drought-component-section">
+          <h3 className="drought-component-title">Understanding Drought</h3>
           <div className="drought-info">
             <h2 style={{ color: "rgb(0,121,158)" }}>Droughts</h2>
             <p>
@@ -623,15 +634,15 @@ const DroughtContent = ({ activeTab }) => {
             </ul>
           </div>
 
-          <div className="info-grid">
-            <div className="info-card">
-              <div className="card-img">
+          <div className="drought-info-grid">
+            <div className="drought-info-card">
+              <div className="drought-card-img">
                 <img
                   src="https://media.geeksforgeeks.org/wp-content/uploads/20230803155225/WaterConserve.png"
                   alt="Water conservation"
                 />
               </div>
-              <div className="card-content">
+              <div className="drought-card-content">
                 <h3>Water Conservation</h3>
                 <p>
                   Implement water-saving measures before drought conditions
@@ -646,14 +657,14 @@ const DroughtContent = ({ activeTab }) => {
               </div>
             </div>
 
-            <div className="info-card">
-              <div className="card-img">
+            <div className="drought-info-card">
+              <div className="drought-card-img">
                 <img
                   src="https://www.watercanada.net/wp-content/uploads/2022/08/Emergency-Water-Distribution-System-2048x1152-1.jpeg"
                   alt="Water storage"
                 />
               </div>
-              <div className="card-content">
+              <div className="drought-card-content">
                 <h3>Emergency Water Supply</h3>
                 <p>Store water for emergency use during drought conditions:</p>
                 <ul>
@@ -667,12 +678,12 @@ const DroughtContent = ({ activeTab }) => {
           </div>
         </div>
 
-        <h3 className="section-title">
+        <h3 className="drought-section-title">
           <i className="fas fa-tint-slash"></i> Water Conservation Tips
         </h3>
 
-        <div className="pictographic-steps">
-          <div className="picto-step">
+        <div className="drought-pictographic-steps">
+          <div className="drought-picto-step">
             <img
               src="https://th.bing.com/th/id/OIP.zwEBn4Y1Lc7scwdssWyeTQHaHa?w=189&h=189&c=7&r=0&o=7&dpr=1.4&pid=1.7&rm=3"
               alt="Shorter showers icon"
@@ -680,7 +691,7 @@ const DroughtContent = ({ activeTab }) => {
             <h4>Shorter Showers</h4>
             <p>Limit showers to 5 minutes</p>
           </div>
-          <div className="picto-step">
+          <div className="drought-picto-step">
             <img
               src="https://cdn-icons-png.flaticon.com/512/284/284500.png"
               alt="Faucet icon"
@@ -688,7 +699,7 @@ const DroughtContent = ({ activeTab }) => {
             <h4>Fix Leaks</h4>
             <p>Repair dripping faucets promptly</p>
           </div>
-          <div className="picto-step">
+          <div className="drought-picto-step">
             <img
               src="https://cdn-icons-png.flaticon.com/512/2385/2385863.png"
               alt="Dishwasher icon"
@@ -696,7 +707,7 @@ const DroughtContent = ({ activeTab }) => {
             <h4>Full Loads Only</h4>
             <p>Run dishwashers and washing machines only when full</p>
           </div>
-          <div className="picto-step">
+          <div className="drought-picto-step">
             <img
               src="https://cdn-icons-png.flaticon.com/512/2911/2911800.png"
               alt="Plant icon"
@@ -707,19 +718,19 @@ const DroughtContent = ({ activeTab }) => {
         </div>
 
         {/* Drought Impact Stats */}
-        <div className="component-section">
-          <h3 className="component-title">Drought Impact Statistics</h3>
-          <div className="stats-container">
-            <div className="stat-box">
-              <div className="stat-number">55M</div>
+        <div className="drought-component-section">
+          <h3 className="drought-component-title">Drought Impact Statistics</h3>
+          <div className="drought-stats-container">
+            <div className="drought-stat-box">
+              <div className="drought-stat-number">55M</div>
               <p>People affected by drought annually worldwide</p>
             </div>
-            <div className="stat-box">
-              <div className="stat-number">6-8B</div>
+            <div className="drought-stat-box">
+              <div className="drought-stat-number">6-8B</div>
               <p>Annual US losses from drought</p>
             </div>
-            <div className="stat-box">
-              <div className="stat-number">40%</div>
+            <div className="drought-stat-box">
+              <div className="drought-stat-number">40%</div>
               <p>Of the world's population faces water scarcity</p>
             </div>
           </div>
@@ -727,14 +738,14 @@ const DroughtContent = ({ activeTab }) => {
       </div>
 
       {/* During a Drought Section */}
-      <div id="drought-during" className="content-section">
-        <span className="section-indicator" id="during"></span>
-        <h2 className="section-title">
+      <div id="drought-during" className="drought-content-section">
+        <span className="drought-section-indicator" id="during"></span>
+        <h2 className="drought-section-title">
           <i className="fas fa-exclamation-circle"></i> During a Drought
         </h2>
 
-        <div className="component-section">
-          <h3 className="component-title">
+        <div className="drought-component-section">
+          <h3 className="drought-component-title">
             Managing During Drought Conditions
           </h3>
           <p>
@@ -742,8 +753,8 @@ const DroughtContent = ({ activeTab }) => {
             conservation measures and stay informed.
           </p>
 
-          <div className="steps-container">
-            <div className="step-card">
+          <div className="drought-steps-container">
+            <div className="drought-step-card">
               <h4>Indoor Water Conservation</h4>
               <p>Reduce indoor water usage with these strategies:</p>
               <ul>
@@ -757,7 +768,7 @@ const DroughtContent = ({ activeTab }) => {
               </ul>
             </div>
 
-            <div className="step-card">
+            <div className="drought-step-card">
               <h4>Outdoor Water Conservation</h4>
               <p>Minimize outdoor water usage during drought:</p>
               <ul>
@@ -771,7 +782,7 @@ const DroughtContent = ({ activeTab }) => {
             </div>
           </div>
 
-          <div className="alert-box">
+          <div className="drought-alert-box">
             <h3>Follow Local Water Restrictions</h3>
             <p>
               During severe drought, local authorities may implement water use
@@ -781,8 +792,8 @@ const DroughtContent = ({ activeTab }) => {
           </div>
 
           {/* Water Saving Tips */}
-          <div className="pictographic-steps">
-            <div className="picto-step">
+          <div className="drought-pictographic-steps">
+            <div className="drought-picto-step">
               <img
                 src="https://cdn-icons-png.flaticon.com/512/251/251763.png"
                 alt="Bucket icon"
@@ -790,7 +801,7 @@ const DroughtContent = ({ activeTab }) => {
               <h4>Reuse Water</h4>
               <p>Collect shower warm-up water for plants</p>
             </div>
-            <div className="picto-step">
+            <div className="drought-picto-step">
               <img
                 src="https://cdn-icons-png.flaticon.com/512/2936/2936736.png"
                 alt="Toilet icon"
@@ -798,7 +809,7 @@ const DroughtContent = ({ activeTab }) => {
               <h4>Fix Toilets</h4>
               <p>Leaking toilets can waste 200 gallons daily</p>
             </div>
-            <div className="picto-step">
+            <div className="drought-picto-step">
               <img
                 src="https://cdn-icons-png.flaticon.com/512/2911/2911800.png"
                 alt="Plant icon"
@@ -806,7 +817,7 @@ const DroughtContent = ({ activeTab }) => {
               <h4>Choose Native Plants</h4>
               <p>They require less water to thrive</p>
             </div>
-            <div className="picto-step">
+            <div className="drought-picto-step">
               <img
                 src="https://cdn-icons-png.flaticon.com/512/284/284500.png"
                 alt="Faucet icon"
@@ -819,14 +830,14 @@ const DroughtContent = ({ activeTab }) => {
       </div>
 
       {/* After a Drought Section */}
-      <div id="drought-after" className="content-section">
-        <span className="section-indicator" id="after"></span>
-        <h2 className="section-title">
+      <div id="drought-after" className="drought-content-section">
+        <span className="drought-section-indicator" id="after"></span>
+        <h2 className="drought-section-title">
           <i className="fas fa-first-aid"></i> After a Drought
         </h2>
 
-        <div className="component-section">
-          <h3 className="component-title">
+        <div className="drought-component-section">
+          <h3 className="drought-component-title">
             Recovering From Drought Conditions
           </h3>
           <p>
@@ -834,8 +845,8 @@ const DroughtContent = ({ activeTab }) => {
             water conservation practices and assess any damage.
           </p>
 
-          <div className="steps-container">
-            <div className="step-card">
+          <div className="drought-steps-container">
+            <div className="drought-step-card">
               <h4>Assess Property Damage</h4>
               <p>Check your property for drought-related damage:</p>
               <ul>
@@ -846,7 +857,7 @@ const DroughtContent = ({ activeTab }) => {
               </ul>
             </div>
 
-            <div className="step-card">
+            <div className="drought-step-card">
               <h4>Long-Term Water Conservation</h4>
               <p>Implement permanent water-saving measures:</p>
               <ul>
@@ -859,10 +870,10 @@ const DroughtContent = ({ activeTab }) => {
           </div>
 
           {/* Recovery Checklist */}
-          <div className="checklist">
-            <h3 className="component-title">Post-Drought Recovery Checklist</h3>
-            <div className="checklist-item">
-              <div className="checklist-icon">
+          <div className="drought-checklist">
+            <h3 className="drought-component-title">Post-Drought Recovery Checklist</h3>
+            <div className="drought-checklist-item">
+              <div className="drought-checklist-icon">
                 <i className="fas fa-check-circle"></i>
               </div>
               <div>
@@ -873,8 +884,8 @@ const DroughtContent = ({ activeTab }) => {
                 </p>
               </div>
             </div>
-            <div className="checklist-item">
-              <div className="checklist-icon">
+            <div className="drought-checklist-item">
+              <div className="drought-checklist-icon">
                 <i className="fas fa-check-circle"></i>
               </div>
               <div>
@@ -885,8 +896,8 @@ const DroughtContent = ({ activeTab }) => {
                 </p>
               </div>
             </div>
-            <div className="checklist-item">
-              <div className="checklist-icon">
+            <div className="drought-checklist-item">
+              <div className="drought-checklist-icon">
                 <i className="fas fa-check-circle"></i>
               </div>
               <div>
@@ -902,19 +913,19 @@ const DroughtContent = ({ activeTab }) => {
       </div>
 
       {/* Additional Resources Section */}
-      <div id="drought-resources" className="content-section">
-        <span className="section-indicator" id="resources"></span>
-        <h2 className="section-title">
+      <div id="drought-resources" className="drought-content-section">
+        <span className="drought-section-indicator" id="resources"></span>
+        <h2 className="drought-section-title">
           <i className="fas fa-book"></i> Additional Resources
         </h2>
 
-        <div className="component-section">
-          <h3 className="component-title">
+        <div className="drought-component-section">
+          <h3 className="drought-component-title">
             Educational materials and tools to help you prepare for drought
           </h3>
 
-          <div className="resource-grid">
-            <div className="resource-card">
+          <div className="drought-resource-grid">
+            <div className="drought-resource-card">
               <h4>Government Resources</h4>
               <ul>
                 <li>
@@ -948,7 +959,7 @@ const DroughtContent = ({ activeTab }) => {
               </ul>
             </div>
 
-            <div className="resource-card">
+            <div className="drought-resource-card">
               <h4>Conservation Tips</h4>
               <ul>
                 <li>
@@ -1006,19 +1017,21 @@ const DroughtContent = ({ activeTab }) => {
 };
 
 // Component for Flood Content
+
+
 const FloodContent = ({ activeTab }) => {
   return (
-    <div id="flood-content" className="disaster-content">
-      {/* Prepare Before Section */}
-      <div id="flood-prepare" className="content-section">
-        <span className="section-indicator" id="prepare"></span>
-        <h2 className="section-title">
+    <div className="flood-disaster-content">
+      {/* Prepare Section */}
+      <div id="flood-prepare" className="flood-content-section">
+        <span className="flood-section-indicator" id="prepare"></span>
+        <h2 className="flood-section-title">
           <i className="fas fa-clipboard-list"></i> Prepare for a Flood
         </h2>
 
         {/* YouTube Video */}
-        <div className="video-container">
-          <div className="video-wrapper">
+        <div className="flood-video-container">
+          <div className="flood-video-wrapper">
             <iframe
               src="https://www.youtube.com/embed/43M5mZuzHF8"
               title="Flood Preparedness Video"
@@ -1027,11 +1040,11 @@ const FloodContent = ({ activeTab }) => {
           </div>
         </div>
 
-        <div className="component-section">
-          <h3 className="component-title">Understanding Floods</h3>
+        <div className="flood-component-section">
+          <h3 className="flood-component-title">Understanding Floods</h3>
           <p>
             Prepare now to protect yourself, your home, and your family during
-            an earthquake
+            a flood.
           </p>
 
           <div className="flood-info">
@@ -1047,10 +1060,7 @@ const FloodContent = ({ activeTab }) => {
               <li>Storm surges from cyclones or tsunamis.</li>
               <li>Melting snow or glaciers.</li>
               <li>Dam breaks or river overflow.</li>
-              <li>
-                Poor drainage and urbanization (concrete surfaces block
-                absorption).
-              </li>
+              <li>Poor drainage and urbanization (concrete surfaces block absorption).</li>
             </ul>
 
             <h3 style={{ color: "rgb(0,121,158)" }}>Human Impact</h3>
@@ -1064,9 +1074,7 @@ const FloodContent = ({ activeTab }) => {
             <h3 style={{ color: "rgb(0,121,158)" }}>Environmental Effects</h3>
             <ul>
               <li>Soil erosion and habitat destruction.</li>
-              <li>
-                Deposits fertile silt in floodplains, improving agriculture.
-              </li>
+              <li>Deposits fertile silt in floodplains, improving agriculture.</li>
             </ul>
 
             <h3 style={{ color: "rgb(0,121,158)" }}>Why They Occur</h3>
@@ -1077,15 +1085,16 @@ const FloodContent = ({ activeTab }) => {
             </p>
           </div>
 
-          <div className="info-grid">
-            <div className="info-card">
-              <div className="card-img">
+          {/* Info Grid */}
+          <div className="flood-info-grid">
+            <div className="flood-info-card">
+              <div className="flood-card-img">
                 <img
                   src="https://nationalfirstresponse.com/wp-content/uploads/2023/01/How-to-Prepare-an-Emergency-Kit-for-Any-Disaster.jpeg"
                   alt="Emergency kit supplies"
                 />
               </div>
-              <div className="card-content">
+              <div className="flood-card-content">
                 <h3>Prepare an Emergency Kit</h3>
                 <p>
                   Having a ready-to-go kit ensures you and your family can stay
@@ -1100,14 +1109,14 @@ const FloodContent = ({ activeTab }) => {
               </div>
             </div>
 
-            <div className="info-card">
-              <div className="card-img">
+            <div className="flood-info-card">
+              <div className="flood-card-img">
                 <img
                   src="https://lh7-us.googleusercontent.com/xenl60kxm9ZIQrSQ9__sCe9UO_FzlzHJkT0ZwIyGJxO1rJkkDY6UPL99D9kU8dy1QIuzXXkYoTjt7bc2qBkwAvC-WXwtGi_uZuf7qEnbxzU2UGVAHE-BiKMSi8uu7BhGMOxc2ReqBCt0gaQ9MZQx-gw"
                   alt="Family with an evacuation plan"
                 />
               </div>
-              <div className="card-content">
+              <div className="flood-card-content">
                 <h3>Make an Evacuation Plan</h3>
                 <p>
                   Know your local evacuation routes and have a plan for a safe
@@ -1125,149 +1134,97 @@ const FloodContent = ({ activeTab }) => {
         </div>
       </div>
 
-      <div id="flood-during" className="content-section">
-        <span className="section-indicator" id="during"></span>
-        <h2 className="section-title">
+      {/* During Section */}
+      <div id="flood-during" className="flood-content-section">
+        <span className="flood-section-indicator" id="during"></span>
+        <h2 className="flood-section-title">
           <i className="fas fa-exclamation-circle"></i> During a Flood
         </h2>
-        <div className="component-section">
-          <h3 className="component-title">Staying Safe When Flooding Occurs</h3>
-          <div className="steps-container">
-            <div className="step-card">
+        <div className="flood-component-section">
+          <h3 className="flood-component-title">Staying Safe When Flooding Occurs</h3>
+          <div className="flood-steps-container">
+            <div className="flood-step-card">
               <h4>Stay Informed</h4>
               <p>
-                During a flood, staying informed can save lives. Regularly check
-                local news outlets, weather apps, official government websites,
-                and social media channels for updates on rising water levels,
-                evacuation routes, and shelter locations. Sign up for emergency
-                alerts if available in your area. Keep a battery-powered or
-                hand-crank radio on hand in case of power outages. Pay close
-                attention to instructions from local authorities and emergency
-                personnel—they have the most accurate, up-to-date information
-                about safe areas and potential hazards. Staying informed allows
-                you to make quick, safe decisions and ensures you and your
-                family can respond effectively to changing conditions.
+                During a flood, stay updated via local news, weather apps, and emergency alerts.
               </p>
             </div>
-            <div className="step-card">
+            <div className="flood-step-card">
               <h4>Avoid Floodwater</h4>
               <p>
-                Never attempt to walk, swim, or drive through floodwater. Even
-                shallow water can be deceptively strong: just six inches of
-                moving water can knock a person off their feet, and two feet of
-                water can sweep a vehicle away. Floodwater may also be
-                contaminated with sewage, chemicals, or debris, which can pose
-                health hazards. Stay on higher ground and use designated
-                evacuation routes whenever possible.
+                Never attempt to walk, swim, or drive through floodwater. Stay on higher ground.
               </p>
             </div>
           </div>
         </div>
       </div>
 
-      <div id="flood-after" className="content-section">
-        <span className="section-indicator" id="after"></span>
-        <h2 className="section-title">
+      {/* After Section */}
+      <div id="flood-after" className="flood-content-section">
+        <span className="flood-section-indicator" id="after"></span>
+        <h2 className="flood-section-title">
           <i className="fas fa-first-aid"></i> After a Flood
         </h2>
-        <div className="component-section">
-          <h3 className="component-title">Recovery Steps</h3>
-          <div className="steps-container">
-            <div className="step-card">
+        <div className="flood-component-section">
+          <h3 className="flood-component-title">Recovery Steps</h3>
+          <div className="flood-steps-container">
+            <div className="flood-step-card">
               <h4>Return When Safe</h4>
               <p>
-                Only return to your home after authorities have confirmed that
-                it is safe. Floodwaters can conceal a variety of hazards,
-                including unstable structures, sharp debris, electrical risks,
-                and contaminated water. Approach your property with caution,
-                wearing protective clothing, boots, and gloves. Be aware that
-                roads, bridges, and walkways may be damaged or weakened, and
-                some areas could remain impassable. Avoid wading through
-                standing water if possible, as it can carry harmful bacteria,
-                chemicals, or dangerous objects. Prioritize your safety and that
-                of your family above all else when re-entering flood-affected
-                areas.
+                Only return home after authorities confirm safety. Avoid standing water and hazardous debris.
               </p>
             </div>
-            <div className="step-card">
+            <div className="flood-step-card">
               <h4>Document Damage</h4>
               <p>
-                As soon as it is safe, thoroughly inspect your property and
-                document all damage. Take clear photos and videos of your home,
-                belongings, and surrounding areas to support insurance claims or
-                disaster assistance applications. Separate items that can be
-                salvaged from those that are contaminated or destroyed. Avoid
-                making major repairs until your insurance provider has assessed
-                the damage, and contact qualified professionals for structural
-                or electrical repairs. Keeping detailed records and
-                communicating promptly with your insurance company can help
-                speed up the recovery and rebuilding process.
+                Take photos and videos to support insurance claims. Avoid major repairs until professionals assess the property.
               </p>
             </div>
           </div>
         </div>
       </div>
 
-      <div id="flood-resources" className="content-section">
-        <span className="section-indicator" id="resources"></span>
-        <h2 className="section-title">
+      {/* Resources Section */}
+      <div id="flood-resources" className="flood-content-section">
+        <span className="flood-section-indicator" id="resources"></span>
+        <h2 className="flood-section-title">
           <i className="fas fa-book"></i> Additional Resources
         </h2>
-        <div className="component-section">
-          <h3 className="component-title">
+        <div className="flood-component-section">
+          <h3 className="flood-component-title">
             Tools and information to help you prepare for floods
           </h3>
-          <div className="resource-grid">
-            <div className="resource-card">
+          <div className="flood-resource-grid">
+            <div className="flood-resource-card">
               <h4>FEMA Resources</h4>
               <ul>
                 <li>
-                  <a
-                    href="https://www.fema.gov/flood-maps"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
+                  <a href="https://www.fema.gov/flood-maps" target="_blank" rel="noopener noreferrer">
                     FEMA Flood Map Service Center
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="https://www.fema.gov/what-do-during-flood"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
+                  <a href="https://www.fema.gov/what-do-during-flood" target="_blank" rel="noopener noreferrer">
                     What to do During a Flood
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="https://www.fema.gov/what-do-after-flood"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
+                  <a href="https://www.fema.gov/what-do-after-flood" target="_blank" rel="noopener noreferrer">
                     What to do After a Flood
                   </a>
                 </li>
               </ul>
             </div>
-            <div className="resource-card">
+            <div className="flood-resource-card">
               <h4>Red Cross</h4>
               <ul>
                 <li>
-                  <a
-                    href="https://www.redcross.org/get-help-how-to-prepare-for-emergencies/types-of-emergencies/flood.html"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
+                  <a href="https://www.redcross.org/get-help-how-to-prepare-for-emergencies/types-of-emergencies/flood.html" target="_blank" rel="noopener noreferrer">
                     Flood Safety Tips
                   </a>
                 </li>
                 <li>
-                  <a
-                    href="https://www.redcross.org/get-help-how-to-prepare-for-emergencies/disaster-and-safety-kit-resources.html"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
+                  <a href="https://www.redcross.org/get-help-how-to-prepare-for-emergencies/disaster-and-safety-kit-resources.html" target="_blank" rel="noopener noreferrer">
                     Disaster & Safety Kit Resources
                   </a>
                 </li>
@@ -1276,24 +1233,27 @@ const FloodContent = ({ activeTab }) => {
           </div>
         </div>
       </div>
+
     </div>
   );
 };
 
+
+
 // Component for Wildfire Content
 const WildfireContent = ({ activeTab }) => {
   return (
-    <div id="wildfire-content" className="disaster-content">
+    <div id="wildfire-content" className="wildfire-disaster-content">
       {/* Prepare Before Section */}
-      <div id="wildfire-prepare" className="content-section">
-        <span className="section-indicator" id="prepare"></span>
-        <h2 className="section-title">
+      <div id="wildfire-prepare" className="wildfire-content-section">
+        <span className="wildfire-section-indicator" id="prepare"></span>
+        <h2 className="wildfire-section-title">
           <i className="fas fa-fire"></i> Prepare for a Wildfire
         </h2>
 
         {/* YouTube Video */}
-        <div className="video-container">
-          <div className="video-wrapper">
+        <div className="wildfire-video-container">
+          <div className="wildfire-video-wrapper">
             <iframe
               src="https://www.youtube.com/embed/AcnKlSFqm3Y"
               title="Wildfire Preparedness Video"
@@ -1302,18 +1262,18 @@ const WildfireContent = ({ activeTab }) => {
           </div>
         </div>
 
-        <div className="component-section">
-          <h3 className="component-title">Understanding Wildfires</h3>
+        <div className="wildfire-component-section">
+          <h3 className="wildfire-component-title">Understanding Wildfires</h3>
 
-          <div className="info-grid">
-            <div className="info-card">
-              <div className="card-img">
+          <div className="wildfire-info-grid">
+            <div className="wildfire-info-card">
+              <div className="wildfire-card-img">
                 <img
                   src="https://tse2.mm.bing.net/th/id/OIP.NKwf98ETsHV1L6aj9uz2BgHaDV?rs=1&pid=ImgDetMain&o=7&rm=3"
                   alt="Diagram showing defensible space zones around a house."
                 />
               </div>
-              <div className="card-content">
+              <div className="wildfire-card-content">
                 <h3>Create a Defensible Space</h3>
                 <p>
                   Clear a space around your home to reduce the risk of it
@@ -1330,14 +1290,14 @@ const WildfireContent = ({ activeTab }) => {
               </div>
             </div>
 
-            <div className="info-card">
-              <div className="card-img">
+            <div className="wildfire-info-card">
+              <div className="wildfire-card-img">
                 <img
                   src="https://i.etsystatic.com/12674449/r/il/f4fe26/1926597203/il_fullxfull.1926597203_pvqd.jpg"
                   alt="Emergency go-bag with supplies."
                 />
               </div>
-              <div className="card-content">
+              <div className="wildfire-card-content">
                 <h3>Evacuation Planning</h3>
                 <p>
                   Know your evacuation routes and have a plan for a safe place
@@ -1354,15 +1314,15 @@ const WildfireContent = ({ activeTab }) => {
         </div>
       </div>
 
-      <div id="wildfire-during" className="content-section">
-        <span className="section-indicator" id="during"></span>
-        <h2 className="section-title">
+      <div id="wildfire-during" className="wildfire-content-section">
+        <span className="wildfire-section-indicator" id="during"></span>
+        <h2 className="wildfire-section-title">
           <i className="fas fa-exclamation-circle"></i> During a Wildfire
         </h2>
-        <div className="component-section">
-          <h3 className="component-title">What to Do During a Wildfire</h3>
-          <div className="steps-container">
-            <div className="step-card">
+        <div className="wildfire-component-section">
+          <h3 className="wildfire-component-title">What to Do During a Wildfire</h3>
+          <div className="wildfire-steps-container">
+            <div className="wildfire-step-card">
               <h4>Stay Informed</h4>
               <p>
                 Continuously monitor local radio, TV, official social media
@@ -1373,7 +1333,7 @@ const WildfireContent = ({ activeTab }) => {
                 backup power sources ready if possible.
               </p>
             </div>
-            <div className="step-card">
+            <div className="wildfire-step-card">
               <h4>Evacuate Early</h4>
               <p>
                 If authorities issue an evacuation order or if you feel unsafe,
@@ -1391,15 +1351,15 @@ const WildfireContent = ({ activeTab }) => {
         </div>
       </div>
 
-      <div id="wildfire-after" className="content-section">
-        <span className="section-indicator" id="after"></span>
-        <h2 className="section-title">
+      <div id="wildfire-after" className="wildfire-content-section">
+        <span className="wildfire-section-indicator" id="after"></span>
+        <h2 className="wildfire-section-title">
           <i className="fas fa-first-aid"></i> After a Wildfire
         </h2>
-        <div className="component-section">
-          <h3 className="component-title">Recovery and Safety</h3>
-          <div className="steps-container">
-            <div className="step-card">
+        <div className="wildfire-component-section">
+          <h3 className="wildfire-component-title">Recovery and Safety</h3>
+          <div className="wildfire-steps-container">
+            <div className="wildfire-step-card">
               <h4>Return Safely</h4>
               <p>
                 Only return to your home after authorities have confirmed that
@@ -1415,7 +1375,7 @@ const WildfireContent = ({ activeTab }) => {
                 assessing damage or salvaging belongings.
               </p>
             </div>
-            <div className="step-card">
+            <div className="wildfire-step-card">
               <h4>Assess Damage</h4>
               <p>
                 Once it is safe to return, carefully inspect your property for
@@ -1437,17 +1397,17 @@ const WildfireContent = ({ activeTab }) => {
         </div>
       </div>
 
-      <div id="wildfire-resources" className="content-section">
-        <span className="section-indicator" id="resources"></span>
-        <h2 className="section-title">
+      <div id="wildfire-resources" className="wildfire-content-section">
+        <span className="wildfire-section-indicator" id="resources"></span>
+        <h2 className="wildfire-section-title">
           <i className="fas fa-book"></i> Additional Resources
         </h2>
-        <div className="component-section">
-          <h3 className="component-title">
+        <div className="wildfire-component-section">
+          <h3 className="wildfire-component-title">
             Tools and information to help you prepare for wildfires
           </h3>
-          <div className="resource-grid">
-            <div className="resource-card">
+          <div className="wildfire-resource-grid">
+            <div className="wildfire-resource-card">
               <h4>Ready.gov</h4>
               <ul>
                 <li>
@@ -1470,7 +1430,7 @@ const WildfireContent = ({ activeTab }) => {
                 </li>
               </ul>
             </div>
-            <div className="resource-card">
+            <div className="wildfire-resource-card">
               <h4>Cal Fire</h4>
               <ul>
                 <li>
@@ -1500,4 +1460,4 @@ const WildfireContent = ({ activeTab }) => {
   );
 };
 
-export default App;
+export default ModulesPages;

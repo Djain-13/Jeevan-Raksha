@@ -2,9 +2,10 @@ from flask import Blueprint, request, jsonify, render_template
 from app.models import User, DisasterModule, Alert, RescueService
 from app import db
 from math import radians, sin, cos, sqrt, atan2
+from flask_jwt_extended import create_access_token # 1. Import the token creator
 
 # --- Main Page Routes ---
-# This blueprint now serves both the welcome page AND your new HTML pages.
+# This blueprint remains unchanged.
 main_bp = Blueprint('main', __name__)
 
 @main_bp.route('/')
@@ -12,13 +13,9 @@ def index():
     """Serves a simple welcome page."""
     return "<h1>Welcome to Jeevan Raksha! Your backend is running.</h1>" 
 
-# ===================================
-# NEW ROUTES TO SERVE YOUR HTML FILES
-# ===================================
 @main_bp.route('/alert-dashboard')
 def alert_dashboard_page():
     """Serves the alert dashboard HTML page."""
-    # Flask's render_template looks inside the 'templates' folder automatically.
     return render_template('alert route.js')
 
 @main_bp.route('/sos-hub')
@@ -27,8 +24,6 @@ def sos_hub_page():
     return render_template('sos route.js')
 
 # --- API Routes ---
-# This blueprint for your API endpoints remains exactly the same.
-# Your HTML files will talk to these routes.
 api_bp = Blueprint('api', __name__, url_prefix='/api')
 
 @api_bp.route('/status', methods=['GET'])
@@ -41,6 +36,7 @@ def status():
 @api_bp.route('/register', methods=['POST'])
 def register():
     """Endpoint for user registration."""
+    # This route remains unchanged.
     data = request.get_json()
     if not data or not all(k in data for k in ['username', 'email', 'password']):
         return jsonify({"error": "Username, email, and password are required."}), 400
@@ -54,25 +50,37 @@ def register():
     db.session.commit()
     return jsonify({"message": "User registered successfully."}), 201
 
+# =======================================================
+# --- THIS IS THE UPDATED LOGIN ROUTE ---
+# =======================================================
 @api_bp.route('/login', methods=['POST'])
 def login():
     """Endpoint for user login."""
     data = request.get_json()
     if not data or not all(k in data for k in ['username', 'password']):
         return jsonify({"error": "Username and password are required."}), 400
+    
     user = User.query.filter_by(username=data['username']).first()
+    
     if user is None or not user.check_password(data['password']):
         return jsonify({"error": "Invalid username or password."}), 401
+    
+    # 2. Create the secure token (the "passport") using the user's ID as the identity.
+    # This uses the JWT_SECRET_KEY you configured.
+    access_token = create_access_token(identity=user.id)
+    
+    # 3. Return the token to the frontend so it can be saved.
     return jsonify({
         "message": "Login successful.",
+        "access_token": access_token, 
         "user": {"id": user.id, "username": user.username, "role": user.role}
     })
 
-# --- Alert Routes ---
+# --- Other API Routes remain unchanged ---
 
 @api_bp.route('/alerts', methods=['POST'])
 def create_alert():
-    """Endpoint to create a new alert."""
+    # ... (This route is unchanged)
     data = request.get_json()
     if not data or not all(k in data for k in ['title', 'message']):
         return jsonify({"error": "Title and message are required."}), 400
@@ -83,16 +91,14 @@ def create_alert():
 
 @api_bp.route('/alerts', methods=['GET'])
 def get_alerts():
-    """Endpoint to get all current alerts, most recent first."""
+    # ... (This route is unchanged)
     alerts = Alert.query.order_by(Alert.timestamp.desc()).all()
     results = [{"id": alert.id, "title": alert.title, "message": alert.message, "severity": alert.severity, "region": alert.region, "timestamp": str(alert.timestamp)} for alert in alerts]
     return jsonify(results)
 
-# --- Rescue Service & SOS Routes ---
-
 @api_bp.route('/services', methods=['POST'])
 def add_rescue_service():
-    """Admin endpoint to add a new rescue service."""
+    # ... (This route is unchanged)
     data = request.get_json()
     if not all(k in data for k in ['service_name', 'service_type', 'latitude', 'longitude', 'contact_number']):
         return jsonify({"error": "Missing required fields."}), 400
@@ -103,7 +109,7 @@ def add_rescue_service():
 
 @api_bp.route('/sos', methods=['POST'])
 def handle_sos():
-    """Handles a user's SOS request and finds the nearest rescuer."""
+    # ... (This route is unchanged)
     data = request.get_json()
     if not all(k in data for k in ['emergency_type', 'latitude', 'longitude']):
         return jsonify({"error": "Missing emergency type or location."}), 400

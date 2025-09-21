@@ -8,6 +8,7 @@ import QuizPage from "./quiz_main"; // Component for the quiz
 import SosPage from "./SosPage";
 import Alert from "./Alert";
 import DrillGame from "./drill";   // ⬅ import your drill page
+import ModulesPage from "./Module"; // ⬅ import your learning modules page
 
 
 
@@ -61,8 +62,14 @@ function App() {
       )}
 
       {/* Pass the quiz handler to the home page */}
-      {currentPage === "home" && <HomePage onQuizClick={handleQuizClick} onDrillClick={handleDrillClick}
-       />}
+      {currentPage === "home" && (
+        <HomePage
+          onQuizClick={handleQuizClick}
+          onDrillClick={handleDrillClick}
+          onStartLearningClick={handleLearningClick}
+          onBack={handleBackToLanding}
+        />
+      )}
 
       {currentPage === "sos" && <SosPage onBack={handleBackToLanding} />}
       
@@ -71,6 +78,7 @@ function App() {
       {/* Render the quiz page when its state is active */}
       {currentPage === "quiz" && <QuizPage onBack={handleGoToHome} />}
       {currentPage === "drill" && <DrillGame onBack={handleGoToHome} />} 
+      {currentPage === "modules" && <ModulesPage  onBack={handleGoToHome}/>}
       
     </div>
   );

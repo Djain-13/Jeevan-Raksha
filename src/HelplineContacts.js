@@ -5,10 +5,11 @@ import {
   FaAmbulance,
   FaShieldAlt,
   FaHandsHelping,
+  FaArrowLeft,
 } from "react-icons/fa";
 import "./HelplineContacts.css";
 
-const App = () => {
+const App = ({ onBack }) => {
   const contacts = [
     { name: "NATIONAL EMERGENCY NUMBER", number: "112", icon: <FaPhoneAlt /> },
     { name: "POLICE", number: "100 or 112", icon: <FaShieldAlt /> },
@@ -34,30 +35,36 @@ const App = () => {
   ];
 
   return (
-    <div className="helpline-container">
-      <div className="helpline-card">
-        <h1 className="helpline-title"> Emergency Helplines</h1>
-        <p className="helpline-subtitle">
-          Quick access to essential emergency numbers — stay safe, stay
-          prepared.
-        </p>
+    <>
+      <button className="back-button" onClick={onBack}>
+        <FaArrowLeft style={{ marginRight: "0.5rem" }} />
+        Back
+      </button>
+      <div className="helpline-container">
+        <div className="helpline-card">
+          <h1 className="helpline-title"> Emergency Helplines</h1>
+          <p className="helpline-subtitle">
+            Quick access to essential emergency numbers — stay safe, stay
+            prepared.
+          </p>
 
-        <div className="contacts-grid">
-          {contacts.map((contact, index) => (
-            <div key={index} className="contact-item">
-              <div className="contact-icon">{contact.icon}</div>
-              <div className="contact-name">{contact.name}</div>
-              <a
-                href={`tel:${contact.number.replace(/[^0-9,]/g, "")}`}
-                className="contact-number"
-              >
-                {contact.number}
-              </a>
-            </div>
-          ))}
+          <div className="contacts-grid">
+            {contacts.map((contact, index) => (
+              <div key={index} className="contact-item">
+                <div className="contact-icon">{contact.icon}</div>
+                <div className="contact-name">{contact.name}</div>
+                <a
+                  href={`tel:${contact.number.replace(/[^0-9,]/g, "")}`}
+                  className="contact-number"
+                >
+                  {contact.number}
+                </a>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

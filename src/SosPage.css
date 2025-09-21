@@ -1,6 +1,6 @@
-/* SosPage.css - Updated for Improved Aesthetics */
+/* SosPage.css - Final Updated for Clean, Even Layout */
 
-/* --- COLOR & FONT VARIABLES (UNCHANGED) --- */
+/* --- COLOR & FONT VARIABLES --- */
 :root {
     --bg-color-light: #f0f4f8;
     --bg-color-gradient-start: #e0f2f7;
@@ -23,13 +23,12 @@
     --error-border: #ffb3b3;
 }
 
-/* --- Animations (UNCHANGED) --- */
+/* --- Animations --- */
 @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(231,76,60,0.7); } 70% { box-shadow: 0 0 0 12px rgba(231,76,60,0); } 100% { box-shadow: 0 0 0 0 rgba(231,76,60,0); } }
 @keyframes spin { to { transform: rotate(360deg); } }
 
 /* --- Base Body Styling --- */
-/* This top-level class helps avoid style conflicts with other pages */
 .sos-page-container {
     font-family: 'Open Sans', sans-serif;
     background: linear-gradient(135deg, var(--bg-color-gradient-start), var(--bg-color-gradient-end));
@@ -39,49 +38,39 @@
 }
 
 /* =================================== */
-/* --- NEW HEADER STYLING --- */
+/* --- HEADER STYLING --- */
 /* =================================== */
 header.sos-header {
     display: flex;
-    justify-content: space-between; /* Pushes items to the edges */
-    align-items: center; /* Vertically aligns items */
-    padding: 20px 40px; /* More balanced padding */
+    align-items: center;
+    justify-content: center; /* Centers title */
+    padding: 20px 40px;
     background-color: var(--primary-card-bg);
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
     border-bottom: 1px solid var(--border-light);
     position: relative;
-    padding-top: 32px; /* Add space for the back button */
 }
 
 .header-content {
     text-align: center;
-    /* This div takes up the central space, allowing the back button to be on the left */
-    flex-grow: 1;
-    /* Nudge it slightly left to appear perfectly centered, compensating for the button */
-    margin-left: -80px; 
-    margin-left: 0;
-    padding: 0;
-    max-width: 420px;
-    margin-right: auto;
-    margin-left: auto;
+    max-width: 480px;
+    margin: 0 auto;
 }
 
 header.sos-header h1 {
     font-family: 'Raleway', sans-serif;
-    font-size: 2rem; /* Reduced font size for a cleaner look */
+    font-size: 2rem;
     color: var(--text-dark);
     margin: 0;
-    padding: 8px 0 0 0;
 }
 
 header.sos-header p {
     font-size: 1rem;
-    margin-top: 2px;
+    margin-top: 5px;
     color: var(--text-medium);
-    margin: 5px 0 0 0;
 }
 
-/* Back Button moved to top left */
+/* Back Button neatly top-left */
 .back-btn {
     font-size: 1rem;
     font-weight: 600;
@@ -92,12 +81,10 @@ header.sos-header p {
     padding: 8px 16px;
     cursor: pointer;
     transition: all 0.2s ease;
-    white-space: nowrap; /* Prevents text wrapping */
+    white-space: nowrap;
     position: absolute;
-    top: 10px;
-    left: 18px;
-    z-index: 2;
-    margin: 0;
+    top: 20px;
+    left: 20px;
 }
 
 .back-btn:hover {
@@ -107,58 +94,59 @@ header.sos-header p {
 }
 
 /* =================================== */
-/* --- NEW MAIN & GRID LAYOUT --- */
+/* --- MAIN & GRID LAYOUT --- */
 /* =================================== */
 main.sos-main {
     max-width: 1200px;
-    margin: 40px auto; /* More margin from the header */
+    margin: 40px auto;
     display: grid;
-    /* This makes the grid responsive: side-by-side on large screens, stacked on small screens */
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); 
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
     gap: 40px;
     padding: 0 30px;
+    align-items: stretch; /* Ensures cards are same height */
 }
 
 /* Responsive adjustments */
 @media (max-width: 900px) {
-    main.sos-main { 
-        grid-template-columns: 1fr; /* Force single column on smaller screens */
+    main.sos-main {
+        grid-template-columns: 1fr;
     }
-    header.sos-header h1 { font-size: 2rem; }
-    header.sos-header { 
-        padding: 15px 20px;
-        flex-direction: column; /* Stack header items vertically */
+    header.sos-header {
+        flex-direction: column;
         gap: 10px;
+        padding: 20px;
     }
-    .header-content { margin-left: 0; }
     .back-btn {
-        position: absolute; /* Position it relative to the header */
+        position: absolute;
         top: 15px;
         left: 15px;
     }
 }
 
 /* =================================== */
-/* --- IMPROVED CARD STYLING --- */
+/* --- CARD STYLING --- */
 /* =================================== */
 .form-container {
     background-color: var(--primary-card-bg);
-    padding: 40px;
-    border-radius: 16px; /* Softer radius */
+    padding: 32px;
+    border-radius: 16px;
     border: 1px solid var(--border-light);
-    box-shadow: 0 10px 40px rgba(44, 62, 80, 0.1); /* Deeper, softer shadow */
+    box-shadow: 0 10px 40px rgba(44, 62, 80, 0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     animation: fadeIn 0.5s ease-out forwards;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Keeps button aligned bottom */
 }
 
-.form-container:hover { 
+.form-container:hover {
     transform: translateY(-6px);
     box-shadow: 0 15px 50px rgba(44, 62, 80, 0.12);
 }
 
-.form-container h2 { 
+.form-container h2 {
     font-family: 'Raleway', sans-serif;
-    font-size: 1.8rem; /* Adjusted size */
+    font-size: 1.8rem;
     color: var(--text-dark);
     border-bottom: 2px solid var(--border-light);
     padding-bottom: 15px;
@@ -167,14 +155,20 @@ main.sos-main {
     align-items: center;
     gap: 12px;
 }
-.form-container h2 .fa-plus-circle, .form-container h2 .fa-hand-paper {
+.form-container h2 .fa-plus-circle, 
+.form-container h2 .fa-hand-paper {
     color: var(--accent-primary);
 }
 
-
 /* --- Form Elements --- */
-.form-container form { display: flex; flex-direction: column; gap: 20px; }
-.form-container input, .form-container select {
+.form-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex-grow: 1;
+}
+.form-container input, 
+.form-container select {
     width: 100%;
     padding: 14px;
     border: 1px solid #dce4eb;
@@ -182,11 +176,11 @@ main.sos-main {
     font-size: 1rem;
     background-color: var(--secondary-card-bg);
     color: var(--text-dark);
-    box-sizing: border-box; /* Ensures padding doesn't affect width */
     transition: all 0.2s ease;
 }
 
-.form-container input:focus, .form-container select:focus {
+.form-container input:focus, 
+.form-container select:focus {
     outline: none;
     border-color: var(--accent-primary);
     box-shadow: 0 0 0 4px rgba(52,152,219,0.15);
@@ -194,10 +188,20 @@ main.sos-main {
 
 /* --- Button Styling --- */
 .form-container button {
-    display: flex; align-items: center; justify-content: center; gap: 10px;
-    padding: 14px; color: white; border: none; border-radius: 8px;
-    font-size: 1.1rem; font-weight: 600; cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
     transition: all 0.2s ease;
+    width: 100%;
+    margin-top: auto;
 }
 
 button#add-service-btn {
@@ -211,7 +215,8 @@ button#add-service-btn:hover {
 
 button#sos-btn {
     background-color: var(--accent-danger);
-    font-size: 1.3rem; padding: 18px;
+    font-size: 1.3rem;
+    padding: 18px;
     animation: pulse 2.5s infinite;
 }
 button#sos-btn:hover {
@@ -230,18 +235,27 @@ button#sos-btn:hover {
 }
 .fa-spin { animation: spin 1s linear infinite; }
 
-
 /* --- Message & Location Display --- */
 .message {
-    margin-top: 20px; padding: 15px 20px; border-radius: 8px;
+    margin-top: 20px;
+    padding: 15px 20px;
+    border-radius: 8px;
     font-weight: 500;
     animation: fadeIn 0.5s forwards;
     border: 1px solid;
-    display: block; /* Make sure messages are visible */
-    word-wrap: break-word; /* Prevents long messages from overflowing */
+    display: block;
+    word-wrap: break-word;
 }
-.message.success { background-color: var(--success-bg); color: var(--success-text); border-color: var(--success-border); }
-.message.error { background-color: var(--error-bg); color: var(--error-text); border-color: var(--error-border); }
+.message.success {
+    background-color: var(--success-bg);
+    color: var(--success-text);
+    border-color: var(--success-border);
+}
+.message.error {
+    background-color: var(--error-bg);
+    color: var(--error-text);
+    border-color: var(--error-border);
+}
 
 #sos-current-location {
     font-size: 1rem;
@@ -251,9 +265,11 @@ button#sos-btn:hover {
     background-color: #f0f4f8;
     border-radius: 8px;
     text-align: center;
-    display: flex; align-items: center; justify-content: center; gap: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
     font-weight: 500;
-    min-height: 20px; /* Prevents layout shift */
-    word-break: break-all; /* Breaks long address strings */
+    min-height: 20px;
+    word-break: break-all;
 }
-
