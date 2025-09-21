@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,18 +26,113 @@
             padding: 20px;
         }
 
+        /* --- Global Back Button --- */
+        .page-back-button {
+            position: fixed;
+            top: 25px;
+            left: 25px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(145deg, #00AFFF, #0077FF);
+            border-radius: 50%;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: none; /* Initially hidden */
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(0, 122, 255, 0.4);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .page-back-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(0, 122, 255, 0.5);
+        }
+
+        /* --- NEW: Confirmation Modal --- */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(13, 71, 161, 0.6);
+            backdrop-filter: blur(5px);
+            display: none; /* Initially hidden */
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            animation: fadeIn 0.3s ease-out;
+        }
+        .modal-content {
+            background: white;
+            padding: 30px 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            animation: modalPop 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+        }
+        @keyframes modalPop {
+            from { transform: scale(0.7); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .modal-content h3 {
+            font-size: 1.6rem;
+            color: #0d47a1;
+            margin-bottom: 10px;
+        }
+        .modal-content p {
+            color: #1976d2;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+        .modal-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+        .modal-button {
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .modal-button.confirm {
+            background: linear-gradient(135deg, #f44336, #ef5350);
+            color: white;
+            box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3);
+        }
+        .modal-button.confirm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(244, 67, 54, 0.4);
+        }
+        .modal-button.cancel {
+            background: #e3f2fd;
+            color: #1565c0;
+            border: 2px solid #bbdefb;
+        }
+        .modal-button.cancel:hover {
+            background: #bbdefb;
+        }
+        /* --- End of New Styles --- */
+
         .container {
             max-width: 800px;
             width: 100%;
             margin: 0 auto;
         }
 
-        /* Header */
         .header {
             text-align: center;
             margin-bottom: 40px;
         }
-
         .header h1 {
             font-size: 3rem;
             font-weight: 800;
@@ -44,20 +140,17 @@
             margin-bottom: 10px;
             text-shadow: 0 4px 8px rgba(13, 71, 161, 0.15);
         }
-
         .header p {
             font-size: 1.2rem;
             color: #1976d2;
         }
 
-        /* Level Selection Cards */
         .level-selection {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 30px;
             margin-bottom: 40px;
         }
-
         .level-card {
             background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
@@ -70,7 +163,6 @@
             position: relative;
             overflow: hidden;
         }
-
         .level-card::before {
             content: '';
             position: absolute;
@@ -78,12 +170,10 @@
             height: 4px;
             background: linear-gradient(90deg, #2196f3, #21cbf3, #2196f3);
         }
-
         .level-card:hover {
             transform: translateY(-8px) scale(1.02);
             box-shadow: 0 20px 40px rgba(13, 71, 161, 0.15);
         }
-
         .level-icon {
             width: 80px; height: 80px;
             background: linear-gradient(135deg, #2196f3, #21cbf3);
@@ -94,18 +184,11 @@
             margin: 0 auto 20px;
             box-shadow: 0 8px 20px rgba(33, 150, 243, 0.3);
         }
-
         .level-icon i { font-size: 2rem; color: white; }
         .level-title { font-size: 1.5rem; font-weight: 700; color: #0d47a1; margin-bottom: 10px; }
         .level-desc { color: #1976d2; margin-bottom: 20px; line-height: 1.6; font-size: 0.9rem; }
         .reward-badge { background: linear-gradient(135deg, #ffd700, #ffed4e); color: #b8860b; padding: 8px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; display: inline-block; box-shadow: 0 3px 10px rgba(255, 215, 0, 0.3); animation: badgeGlow 2s ease-in-out infinite alternate; }
-        
-        @keyframes badgeGlow {
-            from { box-shadow: 0 3px 10px rgba(255, 215, 0, 0.3); }
-            to { box-shadow: 0 5px 20px rgba(255, 215, 0, 0.6); }
-        }
-
-        /* Quiz Container */
+        @keyframes badgeGlow { from { box-shadow: 0 3px 10px rgba(255, 215, 0, 0.3); } to { box-shadow: 0 5px 20px rgba(255, 215, 0, 0.6); } }
         .quiz-container, .results-container {
             display: none;
             background: rgba(255, 255, 255, 0.95);
@@ -113,7 +196,6 @@
             padding: 30px 40px;
             box-shadow: 0 20px 40px rgba(13, 71, 161, 0.1);
         }
-
         .player-stats {
             display: flex;
             align-items: center;
@@ -122,56 +204,56 @@
             padding-bottom: 20px;
             border-bottom: 2px solid rgba(33, 150, 243, 0.1);
         }
-
+        .level-back-button {
+            background: linear-gradient(145deg, #00AFFF, #0077FF);
+            color: white;
+            width: 90px;
+            height: 70px;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3), inset 0 1px 2px rgba(255, 255, 255, 0.2);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        .level-back-button:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0, 122, 255, 0.4), inset 0 1px 2px rgba(255, 255, 255, 0.2); }
+        .level-back-button .level-text { font-size: 1rem; line-height: 1; }
+        .level-back-button .level-number { font-size: 1.8rem; line-height: 1.1; }
         .xp-bar { width: 100%; flex-grow: 1; height: 12px; background: rgba(33, 150, 243, 0.2); border-radius: 6px; overflow: hidden; }
         .xp-fill { height: 100%; background: linear-gradient(90deg, #4caf50, #66bb6a); border-radius: 6px; transition: width 0.5s ease; position: relative; }
-        
-        .xp-fill::after {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            animation: xpShine 2s ease-in-out infinite;
-        }
-
+        .xp-fill::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent); animation: xpShine 2s ease-in-out infinite; }
         @keyframes xpShine { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
-
         .stat-badge { background: linear-gradient(135deg, #2196f3, #21cbf3); color: white; padding: 8px 15px; border-radius: 20px; font-weight: 600; box-shadow: 0 3px 10px rgba(33, 150, 243, 0.3); }
         .streak-counter { background: linear-gradient(135deg, #ff6b35, #f7931e); animation: streakPulse 1s ease-in-out infinite alternate; }
-
         @keyframes streakPulse { from { transform: scale(1); } to { transform: scale(1.05); } }
-
         .quiz-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
         .progress-bar { width: 200px; height: 8px; background: rgba(33, 150, 243, 0.2); border-radius: 4px; overflow: hidden; }
         .progress-fill { height: 100%; background: linear-gradient(90deg, #2196f3, #21cbf3); border-radius: 4px; transition: width 0.5s ease; }
         .question-counter { font-weight: 600; color: #1976d2; }
-
         .character { text-align: center; margin-bottom: 20px; }
         .character-avatar { width: 120px; height: 120px; background: linear-gradient(135deg, #2196f3, #21cbf3); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; box-shadow: 0 10px 25px rgba(33, 150, 243, 0.3); animation: bounce 2s ease-in-out infinite; position: relative; overflow: hidden; }
         @keyframes bounce { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
-
         .power-up-effects { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; }
         .power-up-particle { position: absolute; width: 6px; height: 6px; background: #ffd700; border-radius: 50%; animation: powerUpFloat 1s ease-out forwards; }
         @keyframes powerUpFloat { 0% { opacity: 1; transform: translateY(0) scale(1); } 100% { opacity: 0; transform: translateY(-100px) scale(0); } }
-
         .character-avatar i { font-size: 3rem; color: white; }
         .character-speech { background: rgba(33, 150, 243, 0.1); padding: 15px 20px; border-radius: 15px; border-left: 4px solid #2196f3; font-style: italic; color: #1976d2; max-width: 400px; margin: 0 auto; }
-
         .question-text { font-size: 1.3rem; font-weight: 600; color: #0d47a1; margin-bottom: 25px; line-height: 1.6; text-align: center; }
         .options { display: grid; gap: 15px; }
-
         .option { background: rgba(255, 255, 255, 0.8); border: 2px solid rgba(33, 150, 243, 0.2); border-radius: 15px; padding: 20px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 15px; }
         .option:hover { background: rgba(33, 150, 243, 0.1); border-color: #2196f3; transform: translateX(5px); }
         .option.correct { background: linear-gradient(135deg, #4caf50, #66bb6a); color: white; border-color: #4caf50; }
         .option.incorrect { background: linear-gradient(135deg, #f44336, #ef5350); color: white; border-color: #f44336; }
-        
         .option-letter { width: 30px; height: 30px; background: rgba(33, 150, 243, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #1976d2; flex-shrink: 0; }
         .option.correct .option-letter, .option.incorrect .option-letter { background: rgba(255, 255, 255, 0.3); color: white; }
-
         .quiz-navigation { display: flex; justify-content: center; align-items: center; margin-top: 30px; }
         .nav-button { background: linear-gradient(135deg, #2196f3, #21cbf3); color: white; border: none; padding: 15px 30px; border-radius: 25px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3); }
         .nav-button:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(33, 150, 243, 0.4); }
         .nav-button:disabled { background: #ccc; cursor: not-allowed; transform: none; box-shadow: none; }
-
-        /* Results */
         .results-container { text-align: center; }
         .results-title { font-size: 2.5rem; font-weight: 800; color: #0d47a1; margin-bottom: 20px; }
         .score-display { font-size: 4rem; font-weight: 800; color: #2196f3; margin-bottom: 10px; }
@@ -179,19 +261,27 @@
         .badges-unlocked { margin-bottom: 30px; }
         .badges-unlocked h3 { color: #0d47a1; margin-bottom: 15px; font-size: 1.4rem; }
         .badge { display: inline-block; background: linear-gradient(135deg, #ffd700, #ffed4e); color: #b8860b; padding: 10px 20px; border-radius: 25px; margin: 5px; font-weight: 600; box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3); animation: badgePop 0.6s ease-out forwards; animation-delay: var(--delay); opacity: 0; }
-        
-        @keyframes badgePop {
-            0% { transform: scale(0); opacity: 0; }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        /* Animations */
+        @keyframes badgePop { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
         .fade-in { animation: fadeIn 0.6s ease-out; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
+    <button id="pageBackButton" class="page-back-button" onclick="showLeaveConfirmation()">
+        <i class="fas fa-arrow-left"></i>
+    </button>
+
+    <div class="modal-backdrop" id="leaveConfirmationModal">
+        <div class="modal-content">
+            <h3>Leave Quiz?</h3>
+            <p>Your current progress will be lost. Are you sure you want to go back to the main menu?</p>
+            <div class="modal-actions">
+                <button class="modal-button cancel" id="cancelLeaveBtn">Stay</button>
+                <button class="modal-button confirm" id="confirmLeaveBtn">Leave</button>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <header class="header fade-in">
             <h1><i class="fas fa-shield-alt"></i> JEEVAN RAKSHA</h1>
@@ -221,7 +311,10 @@
 
         <div class="quiz-container" id="quizContainer">
             <div class="player-stats">
-                <div class="stat-badge" id="playerLevel">Level 1</div>
+                <div class="level-back-button" onclick="showLeaveConfirmation()">
+                    <span class="level-text">Level</span>
+                    <span class="level-number" id="playerLevelNumber">1</span>
+                </div>
                 <div class="xp-bar"><div class="xp-fill" id="xpFill"></div></div>
                 <div class="stat-badge streak-counter" id="streakCounter">🔥 0 Streak</div>
             </div>
@@ -265,41 +358,14 @@
     </div>
 
 <script>
-    // --- QUESTION DATABASE (Same as before) ---
+    // --- QUESTION DATABASE ---
     const questions = [
-        { type: "mcq", difficulty: "easy", question: "What is the FIRST thing you should do in an earthquake?", options: ["Run outside", "Stand in a doorway", "Drop, Cover, and Hold On", "Call for help"], answer: "c", topic: "quakeProof" },
-        { type: "truefalse", difficulty: "easy", question: "You should always have a 'Go-Bag' ready.", options: ["True", "False"], answer: "a", topic: "goBagGuru" },
-        { type: "mcq", difficulty: "easy", question: "If you see floodwaters, what is the safest action?", options: ["Drive through it slowly", "Walk through if it's not deep", "Turn Around, Don't Drown®", "Wait for it to stop raining"], answer: "c", topic: "floodReady" },
-        { type: "truefalse", difficulty: "easy", question: "Use water to put out a grease fire in the kitchen.", options: ["True", "False"], answer: "b", topic: "fireSafety" },
-        { type: "mcq", difficulty: "easy", question: "What does the 'S' in P.A.S.S. for fire extinguishers stand for?", options: ["Shout", "Spray", "Squeeze", "Safety"], answer: "c", topic: "fireSafety" },
-        { type: "mcq", difficulty: "easy", question: "Safest place during a flood warning?", options: ["The basement", "The ground floor", "Higher ground", "A moving vehicle"], answer: "c", topic: "floodReady" },
-        { type: "truefalse", difficulty: "easy", question: "Put butter or ice on a serious burn.", options: ["True", "False"], answer: "b", topic: "firstAid" },
-        { type: "mcq", difficulty: "easy", question: "After an earthquake, prepare for...", options: ["Tsunamis, everywhere", "Aftershocks", "Heavy rain", "A sudden freeze"], answer: "b", topic: "quakeProof" },
-        { type: "mcq", difficulty: "easy", question: "A good family emergency plan includes...", options: ["A list of favorite movies", "An out-of-town contact person", "Social media passwords", "A plan to blame someone"], answer: "b", topic: "preparedness" },
-        { type: "truefalse", difficulty: "easy", question: "If a tornado is coming, open all windows.", options: ["True", "False"], answer: "b", topic: "cycloneSentinel" },
-        { type: "truefalse", difficulty: "medium", question: "Opening windows during a hurricane equalizes pressure.", options: ["True", "False"], answer: "b", topic: "cycloneSentinel" },
-        { type: "mcq", difficulty: "medium", question: "How often should you replace emergency kit supplies?", options: ["Every month", "Every 6-12 months", "Every 5 years", "Only when used"], answer: "b", topic: "goBagGuru" },
-        { type: "mcq", difficulty: "medium", question: "What does 'CPR' stand for?", options: ["Cardiac Pulse Recovery", "Cardiopulmonary Resuscitation", "Chest Pumping Routine", "Critical Patient Response"], answer: "b", topic: "firstAid" },
-        { type: "mcq", difficulty: "medium", question: "Correct ratio of chest compressions to rescue breaths for adult CPR?", options: ["15 compressions, 1 breath", "30 compressions, 2 breaths", "5 compressions, 1 breath", "10 compressions, 3 breaths"], answer: "b", topic: "firstAid" },
-        { type: "truefalse", difficulty: "medium", question: "The 'eye' of a hurricane is the most dangerous part.", options: ["True", "False"], answer: "b", topic: "cycloneSentinel" },
-        { type: "mcq", difficulty: "medium", question: "What is a 'flash flood'?", options: ["A flood at night", "A flood from a dam breaking", "A flood within 6 hours of rain", "A flood on one street"], answer: "c", topic: "floodReady" },
-        { type: "truefalse", difficulty: "medium", question: "If clothes catch fire, run to find water.", options: ["True", "False"], answer: "b", topic: "fireSafety" },
-        { type: "mcq", difficulty: "medium", question: "What does the Richter scale measure?", options: ["Shaking duration", "Damage caused", "Magnitude (energy released)", "Epicenter depth"], answer: "c", topic: "quakeProof" },
-        { type: "mcq", difficulty: "medium", "question": "Safest way to light your home in a power outage?", "options": ["Candles", "Gas lantern", "Battery-powered lights", "A small fire"], "answer": "c", "topic": "preparedness" },
-        { type: "truefalse", difficulty: "medium", "question": "It's safe to drink water from your hot water tank in an emergency.", "options": ["True", "False"], "answer": "a", "topic": "goBagGuru" },
-        { type: "truefalse", difficulty: "hard", question: "A portable generator is safe in a garage if the door is open.", options: ["True", "False"], answer: "b", topic: "preparedness" },
-        { type: "mcq", difficulty: "hard", question: "Safest clothing to wear in a wildfire area?", options: ["Synthetic fabrics", "Loose clothes", "Dense natural fibers (wool/cotton)", "A wet t-shirt"], answer: "c", topic: "fireSafety" },
-        { type: "mcq", difficulty: "hard", question: "What is the '30/30 Rule' for lightning?", options: ["Shelter if lightning is 30 miles away, wait 30 mins", "If thunder is <=30s after lightning, seek shelter; wait 30 mins after last thunder", "Stay indoors 30 mins before and after", "Limit outdoor time to 30 mins"], answer: "b", topic: "preparedness" },
-        { type: "truefalse", difficulty: "hard", question: "Stockpiling antibiotics is recommended.", options: ["True", "False"], answer: "b", topic: "firstAid" },
-        { type: "mcq", difficulty: "hard", question: "Primary purpose of 'shelter-in-place' order?", options: ["To protect from flooding", "To protect from an active threat outside", "To protect from airborne contaminants", "To wait for an earthquake"], answer: "c", topic: "preparedness" },
-        { type: "truefalse", difficulty: "hard", question: "A tourniquet is the first choice for severe bleeding.", options: ["True", "False"], answer: "b", topic: "firstAid" },
-        { type: "mcq", difficulty: "hard", question: "What is a '100-year flood'?", options: ["A flood every 100 years", "Worst flood in 100 years", "A flood over 100 feet deep", "A flood with a 1% chance of happening in any year"], answer: "d", topic: "floodReady" },
-        { type: "mcq", difficulty: "hard", question: "What does a 'Red Flag Warning' indicate?", options: ["High tide warning", "Imminent tornado", "High-risk conditions for wildfires", "Severe thunderstorm"], answer: "c", topic: "fireSafety" },
-        { type: "truefalse", difficulty: "hard", question: "P-waves are the most destructive seismic wave.", options: ["True", "False"], answer: "b", topic: "quakeProof" },
-        { type: "mcq", difficulty: "hard", question: "Safest action if your car stalls in rising floodwater?", options: ["Stay in the vehicle", "Get out and move to higher ground", "Try to restart engine", "Get on the roof"], answer: "b", topic: "floodReady" }
+        // (Your questions array is unchanged)
+        { type: "mcq", difficulty: "easy", question: "What is the FIRST thing you should do in an earthquake?", options: ["Run outside", "Stand in a doorway", "Drop, Cover, and Hold On", "Call for help"], answer: "c", topic: "quakeProof" }, { type: "truefalse", difficulty: "easy", question: "You should always have a 'Go-Bag' ready.", options: ["True", "False"], answer: "a", topic: "goBagGuru" }, { type: "mcq", difficulty: "easy", question: "If you see floodwaters, what is the safest action?", options: ["Drive through it slowly", "Walk through if it's not deep", "Turn Around, Don't Drown®", "Wait for it to stop raining"], answer: "c", topic: "floodReady" }, { type: "truefalse", difficulty: "easy", question: "Use water to put out a grease fire in the kitchen.", options: ["True", "False"], answer: "b", topic: "fireSafety" }, { type: "mcq", difficulty: "easy", question: "What does the 'S' in P.A.S.S. for fire extinguishers stand for?", options: ["Shout", "Spray", "Squeeze", "Safety"], answer: "c", topic: "fireSafety" }, { type: "mcq", difficulty: "easy", question: "Safest place during a flood warning?", options: ["The basement", "The ground floor", "Higher ground", "A moving vehicle"], answer: "c", topic: "floodReady" }, { type: "truefalse", difficulty: "easy", question: "Put butter or ice on a serious burn.", options: ["True", "False"], answer: "b", topic: "firstAid" }, { type: "mcq", difficulty: "easy", question: "After an earthquake, prepare for...", options: ["Tsunamis, everywhere", "Aftershocks", "Heavy rain", "A sudden freeze"], answer: "b", topic: "quakeProof" }, { type: "mcq", difficulty: "easy", question: "A good family emergency plan includes...", options: ["A list of favorite movies", "An out-of-town contact person", "Social media passwords", "A plan to blame someone"], answer: "b", topic: "preparedness" }, { type: "truefalse", difficulty: "easy", question: "If a tornado is coming, open all windows.", options: ["True", "False"], answer: "b", topic: "cycloneSentinel" }, { type: "truefalse", difficulty: "medium", question: "Opening windows during a hurricane equalizes pressure.", options: ["True", "False"], answer: "b", topic: "cycloneSentinel" }, { type: "mcq", difficulty: "medium", question: "How often should you replace emergency kit supplies?", options: ["Every month", "Every 6-12 months", "Every 5 years", "Only when used"], answer: "b", topic: "goBagGuru" }, { type: "mcq", difficulty: "medium", question: "What does 'CPR' stand for?", options: ["Cardiac Pulse Recovery", "Cardiopulmonary Resuscitation", "Chest Pumping Routine", "Critical Patient Response"], answer: "b", topic: "firstAid" }, { type: "mcq", difficulty: "medium", question: "Correct ratio of chest compressions to rescue breaths for adult CPR?", options: ["15 compressions, 1 breath", "30 compressions, 2 breaths", "5 compressions, 1 breath", "10 compressions, 3 breaths"], answer: "b", topic: "firstAid" }, { type: "truefalse", difficulty: "medium", question: "The 'eye' of a hurricane is the most dangerous part.", options: ["True", "False"], answer: "b", topic: "cycloneSentinel" }, { type: "mcq", difficulty: "medium", question: "What is a 'flash flood'?", options: ["A flood at night", "A flood from a dam breaking", "A flood within 6 hours of rain", "A flood on one street"], answer: "c", topic: "floodReady" }, { type: "truefalse", difficulty: "medium", question: "If clothes catch fire, run to find water.", options: ["True", "False"], answer: "b", topic: "fireSafety" }, { type: "mcq", difficulty: "medium", question: "What does the Richter scale measure?", options: ["Shaking duration", "Damage caused", "Magnitude (energy released)", "Epicenter depth"], answer: "c", topic: "quakeProof" }, { type: "mcq", difficulty: "medium", "question": "Safest way to light your home in a power outage?", "options": ["Candles", "Gas lantern", "Battery-powered lights", "A small fire"], "answer": "c", "topic": "preparedness" }, { type: "truefalse", difficulty: "medium", "question": "It's safe to drink water from your hot water tank in an emergency.", "options": ["True", "False"], "answer": "a", "topic": "goBagGuru" }, { type: "truefalse", difficulty: "hard", question: "A portable generator is safe in a garage if the door is open.", options: ["True", "False"], answer: "b", topic: "preparedness" }, { type: "mcq", difficulty: "hard", question: "Safest clothing to wear in a wildfire area?", options: ["Synthetic fabrics", "Loose clothes", "Dense natural fibers (wool/cotton)", "A wet t-shirt"], answer: "c", topic: "fireSafety" }, { type: "mcq", difficulty: "hard", question: "What is the '30/30 Rule' for lightning?", options: ["Shelter if lightning is 30 miles away, wait 30 mins", "If thunder is <=30s after lightning, seek shelter; wait 30 mins after last thunder", "Stay indoors 30 mins before and after", "Limit outdoor time to 30 mins"], answer: "b", topic: "preparedness" }, { type: "truefalse", difficulty: "hard", question: "Stockpiling antibiotics is recommended.", options: ["True", "False"], answer: "b", topic: "firstAid" }, { type: "mcq", difficulty: "hard", question: "Primary purpose of 'shelter-in-place' order?", options: ["To protect from flooding", "To protect from an active threat outside", "To protect from airborne contaminants", "To wait for an earthquake"], answer: "c", topic: "preparedness" }, { type: "truefalse", difficulty: "hard", question: "A tourniquet is the first choice for severe bleeding.", options: ["True", "False"], answer: "b", topic: "firstAid" }, { type: "mcq", difficulty: "hard", question: "What is a '100-year flood'?", options: ["A flood every 100 years", "Worst flood in 100 years", "A flood over 100 feet deep", "A flood with a 1% chance of happening in any year"], answer: "d", topic: "floodReady" }, { type: "mcq", difficulty: "hard", question: "What does a 'Red Flag Warning' indicate?", options: ["High tide warning", "Imminent tornado", "High-risk conditions for wildfires", "Severe thunderstorm"], answer: "c", topic: "fireSafety" }, { type: "truefalse", difficulty: "hard", question: "P-waves are the most destructive seismic wave.", options: ["True", "False"], answer: "b", topic: "quakeProof" }, { type: "mcq", difficulty: "hard", question: "Safest action if your car stalls in rising floodwater?", options: ["Stay in the vehicle", "Get out and move to higher ground", "Try to restart engine", "Get on the roof"], answer: "b", topic: "floodReady" }
     ];
 
     // --- DOM ELEMENT REFERENCES ---
+    const pageBackButton = document.getElementById('pageBackButton');
     const levelSelection = document.getElementById('levelSelection');
     const quizContainer = document.getElementById('quizContainer');
     const resultsContainer = document.getElementById('resultsContainer');
@@ -308,9 +374,13 @@
     const nextButton = document.getElementById('nextButton');
     const characterAvatar = document.getElementById('characterAvatar');
     const characterSpeech = document.getElementById('characterSpeech');
+    // Modal elements
+    const leaveConfirmationModal = document.getElementById('leaveConfirmationModal');
+    const confirmLeaveBtn = document.getElementById('confirmLeaveBtn');
+    const cancelLeaveBtn = document.getElementById('cancelLeaveBtn');
     
     // --- Gamification Elements ---
-    const playerLevelEl = document.getElementById('playerLevel');
+    const playerLevelNumberEl = document.getElementById('playerLevelNumber');
     const xpFillEl = document.getElementById('xpFill');
     const streakCounterEl = document.getElementById('streakCounter');
     const questionCounterEl = document.getElementById('questionCounter');
@@ -327,32 +397,43 @@
     // --- Player Data (loaded from Local Storage) ---
     let playerData = { name: "Guest", totalPoints: 0, badgesEarned: [], level: 1, xp: 0 };
 
+    // --- NEW: MODAL AND NAVIGATION LOGIC ---
+    function showLeaveConfirmation() {
+        leaveConfirmationModal.style.display = 'flex';
+    }
+
+    function hideLeaveConfirmation() {
+        leaveConfirmationModal.style.display = 'none';
+    }
+
+    function performLeaveAction() {
+        hideLeaveConfirmation();
+        quizContainer.style.display = 'none';
+        resultsContainer.style.display = 'none';
+        levelSelection.style.display = 'grid';
+        levelSelection.classList.add('fade-in');
+        pageBackButton.style.display = 'none';
+    }
+
     // --- LOCAL STORAGE & PLAYER DATA FUNCTIONS ---
     function loadPlayerData() {
         const data = localStorage.getItem('disasterQuizUser');
-        if (data) {
-            playerData = JSON.parse(data);
-        }
+        if (data) { playerData = JSON.parse(data); }
         updatePlayerStatsUI();
     }
-
-    function savePlayerData() {
-        localStorage.setItem('disasterQuizUser', JSON.stringify(playerData));
-    }
-
+    function savePlayerData() { localStorage.setItem('disasterQuizUser', JSON.stringify(playerData)); }
     function addXP(amount) {
         playerData.xp += amount;
-        playerData.totalPoints += amount; // Use XP as points
+        playerData.totalPoints += amount;
         if (playerData.xp >= 100) {
             playerData.level++;
-            playerData.xp %= 100; // Remainder XP for the next level
+            playerData.xp %= 100;
             showLevelUpEffect();
         }
         updatePlayerStatsUI();
     }
-    
     function updatePlayerStatsUI() {
-        playerLevelEl.textContent = `Level ${playerData.level}`;
+        playerLevelNumberEl.textContent = playerData.level;
         xpFillEl.style.width = `${playerData.xp}%`;
         streakCounterEl.textContent = `🔥 ${streakCount} Streak`;
     }
@@ -372,6 +453,7 @@
         quizContainer.style.display = 'block';
         quizContainer.classList.add('fade-in');
 
+        pageBackButton.style.display = 'flex';
         updatePlayerStatsUI();
         showQuestion();
     }
@@ -379,11 +461,9 @@
     function showQuestion() {
         nextButton.disabled = true;
         const question = filteredQuestions[currentQuestionIndex];
-        
         progressFillEl.style.width = `${((currentQuestionIndex) / filteredQuestions.length) * 100}%`;
         questionCounterEl.textContent = `Question ${currentQuestionIndex + 1} of ${filteredQuestions.length}`;
         questionText.textContent = question.question;
-
         optionsContainer.innerHTML = '';
         question.options.forEach((option, index) => {
             const optionLetter = String.fromCharCode(65 + index);
@@ -393,40 +473,34 @@
             optionEl.onclick = () => handleAnswer(index, optionEl);
             optionsContainer.appendChild(optionEl);
         });
-        
         characterSpeech.textContent = `Question ${currentQuestionIndex + 1}: Stay focused!`;
         nextButton.innerHTML = (currentQuestionIndex === filteredQuestions.length - 1) ? 'Submit Challenge <i class="fas fa-flag-checkered"></i>' : 'Next <i class="fas fa-arrow-right"></i>';
     }
 
     function handleAnswer(selectedIndex, selectedElement) {
         if (userAnswers[currentQuestionIndex] !== null) return;
-
         const question = filteredQuestions[currentQuestionIndex];
         const isCorrect = selectedIndex === question.options.indexOf(question.options[question.answer.charCodeAt(0) - 97]);
         userAnswers[currentQuestionIndex] = { answer: selectedIndex, correct: isCorrect, topic: question.topic };
-        
         if (isCorrect) {
             score++;
             streakCount++;
-            addXP(10 + (streakCount * 2)); // Base 10 XP + 2 bonus XP per streak
+            addXP(10 + (streakCount * 2));
             createPowerUpParticles();
             characterSpeech.textContent = "Correct! Great job!";
         } else {
             streakCount = 0;
             characterSpeech.textContent = "Not quite. Let's keep trying!";
         }
-
         updatePlayerStatsUI();
-        
         Array.from(optionsContainer.children).forEach((opt, index) => {
-            opt.onclick = null; // Disable further clicks
+            opt.onclick = null;
             if (index === question.options.indexOf(question.options[question.answer.charCodeAt(0) - 97])) {
                 opt.classList.add('correct');
             } else if (opt === selectedElement) {
                 opt.classList.add('incorrect');
             }
         });
-
         nextButton.disabled = false;
     }
 
@@ -434,27 +508,22 @@
         quizContainer.style.display = 'none';
         resultsContainer.style.display = 'block';
         resultsContainer.classList.add('fade-in');
-
+        pageBackButton.style.display = 'flex';
         const percentage = Math.round((score / filteredQuestions.length) * 100);
         finalScoreEl.textContent = `${percentage}%`;
-        
         if (percentage >= 80) scoreTextEl.textContent = "Outstanding! You're a true survival expert!";
         else if (percentage >= 50) scoreTextEl.textContent = "Good work! Your skills are sharp.";
         else scoreTextEl.textContent = "A good start! Every challenge is a learning opportunity.";
-
-        // Award and display new badges
         userAnswers.forEach(ans => {
             if (ans && ans.correct && !playerData.badgesEarned.includes(ans.topic)) {
                 playerData.badgesEarned.push(ans.topic);
                 newBadgesEarned.push(ans.topic);
             }
         });
-        
         if (percentage >= 80 && selectedDifficulty === 'hard' && !playerData.badgesEarned.includes('disasterHero')) {
             playerData.badgesEarned.push('disasterHero');
             newBadgesEarned.push('disasterHero');
         }
-
         displayNewBadges();
         savePlayerData();
     }
@@ -465,7 +534,6 @@
             const title = document.createElement('h3');
             title.textContent = "New Badges Unlocked!";
             badgesContainerEl.appendChild(title);
-            
             newBadgesEarned.forEach((badgeId, index) => {
                 const badgeEl = document.createElement('span');
                 badgeEl.className = 'badge';
@@ -480,14 +548,15 @@
         resultsContainer.style.display = 'none';
         levelSelection.style.display = 'grid';
         levelSelection.classList.add('fade-in');
+        pageBackButton.style.display = 'none';
     }
 
     // --- VISUAL EFFECTS ---
     function showLevelUpEffect() {
         characterAvatar.style.animation = 'none';
-        characterAvatar.offsetHeight; // Trigger reflow
+        characterAvatar.offsetHeight;
         characterAvatar.style.animation = 'bounce 0.6s ease-in-out 3';
-        createPowerUpParticles(20); // More particles for level up
+        createPowerUpParticles(20);
         characterSpeech.textContent = `Level Up to ${playerData.level}! You're getting stronger!`;
     }
 
@@ -495,7 +564,6 @@
         const effectsContainer = document.createElement('div');
         effectsContainer.className = 'power-up-effects';
         characterAvatar.appendChild(effectsContainer);
-        
         for (let i = 0; i < count; i++) {
             const particle = document.createElement('div');
             particle.className = 'power-up-particle';
@@ -504,7 +572,6 @@
             particle.style.animationDelay = Math.random() * 0.5 + 's';
             effectsContainer.appendChild(particle);
         }
-        
         setTimeout(() => effectsContainer.remove(), 1000);
     }
     
@@ -518,7 +585,12 @@
         }
     });
 
-    document.addEventListener('DOMContentLoaded', loadPlayerData);
+    document.addEventListener('DOMContentLoaded', () => {
+        loadPlayerData();
+        // Add event listeners for the new modal
+        confirmLeaveBtn.addEventListener('click', performLeaveAction);
+        cancelLeaveBtn.addEventListener('click', hideLeaveConfirmation);
+    });
 
 </script>
 </body>
