@@ -3,353 +3,523 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Disaster Preparedness Quiz</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+    <title>JEEVAN RAKSHA - Disaster Preparedness Quiz</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root {
-            --primary-blue: #005A9C;
-            --action-blue: #007BFF;
-            --light-blue: #e7f3ff;
-            --background: #f8f9fa;
-            --card-bg: #ffffff;
-            --text-dark: #212529;
-            --text-light: #6c757d;
-            --border-color: #dee2e6;
-            --success: #28a745;
-            --danger: #dc3545;
-            --warning: #ffc107;
-            --shadow: rgba(0, 0, 0, 0.05);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            font-family: 'Poppins', sans-serif;
-            background: #D8E5FF; /* <-- THIS IS THE ONLY CHANGE */
-            color: var(--text-dark);
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 50%, #90caf9 100%);
             min-height: 100vh;
-            padding: 20px;
+            color: #1565c0;
+            overflow-x: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
+            padding: 20px;
         }
-        .quiz-app {
-            width: 100%;
+
+        .container {
             max-width: 800px;
-            background: var(--card-bg);
-            border-radius: 16px;
-            box-shadow: 0 8px 32px var(--shadow);
-            border: 1px solid var(--border-color);
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #0d47a1;
+            margin-bottom: 10px;
+            text-shadow: 0 4px 8px rgba(13, 71, 161, 0.15);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #1976d2;
+        }
+
+        /* Level Selection Cards */
+        .level-selection {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .level-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(13, 71, 161, 0.1);
+            border: 2px solid rgba(33, 150, 243, 0.2);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
             overflow: hidden;
         }
-        .app-header {
-            padding: 24px 30px;
-            text-align: center;
-            background: var(--card-bg);
-            border-bottom: 1px solid var(--border-color);
+
+        .level-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #2196f3, #21cbf3, #2196f3);
         }
-        .app-header h1 {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 2rem;
-            color: var(--primary-blue);
+
+        .level-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(13, 71, 161, 0.15);
         }
-        .app-header p { font-size: 1rem; color: var(--text-light); }
-        .setup-screen, .quiz-container, .results-section {
-            padding: 30px;
-            animation: fadeIn 0.4s ease-out;
+
+        .level-icon {
+            width: 80px; height: 80px;
+            background: linear-gradient(135deg, #2196f3, #21cbf3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 8px 20px rgba(33, 150, 243, 0.3);
         }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        .level-icon i { font-size: 2rem; color: white; }
+        .level-title { font-size: 1.5rem; font-weight: 700; color: #0d47a1; margin-bottom: 10px; }
+        .level-desc { color: #1976d2; margin-bottom: 20px; line-height: 1.6; font-size: 0.9rem; }
+        .reward-badge { background: linear-gradient(135deg, #ffd700, #ffed4e); color: #b8860b; padding: 8px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; display: inline-block; box-shadow: 0 3px 10px rgba(255, 215, 0, 0.3); animation: badgeGlow 2s ease-in-out infinite alternate; }
         
-        /* Setup Screen */
-        .setup-screen h2 { text-align: center; font-size: 1.6rem; margin-bottom: 25px; color: var(--text-dark); }
-        .difficulty-selector { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-bottom: 30px; }
-        .difficulty-btn {
-            padding: 15px;
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease-in-out;
-            text-align: center;
+        @keyframes badgeGlow {
+            from { box-shadow: 0 3px 10px rgba(255, 215, 0, 0.3); }
+            to { box-shadow: 0 5px 20px rgba(255, 215, 0, 0.6); }
         }
-        .difficulty-btn i { font-size: 1.5rem; margin-bottom: 8px; display: block; }
-        .difficulty-btn.easy { color: var(--success); }
-        .difficulty-btn.medium { color: var(--warning); }
-        .difficulty-btn.hard { color: var(--danger); }
-        .difficulty-btn:hover { transform: translateY(-3px); box-shadow: 0 4px 15px var(--shadow); }
-        .difficulty-btn.selected { color: white; border-width: 2px; }
-        .difficulty-btn.easy.selected { background-color: var(--success); border-color: var(--success); }
-        .difficulty-btn.medium.selected { background-color: var(--warning); border-color: var(--warning); }
-        .difficulty-btn.hard.selected { background-color: var(--danger); border-color: var(--danger); }
-        .start-quiz-btn {
-            display: block; width: 100%; padding: 16px; background: var(--action-blue); color: white; border: none;
-            border-radius: 12px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: background-color 0.2s;
-        }
-        .start-quiz-btn:hover { background: #0069d9; }
 
         /* Quiz Container */
-        .quiz-container { display: none; }
-        .quiz-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .info-badge { padding: 6px 12px; background: var(--light-blue); color: var(--primary-blue); border-radius: 20px; font-weight: 500; font-size: 0.9rem; }
-        .progress-bar { width: 100%; height: 6px; background-color: var(--border-color); border-radius: 3px; margin-bottom: 5px; }
-        .progress { height: 100%; background: var(--action-blue); border-radius: 3px; width: 0%; transition: width 0.4s ease; }
-        .question-count { text-align: right; font-size: 0.9rem; color: var(--text-light); margin-bottom: 20px; }
-        .question h3 { font-size: 1.3rem; margin-bottom: 20px; font-weight: 600; line-height: 1.5; }
-        .options { display: grid; gap: 12px; }
-        .option {
-            padding: 14px 18px; background: var(--card-bg); border: 1px solid var(--border-color);
-            border-radius: 10px; cursor: pointer; transition: all 0.2s ease; user-select: none;
+        .quiz-container, .results-container {
+            display: none;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px 40px;
+            box-shadow: 0 20px 40px rgba(13, 71, 161, 0.1);
         }
-        .option:hover { border-color: var(--action-blue); background: var(--light-blue); }
-        .option.selected { border-color: var(--action-blue); background: var(--light-blue); }
-        .option.correct { border-color: var(--success); background: #e9f7ef; color: #155724; font-weight: 600; }
-        .option.incorrect { border-color: var(--danger); background: #fbeae8; color: #721c24; font-weight: 600; }
-        .quiz-controls { margin-top: 25px; text-align: right; }
-        .next-btn {
-            padding: 12px 30px; background: var(--action-blue); color: white; border: none;
-            border-radius: 8px; font-size: 1rem; font-weight: 500; cursor: pointer; transition: background-color 0.2s;
-        }
-        .next-btn:disabled { background: #ced4da; cursor: not-allowed; }
-        .next-btn:hover:not(:disabled) { background: #0069d9; }
 
-        /* Results Section */
-        .results-section { display: none; text-align: center; }
-        .results-section h2 { font-size: 1.8rem; color: var(--text-dark); margin-bottom: 10px; }
-        .score-container { padding: 20px; margin-bottom: 20px; }
-        .score { font-family: 'Montserrat', sans-serif; font-size: 4rem; font-weight: 700; color: var(--primary-blue); }
-        .score-text { font-size: 1.1rem; margin-top: 5px; color: var(--text-light); }
-        .certificate-form { background: var(--background); padding: 25px; border-radius: 12px; margin-bottom: 20px; border: 1px solid var(--border-color); }
-        .certificate-form input { width: 100%; padding: 14px; border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 15px; font-size: 1rem; }
-        .results-actions { display: flex; gap: 15px; justify-content: center; }
-        .download-btn, .restart-btn, .rewards-btn {
-            padding: 14px 28px; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600;
-            cursor: pointer; transition: all 0.3s ease; text-decoration: none;
+        .player-stats {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(33, 150, 243, 0.1);
         }
-        .download-btn { background: var(--success); color: white; }
-        .restart-btn { background: var(--text-dark); color: white; }
-        .rewards-btn { background: var(--warning); color: var(--text-dark); }
+
+        .xp-bar { width: 100%; flex-grow: 1; height: 12px; background: rgba(33, 150, 243, 0.2); border-radius: 6px; overflow: hidden; }
+        .xp-fill { height: 100%; background: linear-gradient(90deg, #4caf50, #66bb6a); border-radius: 6px; transition: width 0.5s ease; position: relative; }
+        
+        .xp-fill::after {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: xpShine 2s ease-in-out infinite;
+        }
+
+        @keyframes xpShine { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
+
+        .stat-badge { background: linear-gradient(135deg, #2196f3, #21cbf3); color: white; padding: 8px 15px; border-radius: 20px; font-weight: 600; box-shadow: 0 3px 10px rgba(33, 150, 243, 0.3); }
+        .streak-counter { background: linear-gradient(135deg, #ff6b35, #f7931e); animation: streakPulse 1s ease-in-out infinite alternate; }
+
+        @keyframes streakPulse { from { transform: scale(1); } to { transform: scale(1.05); } }
+
+        .quiz-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .progress-bar { width: 200px; height: 8px; background: rgba(33, 150, 243, 0.2); border-radius: 4px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #2196f3, #21cbf3); border-radius: 4px; transition: width 0.5s ease; }
+        .question-counter { font-weight: 600; color: #1976d2; }
+
+        .character { text-align: center; margin-bottom: 20px; }
+        .character-avatar { width: 120px; height: 120px; background: linear-gradient(135deg, #2196f3, #21cbf3); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; box-shadow: 0 10px 25px rgba(33, 150, 243, 0.3); animation: bounce 2s ease-in-out infinite; position: relative; overflow: hidden; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-10px); } }
+
+        .power-up-effects { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; }
+        .power-up-particle { position: absolute; width: 6px; height: 6px; background: #ffd700; border-radius: 50%; animation: powerUpFloat 1s ease-out forwards; }
+        @keyframes powerUpFloat { 0% { opacity: 1; transform: translateY(0) scale(1); } 100% { opacity: 0; transform: translateY(-100px) scale(0); } }
+
+        .character-avatar i { font-size: 3rem; color: white; }
+        .character-speech { background: rgba(33, 150, 243, 0.1); padding: 15px 20px; border-radius: 15px; border-left: 4px solid #2196f3; font-style: italic; color: #1976d2; max-width: 400px; margin: 0 auto; }
+
+        .question-text { font-size: 1.3rem; font-weight: 600; color: #0d47a1; margin-bottom: 25px; line-height: 1.6; text-align: center; }
+        .options { display: grid; gap: 15px; }
+
+        .option { background: rgba(255, 255, 255, 0.8); border: 2px solid rgba(33, 150, 243, 0.2); border-radius: 15px; padding: 20px; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 15px; }
+        .option:hover { background: rgba(33, 150, 243, 0.1); border-color: #2196f3; transform: translateX(5px); }
+        .option.correct { background: linear-gradient(135deg, #4caf50, #66bb6a); color: white; border-color: #4caf50; }
+        .option.incorrect { background: linear-gradient(135deg, #f44336, #ef5350); color: white; border-color: #f44336; }
+        
+        .option-letter { width: 30px; height: 30px; background: rgba(33, 150, 243, 0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #1976d2; flex-shrink: 0; }
+        .option.correct .option-letter, .option.incorrect .option-letter { background: rgba(255, 255, 255, 0.3); color: white; }
+
+        .quiz-navigation { display: flex; justify-content: center; align-items: center; margin-top: 30px; }
+        .nav-button { background: linear-gradient(135deg, #2196f3, #21cbf3); color: white; border: none; padding: 15px 30px; border-radius: 25px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3); }
+        .nav-button:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(33, 150, 243, 0.4); }
+        .nav-button:disabled { background: #ccc; cursor: not-allowed; transform: none; box-shadow: none; }
+
+        /* Results */
+        .results-container { text-align: center; }
+        .results-title { font-size: 2.5rem; font-weight: 800; color: #0d47a1; margin-bottom: 20px; }
+        .score-display { font-size: 4rem; font-weight: 800; color: #2196f3; margin-bottom: 10px; }
+        .score-text { font-size: 1.2rem; color: #1976d2; margin-bottom: 30px; }
+        .badges-unlocked { margin-bottom: 30px; }
+        .badges-unlocked h3 { color: #0d47a1; margin-bottom: 15px; font-size: 1.4rem; }
+        .badge { display: inline-block; background: linear-gradient(135deg, #ffd700, #ffed4e); color: #b8860b; padding: 10px 20px; border-radius: 25px; margin: 5px; font-weight: 600; box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3); animation: badgePop 0.6s ease-out forwards; animation-delay: var(--delay); opacity: 0; }
+        
+        @keyframes badgePop {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Animations */
+        .fade-in { animation: fadeIn 0.6s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
-    <div class="quiz-app">
-        <div class="app-header">
-            <h1>Disaster Preparedness Quiz</h1>
-            <p>Test your knowledge and build life-saving skills.</p>
+    <div class="container">
+        <header class="header fade-in">
+            <h1><i class="fas fa-shield-alt"></i> JEEVAN RAKSHA</h1>
+            <p>Disaster Preparedness Quiz Challenge</p>
+        </header>
+
+        <div class="level-selection fade-in" id="levelSelection">
+            <div class="level-card" onclick="startQuiz('easy')">
+                <div class="level-icon"><i class="fas fa-child"></i></div>
+                <h3 class="level-title">School Level</h3>
+                <p class="level-desc">Learn the fundamental safety basics.</p>
+                <div class="reward-badge">🏆 Earn Skill Badges</div>
+            </div>
+            <div class="level-card" onclick="startQuiz('medium')">
+                <div class="level-icon"><i class="fas fa-user-graduate"></i></div>
+                <h3 class="level-title">Teen Level</h3>
+                <p class="level-desc">Advance your response techniques.</p>
+                <div class="reward-badge">⚡ Earn More XP</div>
+            </div>
+            <div class="level-card" onclick="startQuiz('hard')">
+                <div class="level-icon"><i class="fas fa-university"></i></div>
+                <h3 class="level-title">College Level</h3>
+                <p class="level-desc">Master complex scenarios to become a hero.</p>
+                <div class="reward-badge">💎 Unlock Hero Badge</div>
+            </div>
         </div>
 
-        <section class="setup-screen" id="setup-screen">
-            <h2>Choose Your Challenge</h2>
-            <div class="difficulty-selector">
-                <button class="difficulty-btn easy" data-difficulty="easy"><i class="fas fa-seedling"></i>Easy</button>
-                <button class="difficulty-btn medium" data-difficulty="medium"><i class="fas fa-fire"></i>Medium</button>
-                <button class="difficulty-btn hard" data-difficulty="hard"><i class="fas fa-meteor"></i>Hard</button>
+        <div class="quiz-container" id="quizContainer">
+            <div class="player-stats">
+                <div class="stat-badge" id="playerLevel">Level 1</div>
+                <div class="xp-bar"><div class="xp-fill" id="xpFill"></div></div>
+                <div class="stat-badge streak-counter" id="streakCounter">🔥 0 Streak</div>
             </div>
-            <button class="start-quiz-btn" id="start-btn">Start Quiz</button>
-        </section>
-
-        <section class="quiz-container" id="quiz-container">
+            
             <div class="quiz-header">
-                <div class="info-badge" id="difficulty-badge"></div>
-                <div class="info-badge"><i class="fas fa-check"></i> <span id="score">0</span></div>
+                <div class="question-counter" id="questionCounter"></div>
+                <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
             </div>
-            <div class="progress-bar"><div class="progress" id="progress"></div></div>
-            <div class="question-count"><span id="current-question">1</span> / <span id="total-questions">10</span></div>
-            <div class="question" id="question-area"></div>
-            <div class="quiz-controls">
-                <button class="next-btn" id="next-btn" disabled>Next</button>
-            </div>
-        </section>
 
-        <section class="results-section" id="results-section">
-            <h2>Quiz Complete!</h2>
-            <div class="score-container">
-                <div class="score" id="final-score">0%</div>
-                <p class="score-text" id="score-message"></p>
+            <div class="character">
+                <div class="character-avatar" id="characterAvatar">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <div class="character-speech" id="characterSpeech">Let's begin the challenge!</div>
             </div>
-            <div class="certificate-form">
-                <input type="text" id="user-name" placeholder="Enter your full name to save">
-                <button class="download-btn" id="download-btn">Save Progress</button>
+
+            <div class="question" id="questionContainerContent">
+                <h3 class="question-text" id="questionText"></h3>
+                <div class="options" id="optionsContainer"></div>
             </div>
-            <div class="results-actions">
-                <a href="rewards_page.html" class="rewards-btn">View My Rewards</a>
-                <button class="restart-btn" id="restart-btn">Try Again</button>
+
+            <div class="quiz-navigation">
+                <button class="nav-button" id="nextButton" disabled>Next <i class="fas fa-arrow-right"></i></button>
             </div>
-        </section>
+        </div>
+
+        <div class="results-container" id="resultsContainer">
+            <h2 class="results-title">Challenge Complete!</h2>
+            <div class="score-display" id="finalScore"></div>
+            <p class="score-text" id="scoreText"></p>
+            
+            <div class="badges-unlocked" id="badgesContainer"></div>
+
+            <div class="results-actions" style="display: flex; gap: 15px; justify-content: center; margin-top: 20px;">
+                <button class="nav-button" onclick="resetQuiz()"><i class="fas fa-redo"></i> Play Again</button>
+                <a href="rewards_page.html" class="nav-button" style="text-decoration: none; background: linear-gradient(135deg, #4caf50, #66bb6a);">
+                    <i class="fas fa-trophy"></i> View My Profile
+                </a>
+            </div>
+        </div>
     </div>
 
-    <script>
-        const questions = [
-            // Your 30 questions here...
-            { type: "mcq", difficulty: "easy", question: "What is the FIRST thing you should do in an earthquake?", options: ["Run outside", "Stand in a doorway", "Drop, Cover, and Hold On", "Call for help"], answer: "c", explanation: "Immediately Drop, Cover, and Hold On. This protects you from falling objects, which is the greatest danger.", topic: "quakeProof" },
-            { type: "truefalse", difficulty: "easy", question: "You should always have a 'Go-Bag' or emergency kit ready.", options: ["True", "False"], answer: "a", explanation: "True. An emergency kit with essentials like water, food, and first aid is crucial for any disaster.", topic: "goBagGuru" },
-            { type: "mcq", difficulty: "easy", question: "If you see floodwaters, what is the safest action?", options: ["Drive through it slowly", "Walk through if it's not deep", "Turn Around, Don't Drown®", "Wait for it to stop raining"], answer: "c", explanation: "Never enter floodwaters. It only takes a few inches of moving water to knock you down or float your vehicle.", topic: "floodReady" },
-            { type: "truefalse", difficulty: "easy", question: "You should use water to put out a grease fire in the kitchen.", options: ["True", "False"], answer: "b", explanation: "False. Water can spread a grease fire. You should cover it with a lid or use a fire extinguisher.", topic: "fireSafety" },
-            { type: "mcq", difficulty: "easy", question: "What does the 'S' in the P.A.S.S. acronym for fire extinguishers stand for?", options: ["Shout", "Spray", "Squeeze", "Safety"], answer: "c", explanation: "P.A.S.S. stands for Pull, Aim, Squeeze, and Sweep.", topic: "fireSafety" },
-            { type: "mcq", difficulty: "easy", question: "Where is the safest place to go during a flood warning?", options: ["The basement", "The ground floor", "Higher ground", "A moving vehicle"], answer: "c", explanation: "Always seek higher ground during a flood. Avoid low-lying areas and basements.", topic: "floodReady" },
-            { type: "truefalse", difficulty: "easy", question: "It's a good idea to put butter or ice on a serious burn.", options: ["True", "False"], answer: "b", explanation: "False. For serious burns, cover them with a cool, moist, sterile bandage and seek medical help. Do not use ice or butter.", topic: "firstAid" },
-            { type: "mcq", difficulty: "easy", question: "After an earthquake, you should be prepared for...", options: ["Tsunamis, everywhere", "Aftershocks", "Heavy rain", "A sudden freeze"], answer: "b", explanation: "Aftershocks are smaller earthquakes that can occur for days or weeks after the main quake and can cause further damage.", topic: "quakeProof" },
-            { type: "mcq", difficulty: "easy", question: "A good family emergency plan should include...", options: ["A list of favorite movies", "An out-of-town contact person", "Your social media passwords", "A plan to blame someone"], answer: "b", explanation: "It's often easier to call long-distance than locally after a disaster, so an out-of-town contact can help relay messages.", topic: "preparedness" },
-            { type: "truefalse", difficulty: "easy", question: "If a tornado is approaching, you should open all the windows in your house.", options: ["True", "False"], answer: "b", explanation: "False. This is a myth that wastes precious time. Use that time to get to a safe shelter immediately.", topic: "cycloneSentinel" },
-            { type: "truefalse", difficulty: "medium", question: "Opening windows during a hurricane helps equalize pressure and saves your house.", options: ["True", "False"], answer: "b", explanation: "False. This is a dangerous myth. Opening windows allows high winds to enter, which can lift the roof and destroy the home.", topic: "cycloneSentinel" },
-            { type: "mcq", difficulty: "medium", question: "How often should you check and replace the supplies in your emergency kit?", options: ["Every month", "Every 6-12 months", "Every 5 years", "Only when something is used"], answer: "b", explanation: "You should review your kit every 6-12 months to replace expired food, water, medications, and dead batteries.", topic: "goBagGuru" },
-            { type: "mcq", difficulty: "medium", question: "What does 'CPR' stand for in first aid?", options: ["Cardiac Pulse Recovery", "Cardiopulmonary Resuscitation", "Chest Pumping Routine", "Critical Patient Response"], answer: "b", explanation: "CPR stands for Cardiopulmonary Resuscitation, a life-saving technique used when someone's breathing or heartbeat has stopped.", topic: "firstAid" },
-            { type: "mcq", difficulty: "medium", question: "What is the correct ratio of chest compressions to rescue breaths for adult CPR?", options: ["15 compressions, 1 breath", "30 compressions, 2 breaths", "5 compressions, 1 breath", "10 compressions, 3 breaths"], answer: "b", explanation: "The standard guideline for adult CPR is a cycle of 30 chest compressions followed by 2 rescue breaths.", topic: "firstAid" },
-            { type: "truefalse", difficulty: "medium", question: "The 'eye' of a hurricane is the most dangerous and destructive part of the storm.", options: ["True", "False"], answer: "b", explanation: "False. The 'eye' is a calm area at the center. The 'eyewall' surrounding it has the strongest winds and rain.", topic: "cycloneSentinel" },
-            { type: "mcq", difficulty: "medium", question: "What is a 'flash flood'?", options: ["A flood that happens at night", "A flood caused by a dam breaking", "A flood that begins within 6 hours of a rain event", "A flood that only affects one street"], answer: "c", explanation: "Flash floods are rapid and extreme flow of high water in a normally dry area, that begins within 6 hours of the rain.", topic: "floodReady" },
-            { type: "truefalse", difficulty: "medium", question: "If your clothes catch fire, you should immediately run to find water.", options: ["True", "False"], answer: "b", explanation: "False. You should immediately Stop, Drop, and Roll to smother the flames.", topic: "fireSafety" },
-            { type: "mcq", difficulty: "medium", question: "What does the Richter scale measure in an earthquake?", options: ["The duration of shaking", "The amount of damage caused", "The magnitude (energy released)", "The depth of the epicenter"], answer: "c", explanation: "The Richter scale is a logarithmic scale used to measure the magnitude, or the amount of energy released, by an earthquake.", topic: "quakeProof" },
-            { type: "mcq", difficulty: "medium", "question": "In a power outage, what is the safest way to light your home?", "options": ["Candles", "Gas lantern", "Battery-powered flashlights or lanterns", "A small, controlled fire"], "answer": "c", "explanation": "Battery-powered lights are the safest option as they don't pose a fire risk like candles or have fume risks like gas lanterns.", "topic": "preparedness" },
-            { type: "truefalse", difficulty: "medium", "question": "It is safe to drink water from your home's hot water tank in an emergency.", "options": ["True", "False"], "answer": "a", "explanation": "True. The water in a hot water tank is generally safe to drink in an emergency, but be sure to shut off the incoming water valve first.", "topic": "goBagGuru" },
-            { type: "truefalse", difficulty: "hard", question: "It is safe to use a portable generator inside your garage if the door is open.", options: ["True", "False"], answer: "b", explanation: "False. Never use a generator indoors, in a garage, or near windows. They produce deadly carbon monoxide gas.", topic: "preparedness" },
-            { type: "mcq", difficulty: "hard", question: "What type of clothing is safest to wear if you must move through a wildfire area?", options: ["Synthetic fabrics like nylon", "Loose, flowing clothes", "Dense natural fibers like wool or cotton", "A wet t-shirt"], answer: "c", explanation: "Natural fibers like dense wool and cotton are more resistant to melting and burning compared to synthetic fabrics.", topic: "fireSafety" },
-            { type: "mcq", difficulty: "hard", question: "What is the '30/30 Rule' for lightning safety?", options: ["Seek shelter if lightning is 30 miles away, wait 30 minutes", "If thunder is 30 seconds after lightning, seek shelter; wait 30 minutes after last thunder", "Stay indoors for 30 minutes before and 30 minutes after a storm", "Limit outdoor time to 30 minutes during a storm"], answer: "b", explanation: "The 30/30 rule advises seeking shelter if the time between a lightning flash and its thunder is 30 seconds or less. Wait 30 minutes after the last thunder before resuming activities.", topic: "preparedness" },
-            { type: "truefalse", difficulty: "hard", question: "Stockpiling antibiotics in your first aid kit is a recommended practice by health organizations.", options: ["True", "False"], answer: "b", explanation: "False. You should not stockpile antibiotics. They should only be taken with a current prescription from a healthcare provider.", topic: "firstAid" },
-            { type: "mcq", difficulty: "hard", question: "What is the primary purpose of a 'shelter-in-place' order?", options: ["To protect from flooding", "To protect from an active threat outside", "To protect from airborne contaminants", "To wait for an earthquake to stop"], answer: "c", explanation: "Shelter-in-place is primarily used for chemical, biological, or radiological contaminants that could be released into the air.", topic: "preparedness" },
-            { type: "truefalse", difficulty: "hard", question: "A tourniquet should be the first choice for controlling severe bleeding from a limb.", options: ["True", "False"], answer: "b", explanation: "False. Direct pressure on the wound is the first step. A tourniquet is a last resort for life-threatening bleeding that cannot be controlled by other means.", topic: "firstAid" },
-            { type: "mcq", difficulty: "hard", question: "What is a '100-year flood'?", options: ["A flood that happens exactly every 100 years", "The worst flood in the last 100 years", "A flood that is over 100 feet deep", "A flood that has a 1% chance of happening in any given year"], answer: "d", explanation: "A '100-year flood' is a statistical term meaning a flood event of that magnitude has a 1 in 100, or 1%, chance of occurring in any given year.", topic: "floodReady" },
-            { type: "mcq", difficulty: "hard", question: "What does a 'Red Flag Warning' from the National Weather Service indicate?", options: ["A high tide warning for coastal areas", "Imminent tornado formation", "High-risk conditions for wildfires", "A severe thunderstorm warning"], answer: "c", explanation: "A Red Flag Warning is issued for weather events which may result in extreme fire behavior that will occur within 24 hours.", topic: "fireSafety" },
-            { type: "truefalse", difficulty: "hard", question: "P-waves (Primary waves) are the most destructive type of seismic wave during an earthquake.", options: ["True", "False"], answer: "b", explanation: "False. P-waves are the fastest and arrive first, but the S-waves (Secondary waves) and especially the Surface waves are much more destructive.", topic: "quakeProof" },
-            { type: "mcq", difficulty: "hard", question: "What is the safest action if your car stalls in rising floodwater?", options: ["Stay in the vehicle and call for help", "Get out immediately and move to higher ground", "Try to restart the engine repeatedly", "Get on the roof of the car"], answer: "b", explanation: "If water is rising, you should abandon the vehicle immediately and move to higher ground. Cars can be quickly swept away.", topic: "floodReady" }
-        ];
-        const setupScreen = document.getElementById('setup-screen');
-        const quizContainer = document.getElementById('quiz-container');
-        const resultsSection = document.getElementById('results-section');
-        const difficultyBadge = document.getElementById('difficulty-badge');
-        const scoreElement = document.getElementById('score');
-        const currentQuestionElement = document.getElementById('current-question');
-        const totalQuestionsElement = document.getElementById('total-questions');
-        const progressElement = document.getElementById('progress');
-        const questionArea = document.getElementById('question-area');
-        const nextBtn = document.getElementById('next-btn');
-        const finalScoreElement = document.getElementById('final-score');
-        const scoreMessageElement = document.getElementById('score-message');
-        const restartBtn = document.getElementById('restart-btn');
-        const downloadBtn = document.getElementById('download-btn');
-        const userNameInput = document.getElementById('user-name');
-        const startBtn = document.getElementById('start-btn');
-        const difficultyBtns = document.querySelectorAll('.difficulty-btn');
-        let currentQuestionIndex, score, userAnswers, selectedDifficulty, filteredQuestions;
-        function saveUserData(userData) { localStorage.setItem('disasterQuizUser', JSON.stringify(userData)); }
-        function loadUserData() {
-            const data = localStorage.getItem('disasterQuizUser');
-            return data ? JSON.parse(data) : { name: "", totalPoints: 0, badgesEarned: [] };
+<script>
+    // --- QUESTION DATABASE (Same as before) ---
+    const questions = [
+        { type: "mcq", difficulty: "easy", question: "What is the FIRST thing you should do in an earthquake?", options: ["Run outside", "Stand in a doorway", "Drop, Cover, and Hold On", "Call for help"], answer: "c", topic: "quakeProof" },
+        { type: "truefalse", difficulty: "easy", question: "You should always have a 'Go-Bag' ready.", options: ["True", "False"], answer: "a", topic: "goBagGuru" },
+        { type: "mcq", difficulty: "easy", question: "If you see floodwaters, what is the safest action?", options: ["Drive through it slowly", "Walk through if it's not deep", "Turn Around, Don't Drown®", "Wait for it to stop raining"], answer: "c", topic: "floodReady" },
+        { type: "truefalse", difficulty: "easy", question: "Use water to put out a grease fire in the kitchen.", options: ["True", "False"], answer: "b", topic: "fireSafety" },
+        { type: "mcq", difficulty: "easy", question: "What does the 'S' in P.A.S.S. for fire extinguishers stand for?", options: ["Shout", "Spray", "Squeeze", "Safety"], answer: "c", topic: "fireSafety" },
+        { type: "mcq", difficulty: "easy", question: "Safest place during a flood warning?", options: ["The basement", "The ground floor", "Higher ground", "A moving vehicle"], answer: "c", topic: "floodReady" },
+        { type: "truefalse", difficulty: "easy", question: "Put butter or ice on a serious burn.", options: ["True", "False"], answer: "b", topic: "firstAid" },
+        { type: "mcq", difficulty: "easy", question: "After an earthquake, prepare for...", options: ["Tsunamis, everywhere", "Aftershocks", "Heavy rain", "A sudden freeze"], answer: "b", topic: "quakeProof" },
+        { type: "mcq", difficulty: "easy", question: "A good family emergency plan includes...", options: ["A list of favorite movies", "An out-of-town contact person", "Social media passwords", "A plan to blame someone"], answer: "b", topic: "preparedness" },
+        { type: "truefalse", difficulty: "easy", question: "If a tornado is coming, open all windows.", options: ["True", "False"], answer: "b", topic: "cycloneSentinel" },
+        { type: "truefalse", difficulty: "medium", question: "Opening windows during a hurricane equalizes pressure.", options: ["True", "False"], answer: "b", topic: "cycloneSentinel" },
+        { type: "mcq", difficulty: "medium", question: "How often should you replace emergency kit supplies?", options: ["Every month", "Every 6-12 months", "Every 5 years", "Only when used"], answer: "b", topic: "goBagGuru" },
+        { type: "mcq", difficulty: "medium", question: "What does 'CPR' stand for?", options: ["Cardiac Pulse Recovery", "Cardiopulmonary Resuscitation", "Chest Pumping Routine", "Critical Patient Response"], answer: "b", topic: "firstAid" },
+        { type: "mcq", difficulty: "medium", question: "Correct ratio of chest compressions to rescue breaths for adult CPR?", options: ["15 compressions, 1 breath", "30 compressions, 2 breaths", "5 compressions, 1 breath", "10 compressions, 3 breaths"], answer: "b", topic: "firstAid" },
+        { type: "truefalse", difficulty: "medium", question: "The 'eye' of a hurricane is the most dangerous part.", options: ["True", "False"], answer: "b", topic: "cycloneSentinel" },
+        { type: "mcq", difficulty: "medium", question: "What is a 'flash flood'?", options: ["A flood at night", "A flood from a dam breaking", "A flood within 6 hours of rain", "A flood on one street"], answer: "c", topic: "floodReady" },
+        { type: "truefalse", difficulty: "medium", question: "If clothes catch fire, run to find water.", options: ["True", "False"], answer: "b", topic: "fireSafety" },
+        { type: "mcq", difficulty: "medium", question: "What does the Richter scale measure?", options: ["Shaking duration", "Damage caused", "Magnitude (energy released)", "Epicenter depth"], answer: "c", topic: "quakeProof" },
+        { type: "mcq", difficulty: "medium", "question": "Safest way to light your home in a power outage?", "options": ["Candles", "Gas lantern", "Battery-powered lights", "A small fire"], "answer": "c", "topic": "preparedness" },
+        { type: "truefalse", difficulty: "medium", "question": "It's safe to drink water from your hot water tank in an emergency.", "options": ["True", "False"], "answer": "a", "topic": "goBagGuru" },
+        { type: "truefalse", difficulty: "hard", question: "A portable generator is safe in a garage if the door is open.", options: ["True", "False"], answer: "b", topic: "preparedness" },
+        { type: "mcq", difficulty: "hard", question: "Safest clothing to wear in a wildfire area?", options: ["Synthetic fabrics", "Loose clothes", "Dense natural fibers (wool/cotton)", "A wet t-shirt"], answer: "c", topic: "fireSafety" },
+        { type: "mcq", difficulty: "hard", question: "What is the '30/30 Rule' for lightning?", options: ["Shelter if lightning is 30 miles away, wait 30 mins", "If thunder is <=30s after lightning, seek shelter; wait 30 mins after last thunder", "Stay indoors 30 mins before and after", "Limit outdoor time to 30 mins"], answer: "b", topic: "preparedness" },
+        { type: "truefalse", difficulty: "hard", question: "Stockpiling antibiotics is recommended.", options: ["True", "False"], answer: "b", topic: "firstAid" },
+        { type: "mcq", difficulty: "hard", question: "Primary purpose of 'shelter-in-place' order?", options: ["To protect from flooding", "To protect from an active threat outside", "To protect from airborne contaminants", "To wait for an earthquake"], answer: "c", topic: "preparedness" },
+        { type: "truefalse", difficulty: "hard", question: "A tourniquet is the first choice for severe bleeding.", options: ["True", "False"], answer: "b", topic: "firstAid" },
+        { type: "mcq", difficulty: "hard", question: "What is a '100-year flood'?", options: ["A flood every 100 years", "Worst flood in 100 years", "A flood over 100 feet deep", "A flood with a 1% chance of happening in any year"], answer: "d", topic: "floodReady" },
+        { type: "mcq", difficulty: "hard", question: "What does a 'Red Flag Warning' indicate?", options: ["High tide warning", "Imminent tornado", "High-risk conditions for wildfires", "Severe thunderstorm"], answer: "c", topic: "fireSafety" },
+        { type: "truefalse", difficulty: "hard", question: "P-waves are the most destructive seismic wave.", options: ["True", "False"], answer: "b", topic: "quakeProof" },
+        { type: "mcq", difficulty: "hard", question: "Safest action if your car stalls in rising floodwater?", options: ["Stay in the vehicle", "Get out and move to higher ground", "Try to restart engine", "Get on the roof"], answer: "b", topic: "floodReady" }
+    ];
+
+    // --- DOM ELEMENT REFERENCES ---
+    const levelSelection = document.getElementById('levelSelection');
+    const quizContainer = document.getElementById('quizContainer');
+    const resultsContainer = document.getElementById('resultsContainer');
+    const questionText = document.getElementById('questionText');
+    const optionsContainer = document.getElementById('optionsContainer');
+    const nextButton = document.getElementById('nextButton');
+    const characterAvatar = document.getElementById('characterAvatar');
+    const characterSpeech = document.getElementById('characterSpeech');
+    
+    // --- Gamification Elements ---
+    const playerLevelEl = document.getElementById('playerLevel');
+    const xpFillEl = document.getElementById('xpFill');
+    const streakCounterEl = document.getElementById('streakCounter');
+    const questionCounterEl = document.getElementById('questionCounter');
+    const progressFillEl = document.getElementById('progressFill');
+    const finalScoreEl = document.getElementById('finalScore');
+    const scoreTextEl = document.getElementById('scoreText');
+    const badgesContainerEl = document.getElementById('badgesContainer');
+
+    // --- GAME STATE VARIABLES ---
+    let currentQuestionIndex, score, userAnswers, selectedDifficulty, filteredQuestions;
+    let streakCount = 0;
+    let newBadgesEarned = [];
+    
+    // --- Player Data (loaded from Local Storage) ---
+    let playerData = { name: "Guest", totalPoints: 0, badgesEarned: [], level: 1, xp: 0 };
+
+    // --- LOCAL STORAGE & PLAYER DATA FUNCTIONS ---
+    function loadPlayerData() {
+        const data = localStorage.getItem('disasterQuizUser');
+        if (data) {
+            playerData = JSON.parse(data);
         }
-        function initializeSetup() {
-            difficultyBtns.forEach(btn => btn.classList.remove('selected'));
-            difficultyBtns[0].classList.add('selected');
-            selectedDifficulty = 'easy';
-            const userData = loadUserData();
-            userNameInput.value = userData.name || "";
+        updatePlayerStatsUI();
+    }
+
+    function savePlayerData() {
+        localStorage.setItem('disasterQuizUser', JSON.stringify(playerData));
+    }
+
+    function addXP(amount) {
+        playerData.xp += amount;
+        playerData.totalPoints += amount; // Use XP as points
+        if (playerData.xp >= 100) {
+            playerData.level++;
+            playerData.xp %= 100; // Remainder XP for the next level
+            showLevelUpEffect();
         }
-        difficultyBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                difficultyBtns.forEach(b => b.classList.remove('selected'));
-                btn.classList.add('selected');
-                selectedDifficulty = btn.dataset.difficulty;
-            });
+        updatePlayerStatsUI();
+    }
+    
+    function updatePlayerStatsUI() {
+        playerLevelEl.textContent = `Level ${playerData.level}`;
+        xpFillEl.style.width = `${playerData.xp}%`;
+        streakCounterEl.textContent = `🔥 ${streakCount} Streak`;
+    }
+
+    // --- CORE QUIZ LOGIC ---
+    function startQuiz(difficulty) {
+        selectedDifficulty = difficulty;
+        filteredQuestions = questions.filter(q => q.difficulty === selectedDifficulty);
+        currentQuestionIndex = 0;
+        score = 0;
+        streakCount = 0;
+        newBadgesEarned = [];
+        userAnswers = new Array(filteredQuestions.length).fill(null);
+        
+        levelSelection.style.display = 'none';
+        resultsContainer.style.display = 'none';
+        quizContainer.style.display = 'block';
+        quizContainer.classList.add('fade-in');
+
+        updatePlayerStatsUI();
+        showQuestion();
+    }
+
+    function showQuestion() {
+        nextButton.disabled = true;
+        const question = filteredQuestions[currentQuestionIndex];
+        
+        progressFillEl.style.width = `${((currentQuestionIndex) / filteredQuestions.length) * 100}%`;
+        questionCounterEl.textContent = `Question ${currentQuestionIndex + 1} of ${filteredQuestions.length}`;
+        questionText.textContent = question.question;
+
+        optionsContainer.innerHTML = '';
+        question.options.forEach((option, index) => {
+            const optionLetter = String.fromCharCode(65 + index);
+            const optionEl = document.createElement('div');
+            optionEl.className = 'option';
+            optionEl.innerHTML = `<div class="option-letter">${optionLetter}</div><div class="option-text">${option}</div>`;
+            optionEl.onclick = () => handleAnswer(index, optionEl);
+            optionsContainer.appendChild(optionEl);
         });
-        function startQuiz() {
-            setupScreen.style.display = 'none';
-            resultsSection.style.display = 'none';
-            quizContainer.style.display = 'block';
-            filteredQuestions = questions.filter(q => q.difficulty === selectedDifficulty);
-            currentQuestionIndex = 0;
-            score = 0;
-            userAnswers = new Array(filteredQuestions.length).fill(null);
-            scoreElement.textContent = score;
-            totalQuestionsElement.textContent = filteredQuestions.length;
-            difficultyBadge.textContent = selectedDifficulty.charAt(0).toUpperCase() + selectedDifficulty.slice(1);
+        
+        characterSpeech.textContent = `Question ${currentQuestionIndex + 1}: Stay focused!`;
+        nextButton.innerHTML = (currentQuestionIndex === filteredQuestions.length - 1) ? 'Submit Challenge <i class="fas fa-flag-checkered"></i>' : 'Next <i class="fas fa-arrow-right"></i>';
+    }
+
+    function handleAnswer(selectedIndex, selectedElement) {
+        if (userAnswers[currentQuestionIndex] !== null) return;
+
+        const question = filteredQuestions[currentQuestionIndex];
+        const isCorrect = selectedIndex === question.options.indexOf(question.options[question.answer.charCodeAt(0) - 97]);
+        userAnswers[currentQuestionIndex] = { answer: selectedIndex, correct: isCorrect, topic: question.topic };
+        
+        if (isCorrect) {
+            score++;
+            streakCount++;
+            addXP(10 + (streakCount * 2)); // Base 10 XP + 2 bonus XP per streak
+            createPowerUpParticles();
+            characterSpeech.textContent = "Correct! Great job!";
+        } else {
+            streakCount = 0;
+            characterSpeech.textContent = "Not quite. Let's keep trying!";
+        }
+
+        updatePlayerStatsUI();
+        
+        Array.from(optionsContainer.children).forEach((opt, index) => {
+            opt.onclick = null; // Disable further clicks
+            if (index === question.options.indexOf(question.options[question.answer.charCodeAt(0) - 97])) {
+                opt.classList.add('correct');
+            } else if (opt === selectedElement) {
+                opt.classList.add('incorrect');
+            }
+        });
+
+        nextButton.disabled = false;
+    }
+
+    function showResults() {
+        quizContainer.style.display = 'none';
+        resultsContainer.style.display = 'block';
+        resultsContainer.classList.add('fade-in');
+
+        const percentage = Math.round((score / filteredQuestions.length) * 100);
+        finalScoreEl.textContent = `${percentage}%`;
+        
+        if (percentage >= 80) scoreTextEl.textContent = "Outstanding! You're a true survival expert!";
+        else if (percentage >= 50) scoreTextEl.textContent = "Good work! Your skills are sharp.";
+        else scoreTextEl.textContent = "A good start! Every challenge is a learning opportunity.";
+
+        // Award and display new badges
+        userAnswers.forEach(ans => {
+            if (ans && ans.correct && !playerData.badgesEarned.includes(ans.topic)) {
+                playerData.badgesEarned.push(ans.topic);
+                newBadgesEarned.push(ans.topic);
+            }
+        });
+        
+        if (percentage >= 80 && selectedDifficulty === 'hard' && !playerData.badgesEarned.includes('disasterHero')) {
+            playerData.badgesEarned.push('disasterHero');
+            newBadgesEarned.push('disasterHero');
+        }
+
+        displayNewBadges();
+        savePlayerData();
+    }
+    
+    function displayNewBadges() {
+        badgesContainerEl.innerHTML = '';
+        if (newBadgesEarned.length > 0) {
+            const title = document.createElement('h3');
+            title.textContent = "New Badges Unlocked!";
+            badgesContainerEl.appendChild(title);
+            
+            newBadgesEarned.forEach((badgeId, index) => {
+                const badgeEl = document.createElement('span');
+                badgeEl.className = 'badge';
+                badgeEl.innerHTML = `<i class="fas fa-medal"></i> ${badgeId.replace(/([A-Z])/g, ' $1').trim()}`;
+                badgeEl.style.setProperty('--delay', `${index * 0.2}s`);
+                badgesContainerEl.appendChild(badgeEl);
+            });
+        }
+    }
+
+    function resetQuiz() {
+        resultsContainer.style.display = 'none';
+        levelSelection.style.display = 'grid';
+        levelSelection.classList.add('fade-in');
+    }
+
+    // --- VISUAL EFFECTS ---
+    function showLevelUpEffect() {
+        characterAvatar.style.animation = 'none';
+        characterAvatar.offsetHeight; // Trigger reflow
+        characterAvatar.style.animation = 'bounce 0.6s ease-in-out 3';
+        createPowerUpParticles(20); // More particles for level up
+        characterSpeech.textContent = `Level Up to ${playerData.level}! You're getting stronger!`;
+    }
+
+    function createPowerUpParticles(count = 10) {
+        const effectsContainer = document.createElement('div');
+        effectsContainer.className = 'power-up-effects';
+        characterAvatar.appendChild(effectsContainer);
+        
+        for (let i = 0; i < count; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'power-up-particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 0.5 + 's';
+            effectsContainer.appendChild(particle);
+        }
+        
+        setTimeout(() => effectsContainer.remove(), 1000);
+    }
+    
+    // --- EVENT LISTENERS & INITIALIZATION ---
+    nextButton.addEventListener('click', () => {
+        if (currentQuestionIndex < filteredQuestions.length - 1) {
+            currentQuestionIndex++;
             showQuestion();
+        } else {
+            showResults();
         }
-        function showQuestion() {
-            nextBtn.disabled = true;
-            const question = filteredQuestions[currentQuestionIndex];
-            progressElement.style.width = `${((currentQuestionIndex) / filteredQuestions.length) * 100}%`;
-            currentQuestionElement.textContent = currentQuestionIndex + 1;
-            let optionsHTML = question.options.map((option, index) => {
-                const optionLetter = String.fromCharCode(97 + index);
-                return `<div class="option" data-value="${optionLetter}">${option}</div>`;
-            }).join('');
-            questionArea.innerHTML = `<h3>${question.question}</h3><div class="options">${optionsHTML}</div>`;
-            document.querySelectorAll('.option').forEach(optionEl => {
-                optionEl.addEventListener('click', () => {
-                    if (userAnswers[currentQuestionIndex] !== null) return;
-                    document.querySelectorAll('.option').forEach(el => el.classList.remove('selected'));
-                    optionEl.classList.add('selected');
-                    handleAnswer(optionEl.dataset.value, optionEl);
-                });
-            });
-            nextBtn.textContent = (currentQuestionIndex === filteredQuestions.length - 1) ? 'Submit Quiz' : 'Next';
-        }
-        function handleAnswer(selectedValue, selectedElement) {
-            const question = filteredQuestions[currentQuestionIndex];
-            const isCorrect = selectedValue === question.answer;
-            if (userAnswers[currentQuestionIndex] === null) {
-                userAnswers[currentQuestionIndex] = { answer: selectedValue, correct: isCorrect, topic: question.topic };
-                if (isCorrect) {
-                    score++;
-                    scoreElement.textContent = score;
-                }
-            }
-            document.querySelectorAll('.option').forEach(opt => {
-                opt.style.pointerEvents = 'none';
-                if (opt.dataset.value === question.answer) {
-                    opt.classList.add('correct');
-                } else if (opt === selectedElement) {
-                    opt.classList.add('incorrect');
-                }
-            });
-            nextBtn.disabled = false;
-        }
-        function goToNextOrShowResults() {
-            if (currentQuestionIndex < filteredQuestions.length - 1) {
-                currentQuestionIndex++;
-                showQuestion();
-            } else {
-                showResults();
-            }
-        }
-        nextBtn.addEventListener('click', goToNextOrShowResults);
-        function showResults() {
-            quizContainer.style.display = 'none';
-            resultsSection.style.display = 'block';
-            const percentage = Math.round((score / filteredQuestions.length) * 100);
-            finalScoreElement.textContent = `${percentage}%`;
-            if (percentage >= 90) scoreMessageElement.textContent = "Outstanding! You're a disaster preparedness expert!";
-            else if (percentage >= 75) scoreMessageElement.textContent = "Excellent! You're well-prepared!";
-            else if (percentage >= 50) scoreMessageElement.textContent = "Good job! You have solid knowledge.";
-            else scoreMessageElement.textContent = "Keep learning to be more disaster-ready!";
-        }
-        function resetQuiz() {
-            resultsSection.style.display = 'none';
-            setupScreen.style.display = 'block';
-            initializeSetup();
-        }
-        function saveProgress() {
-            const userName = userNameInput.value.trim();
-            if (!userName) {
-                alert("Please enter your name to save progress.");
-                return;
-            }
-            let userData = loadUserData();
-            userData.name = userName;
-            userData.totalPoints = (userData.totalPoints || 0) + (score * 10);
-            userAnswers.forEach(ans => {
-                if (ans && ans.correct && !userData.badgesEarned.includes(ans.topic)) {
-                    userData.badgesEarned.push(ans.topic);
-                }
-            });
-            if (Math.round((score / filteredQuestions.length) * 100) >= 80 && selectedDifficulty === 'hard' && !userData.badgesEarned.includes('disasterHero')) {
-                userData.badgesEarned.push('disasterHero');
-            }
-            saveUserData(userData);
-            alert(`Progress saved for ${userName}!`);
-        }
-        startBtn.addEventListener('click', startQuiz);
-        restartBtn.addEventListener('click', resetQuiz);
-        downloadBtn.addEventListener('click', saveProgress);
-        initializeSetup();
-    </script>
+    });
+
+    document.addEventListener('DOMContentLoaded', loadPlayerData);
+
+</script>
 </body>
 </html>
