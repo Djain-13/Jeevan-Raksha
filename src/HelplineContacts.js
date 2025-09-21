@@ -36,7 +36,7 @@ const App = () => {
   return (
     <div className="helpline-container">
       <div className="helpline-card">
-        <h1 className="helpline-title">📞 Emergency Helplines</h1>
+        <h1 className="helpline-title"> Emergency Helplines</h1>
         <p className="helpline-subtitle">
           Quick access to essential emergency numbers — stay safe, stay
           prepared.

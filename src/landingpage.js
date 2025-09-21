@@ -15,7 +15,7 @@ function LandingPage({onLoginClick,onHelplineClick,onRegisterClick,onSosClick,on
     <div className="landing-page">
       {/* Navbar */}
       <header className="navbar" >
-        <div className="logo">🌍 JEEVAN RAKSHA</div>
+        <div className="logo">JEEVAN RAKSHA</div>
         <div className="nav-right">
           <div className="nav-buttons" >
             <button className="nav-btn" onClick={onHelplineClick}>
@@ -205,7 +205,7 @@ function LandingPage({onLoginClick,onHelplineClick,onRegisterClick,onSosClick,on
 
       {/* Footer */}
       <footer className="footer">
-        <p>© 2025 DisasterEd. All Rights Reserved.</p>
+        <p>© 2025 Jeevan Raksha. All Rights Reserved.</p>
       </footer>
     </div>
   );

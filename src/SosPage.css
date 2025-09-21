@@ -1,185 +1,259 @@
-/* SosPage.css */
+/* SosPage.css - Updated for Improved Aesthetics */
 
-/* --- CSS VARIABLES --- */
+/* --- COLOR & FONT VARIABLES (UNCHANGED) --- */
 :root {
     --bg-color-light: #f0f4f8;
     --bg-color-gradient-start: #e0f2f7;
     --bg-color-gradient-end: #f0f4f8;
     --primary-card-bg: #ffffff;
     --secondary-card-bg: #fdfefe;
-
     --text-dark: #2c3e50;
     --text-medium: #5a6a7e;
     --text-light: #8ba0b9;
     --border-light: #e6eef5;
-
     --accent-primary: #3498db;
     --accent-primary-hover: #2980b9;
     --accent-danger: #e74c3c;
     --accent-danger-hover: #c0392b;
-
     --success-bg: #e6f7e9;
     --success-text: #28a745;
     --success-border: #a4e1ae;
-
     --error-bg: #ffe6e6;
     --error-text: #dc3545;
     --error-border: #ffb3b3;
 }
 
-/* --- Animations --- */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(15px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-@keyframes pulse {
-    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(231,76,60,0.7); }
-    70% { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(231,76,60,0); }
-    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(231,76,60,0); }
-}
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}
+/* --- Animations (UNCHANGED) --- */
+@keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(231,76,60,0.7); } 70% { box-shadow: 0 0 0 12px rgba(231,76,60,0); } 100% { box-shadow: 0 0 0 0 rgba(231,76,60,0); } }
+@keyframes spin { to { transform: rotate(360deg); } }
 
-/* --- Global Styling --- */
-body {
+/* --- Base Body Styling --- */
+/* This top-level class helps avoid style conflicts with other pages */
+.sos-page-container {
     font-family: 'Open Sans', sans-serif;
     background: linear-gradient(135deg, var(--bg-color-gradient-start), var(--bg-color-gradient-end));
     color: var(--text-dark);
-    margin: 0;
-    padding: 0;
     line-height: 1.6;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
 }
 
-header {
-    text-align: center;
-    padding: 40px 20px;
+/* =================================== */
+/* --- NEW HEADER STYLING --- */
+/* =================================== */
+header.sos-header {
+    display: flex;
+    justify-content: space-between; /* Pushes items to the edges */
+    align-items: center; /* Vertically aligns items */
+    padding: 20px 40px; /* More balanced padding */
     background-color: var(--primary-card-bg);
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    margin-bottom: 50px;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
+    border-bottom: 1px solid var(--border-light);
+    position: relative;
+    padding-top: 32px; /* Add space for the back button */
 }
 
-header h1 {
+.header-content {
+    text-align: center;
+    /* This div takes up the central space, allowing the back button to be on the left */
+    flex-grow: 1;
+    /* Nudge it slightly left to appear perfectly centered, compensating for the button */
+    margin-left: -80px; 
+    margin-left: 0;
+    padding: 0;
+    max-width: 420px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+header.sos-header h1 {
     font-family: 'Raleway', sans-serif;
-    font-weight: 700;
-    font-size: 3.5rem;
+    font-size: 2rem; /* Reduced font size for a cleaner look */
     color: var(--text-dark);
-    margin-bottom: 10px;
-    letter-spacing: -1px;
+    margin: 0;
+    padding: 8px 0 0 0;
 }
 
-header p {
-    font-size: 1.2rem;
+header.sos-header p {
+    font-size: 1rem;
+    margin-top: 2px;
     color: var(--text-medium);
-    font-weight: 500;
+    margin: 5px 0 0 0;
 }
 
-main {
-    max-width: 1100px;
-    margin: 0 auto 60px auto;
+/* Back Button moved to top left */
+.back-btn {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-medium);
+    background: #f0f4f8;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap; /* Prevents text wrapping */
+    position: absolute;
+    top: 10px;
+    left: 18px;
+    z-index: 2;
+    margin: 0;
+}
+
+.back-btn:hover {
+    background: #e6eef5;
+    color: var(--text-dark);
+    transform: translateY(-1px);
+}
+
+/* =================================== */
+/* --- NEW MAIN & GRID LAYOUT --- */
+/* =================================== */
+main.sos-main {
+    max-width: 1200px;
+    margin: 40px auto; /* More margin from the header */
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    /* This makes the grid responsive: side-by-side on large screens, stacked on small screens */
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); 
     gap: 40px;
     padding: 0 30px;
-    flex-grow: 1;
 }
 
-@media (max-width: 768px) {
-    main { grid-template-columns: 1fr; gap: 30px; padding: 0 20px; }
-    header h1 { font-size: 2.5rem; }
+/* Responsive adjustments */
+@media (max-width: 900px) {
+    main.sos-main { 
+        grid-template-columns: 1fr; /* Force single column on smaller screens */
+    }
+    header.sos-header h1 { font-size: 2rem; }
+    header.sos-header { 
+        padding: 15px 20px;
+        flex-direction: column; /* Stack header items vertically */
+        gap: 10px;
+    }
+    .header-content { margin-left: 0; }
+    .back-btn {
+        position: absolute; /* Position it relative to the header */
+        top: 15px;
+        left: 15px;
+    }
 }
 
-h2 { 
-    font-family: 'Raleway', sans-serif;
-    font-weight: 700;
-    font-size: 2.2rem;
-    color: var(--text-dark);
-    border-bottom: 2px solid var(--border-light);
-    padding-bottom: 20px;
-    margin-top: 0;
-    margin-bottom: 30px;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-h2 i { color: var(--accent-primary); font-size: 1.8rem; }
-
-/* Card Styling */
+/* =================================== */
+/* --- IMPROVED CARD STYLING --- */
+/* =================================== */
 .form-container {
     background-color: var(--primary-card-bg);
     padding: 40px;
-    border-radius: 15px;
+    border-radius: 16px; /* Softer radius */
     border: 1px solid var(--border-light);
-    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
-    transition: transform 0.2s ease-in-out;
+    box-shadow: 0 10px 40px rgba(44, 62, 80, 0.1); /* Deeper, softer shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: fadeIn 0.5s ease-out forwards;
 }
-.form-container:hover { transform: translateY(-5px); }
 
-.form-container form { display: flex; flex-direction: column; gap: 22px; }
+.form-container:hover { 
+    transform: translateY(-6px);
+    box-shadow: 0 15px 50px rgba(44, 62, 80, 0.12);
+}
+
+.form-container h2 { 
+    font-family: 'Raleway', sans-serif;
+    font-size: 1.8rem; /* Adjusted size */
+    color: var(--text-dark);
+    border-bottom: 2px solid var(--border-light);
+    padding-bottom: 15px;
+    margin: 0 0 30px 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.form-container h2 .fa-plus-circle, .form-container h2 .fa-hand-paper {
+    color: var(--accent-primary);
+}
+
+
+/* --- Form Elements --- */
+.form-container form { display: flex; flex-direction: column; gap: 20px; }
 .form-container input, .form-container select {
     width: 100%;
-    padding: 16px;
+    padding: 14px;
     border: 1px solid #dce4eb;
-    border-radius: 10px;
-    font-size: 1.05rem;
+    border-radius: 8px;
+    font-size: 1rem;
     background-color: var(--secondary-card-bg);
     color: var(--text-dark);
+    box-sizing: border-box; /* Ensures padding doesn't affect width */
+    transition: all 0.2s ease;
 }
-.form-container input::placeholder, .form-container select option:first-child { color: var(--text-light); }
+
 .form-container input:focus, .form-container select:focus {
     outline: none;
     border-color: var(--accent-primary);
-    box-shadow: 0 0 0 5px rgba(52,152,219,0.18);
+    box-shadow: 0 0 0 4px rgba(52,152,219,0.15);
 }
 
+/* --- Button Styling --- */
 .form-container button {
-    display: flex; align-items: center; justify-content: center; gap: 12px;
-    padding: 16px; color: white; border: none; border-radius: 10px;
-    font-size: 1.15rem; font-weight: 700; cursor: pointer;
-    transition: background-color 0.3s, transform 0.15s, box-shadow 0.2s;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    padding: 14px; color: white; border: none; border-radius: 8px;
+    font-size: 1.1rem; font-weight: 600; cursor: pointer;
+    transition: all 0.2s ease;
 }
-#add-service-button { background-color: var(--accent-primary); }
-#add-service-button:hover { background-color: var(--accent-primary-hover); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(52,152,219,0.3); }
 
-#sos-button {
-    background-color: var(--accent-danger);
-    font-size: 1.6rem; padding: 22px; margin-top: 30px;
-    box-shadow: 0 8px 25px rgba(231,76,60,0.4);
-    animation: pulse 2s infinite;
+button#add-service-btn {
+    background-color: var(--accent-primary);
 }
-#sos-button:hover {
+button#add-service-btn:hover {
+    background-color: var(--accent-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(52,152,219,0.25);
+}
+
+button#sos-btn {
+    background-color: var(--accent-danger);
+    font-size: 1.3rem; padding: 18px;
+    animation: pulse 2.5s infinite;
+}
+button#sos-btn:hover {
     background-color: var(--accent-danger-hover);
-    transform: translateY(-3px) scale(1.02);
-    box-shadow: 0 10px 30px rgba(231,76,60,0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(231,76,60,0.3);
     animation: none;
 }
 
-.form-container button:disabled { background-color: #ccc; cursor: not-allowed; box-shadow: none; animation: none; }
-.form-container button:disabled i.fa-spinner { animation: spin 1s linear infinite; }
+.form-container button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+    animation: none;
+}
+.fa-spin { animation: spin 1s linear infinite; }
 
-/* Message Display */
+
+/* --- Message & Location Display --- */
 .message {
-    margin-top: 30px; padding: 18px 25px; border-radius: 10px;
-    font-weight: 600; display: none; animation: fadeIn 0.6s ease-out forwards;
-}
-.message.success { background-color: var(--success-bg); color: var(--success-text); border: 1px solid var(--success-border); }
-.message.error { background-color: var(--error-bg); color: var(--error-text); border: 1px solid var(--error-border); }
-
-/* Location Display */
-#sos-current-location {
-    font-family: 'Quicksand', sans-serif;
-    font-size: 1.05rem;
-    color: var(--text-medium);
-    margin: 15px 0 25px 0;
-    text-align: center;
-    display: flex; align-items: center; justify-content: center; gap: 10px;
+    margin-top: 20px; padding: 15px 20px; border-radius: 8px;
     font-weight: 500;
+    animation: fadeIn 0.5s forwards;
+    border: 1px solid;
+    display: block; /* Make sure messages are visible */
+    word-wrap: break-word; /* Prevents long messages from overflowing */
 }
-#sos-current-location i { color: var(--accent-primary); font-size: 1.2rem; }
-#sos-current-location .fa-spinner { color: var(--accent-primary); animation: spin 1s linear infinite; }
+.message.success { background-color: var(--success-bg); color: var(--success-text); border-color: var(--success-border); }
+.message.error { background-color: var(--error-bg); color: var(--error-text); border-color: var(--error-border); }
+
+#sos-current-location {
+    font-size: 1rem;
+    color: var(--text-medium);
+    margin: 10px 0;
+    padding: 12px;
+    background-color: #f0f4f8;
+    border-radius: 8px;
+    text-align: center;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    font-weight: 500;
+    min-height: 20px; /* Prevents layout shift */
+    word-break: break-all; /* Breaks long address strings */
+}
+
