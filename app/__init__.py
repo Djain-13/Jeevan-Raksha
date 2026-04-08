@@ -18,7 +18,12 @@ def create_app(config_class=Config):
     app.config.from_object(config_class)
 
     # Initialize extensions
-    CORS(app)
+    import re
+    CORS(app, origins=[
+        r"https://.*\.vercel\.app",
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+    ])
     db.init_app(app)
     migrate.init_app(app, db)
     bcrypt.init_app(app)

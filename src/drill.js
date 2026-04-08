@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './drill.css';
+import InternalNav from './InternalNav';
 
 const scenarios = {
     earthquake: {
@@ -13,7 +14,7 @@ const scenarios = {
         ],
         story: [
             {
-                image: '/images/firsteq.png',
+                image: '/images/firsteq.jpg',
                 narrative: "You and your friend Sam are on the third floor of the college library, cramming for a history final. 'I can't memorize another date,' Sam groans. Suddenly, the floor lurches violently. The sound is deafening—a roar mixed with the groaning of steel and the shattering of glass. Sam freezes, his eyes wide with panic. What's your immediate instruction to him?",
                 choices: [
                     { text: "'Sam, get under the table! Now!'", consequence: "Your sharp command cuts through his panic. You both dive under the heavy oak table. Books and ceiling tiles rain down, but the table holds strong. This was the correct, life-saving action.", isCorrect: true },
@@ -21,7 +22,7 @@ const scenarios = {
                 ]
             },
             {
-                image: '/images/secondeq.png',
+                image: '/images/secondeq.jpg',
                 narrative: "The main shaking subsides, leaving a ringing silence broken by the blare of a fire alarm. As you're about to crawl out, a short, sharp aftershock hits. A tall metal bookshelf, already leaning precariously, wobbles. You see another student frozen in fear, partially pinned under a fallen chair right in the bookshelf's path.",
                 choices: [
                     { text: "Yell at the student to crawl away while you try to brace the shelf.", consequence: "You push against the wobbling shelf with all your might. 'Get out of there!' you scream. The student snaps out of it and scrambles to safety just as the shelf crashes down where they were moments before. Your quick thinking and decisive action saved them from serious injury.", isCorrect: true },
@@ -29,7 +30,7 @@ const scenarios = {
                 ]
             },
             {
-                image: '/images/thirdeq.png',
+                image: '/images/thirdeq.jpg',
                 narrative: "The building is groaning, and dust fills the air. It's time to evacuate. The main emergency staircase is visible, but the path is partially blocked by a heavy, overturned cabinet. The back stairwell, usually for staff, should be clear, but it's further away and less familiar.",
                 choices: [
                     { text: "Organize a group to move the cabinet and clear the main stairs.", consequence: "You and a few other students work together, managing to shove the heavy cabinet aside. This clears the primary, safest exit for everyone on the floor to evacuate in an orderly manner. Teamwork was the key.", isCorrect: true },
@@ -37,7 +38,7 @@ const scenarios = {
                 ]
             },
             {
-                image: '/images/fourtheq.png',
+                image: '/images/fourtheq.jpg',
                 narrative: "You make it outside to the designated assembly point on the lawn. Hundreds of students are gathered, shaken but mostly safe. You see your professor, Dr. Evans, trying to organize everyone. Just then, you notice another student nearby clutching their leg, a dark stain of blood spreading on their jeans.",
                 choices: [
                     { text: "Help the injured student and send someone to get Dr. Evans.", consequence: "You rush to the student, applying pressure to the wound with your sweatshirt. 'Sam, go get Dr. Evans, tell her we have a serious injury here!' you command. Your quick thinking provides immediate aid while also alerting professional help. This is excellent emergency triage.", isCorrect: true },
@@ -48,7 +49,7 @@ const scenarios = {
     }
 };
 
-function DrillGame({ onBack }) {
+function DrillGame({ onBack, onHome, onProfile, onLogout }) {
     const [currentScreen, setCurrentScreen] = useState('start');
     const [selectedScenario, setSelectedScenario] = useState(null);
     const [currentStep, setCurrentStep] = useState(0);
@@ -93,6 +94,7 @@ function DrillGame({ onBack }) {
 
     return (
         <div id="game-container">
+            <InternalNav title="Virtual Drills" onBack={onBack} onHome={onHome} onProfile={onProfile} onLogout={onLogout} />
             {currentScreen === 'start' && (
                 <div id="start-screen" className="fade-in">
                     <h1>Disaster Ready</h1>
@@ -105,11 +107,6 @@ function DrillGame({ onBack }) {
                         <button className="btn btn-primary" onClick={startDrill}>
                             Start Training
                         </button>
-                        {onBack && (
-                            <button className="btn btn-secondary" onClick={onBack}>
-                                Back to Home
-                            </button>
-                        )}
                     </div>
                 </div>
             )}
@@ -200,11 +197,6 @@ function DrillGame({ onBack }) {
                         <button className="btn btn-secondary" onClick={() => setCurrentScreen('scenario')}>
                             New Scenario
                         </button>
-                        {onBack && (
-                            <button className="btn btn-secondary" onClick={onBack}>
-                                Back to Home
-                            </button>
-                        )}
                     </div>
                 </div>
             )}

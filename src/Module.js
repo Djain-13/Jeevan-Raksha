@@ -1,11 +1,40 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import "./Module.css";
+import InternalNav from './InternalNav';
 
-function ModulesPages() {
+function ModulesPages({ onBack, onHome, onProfile, onLogout }) {
   const [activeDisaster, setActiveDisaster] = useState("earthquake");
   const [activeTab, setActiveTab] = useState("prepare");
-  const navigate = useNavigate(); // Add this line
+
+  // Progress tracking via localStorage
+  const STORAGE_KEY = 'jeevanraksha_module_progress';
+  const [visited, setVisited] = useState(() => {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      return saved ? JSON.parse(saved) : {};
+    } catch { return {}; }
+  });
+
+  // Mark current disaster+tab as visited on every change
+  useEffect(() => {
+    setVisited(prev => {
+      const key = `${activeDisaster}_${activeTab}`;
+      if (prev[key]) return prev; // already visited, no update needed
+      const next = { ...prev, [key]: true };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+      return next;
+    });
+  }, [activeDisaster, activeTab]);
+
+  const TOTAL_SECTIONS = 4 * 4; // 4 disasters Ã— 4 tabs
+  const visitedCount = Object.keys(visited).length;
+  const progressPct = Math.round((visitedCount / TOTAL_SECTIONS) * 100);
+
+  // Is an entire disaster (all 4 tabs) complete?
+  const isDisasterComplete = (disasterId) => {
+    const tabIds = ["prepare", "during", "after", "resources"];
+    return tabIds.every(t => visited[`${disasterId}_${t}`]);
+  };
 
   const disasters = [
     {
@@ -39,19 +68,27 @@ function ModulesPages() {
   };
 
   return (
-    <div className="modules-container">
-      {/* Back Button */}
-      <button
-        className="modules-back-btn"
-        onClick={onBack => navigate("/")}
-        aria-label="Back to Home"
-      >
-        <i className="fas fa-arrow-left"></i> Back
-      </button>
+    <div>
+      <InternalNav title="Learning Modules" onBack={onBack} onHome={onHome} onProfile={onProfile} onLogout={onLogout} />
+      <div className="modules-container">
       {/* Sidebar */}
       <div className="modules-sidebar">
         <div className="modules-sidebar-header">
           <h2>Disaster Preparedness</h2>
+          {/* Progress bar */}
+          <div style={{ marginTop: '12px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: '#64748b', marginBottom: '5px' }}>
+              <span>Your Progress</span>
+              <span style={{ fontWeight: 700, color: progressPct === 100 ? '#16a34a' : '#3b82f6' }}>{progressPct}%</span>
+            </div>
+            <div style={{ height: '6px', borderRadius: '10px', background: 'rgba(0,0,0,0.08)', overflow: 'hidden' }}>
+              <div style={{
+                width: `${progressPct}%`, height: '100%', borderRadius: '10px',
+                background: progressPct === 100 ? 'linear-gradient(90deg,#16a34a,#22c55e)' : 'linear-gradient(90deg,#3b82f6,#06b6d4)',
+                transition: 'width 0.5s ease',
+              }} />
+            </div>
+          </div>
         </div>
         <ul className="modules-disaster-menu">
           {disasters.map((disaster) => (
@@ -59,8 +96,12 @@ function ModulesPages() {
               key={disaster.id}
               className={activeDisaster === disaster.id ? "active" : ""}
               onClick={() => handleDisasterChange(disaster.id)}
+              style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
             >
-              <i className={disaster.icon}></i> {disaster.name}
+              <span><i className={disaster.icon}></i> {disaster.name}</span>
+              {isDisasterComplete(disaster.id) && (
+                <span style={{ color: '#16a34a', fontSize: '0.85rem', marginLeft: 'auto' }}>âœ“</span>
+              )}
             </li>
           ))}
         </ul>
@@ -82,7 +123,9 @@ function ModulesPages() {
           {tabs.map((tab) => (
             <div
               key={tab.id}
-              className={`modules-nav-tab ${activeTab === tab.id ? "active" : ""}`}
+              className={`modules-nav-tab ${
+                activeTab === tab.id ? "active" : ""
+              }`}
               onClick={() => handleTabChange(tab.id)}
             >
               {tab.name}
@@ -103,6 +146,7 @@ function ModulesPages() {
         )}
       </div>
     </div>
+  </div>
   );
 }
 
@@ -135,7 +179,9 @@ const EarthquakeContent = ({ activeTab }) => {
         </p>
 
         <div className="earthquake-component-section">
-          <h3 className="earthquake-component-title">Understanding Earthquake</h3>
+          <h3 className="earthquake-component-title">
+            Understanding Earthquake
+          </h3>
           <div className="earthquake-info">
             <h2 style={{ color: "rgb(0,121,158)" }}>Earthquakes</h2>
             <p>
@@ -266,7 +312,9 @@ const EarthquakeContent = ({ activeTab }) => {
 
         {/* Earthquake Statistics */}
         <div className="earthquake-component-section">
-          <h3 className="earthquake-component-title">Earthquake Facts & Statistics</h3>
+          <h3 className="earthquake-component-title">
+            Earthquake Facts & Statistics
+          </h3>
           <div className="earthquake-stats-container">
             <div className="earthquake-stat-box">
               <div className="earthquake-stat-number">500,000</div>
@@ -507,7 +555,6 @@ const EarthquakeContent = ({ activeTab }) => {
               </ul>
             </div>
 
-
             <div className="earthquake-resource-card">
               <h4>Social Media and Graphics</h4>
               <ul>
@@ -517,7 +564,7 @@ const EarthquakeContent = ({ activeTab }) => {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    CDC – Safety Guidelines During an Earthquake
+                    CDC â€“ Safety Guidelines During an Earthquake
                   </a>
                 </li>
                 <li>
@@ -526,7 +573,7 @@ const EarthquakeContent = ({ activeTab }) => {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    Ready.gov – Earthquake Social Media Toolkit
+                    Ready.gov â€“ Earthquake Social Media Toolkit
                   </a>
                 </li>
                 <li>
@@ -535,7 +582,7 @@ const EarthquakeContent = ({ activeTab }) => {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    USGS – Earthquake Social Media Graphics
+                    USGS â€“ Earthquake Social Media Graphics
                   </a>
                 </li>
               </ul>
@@ -550,7 +597,7 @@ const EarthquakeContent = ({ activeTab }) => {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    CDC – Preparing for Earthquakes
+                    CDC â€“ Preparing for Earthquakes
                   </a>
                 </li>
                 <li>
@@ -559,7 +606,7 @@ const EarthquakeContent = ({ activeTab }) => {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    SAMHSA – Earthquake Preparedness Checklist (English)
+                    SAMHSA â€“ Earthquake Preparedness Checklist (English)
                   </a>
                 </li>
               </ul>
@@ -606,13 +653,13 @@ const DroughtContent = ({ activeTab }) => {
             <ul>
               <li>Below-average precipitation for months or years.</li>
               <li>High evaporation due to extreme heat.</li>
-              <li>El Niño and other climate variations.</li>
+              <li>El NiÃ±o and other climate variations.</li>
               <li>Human misuse of water (over-irrigation, deforestation).</li>
             </ul>
 
             <h3 style={{ color: "rgb(0,121,158)" }}>Effects</h3>
             <ul>
-              <li>Crop failure and livestock deaths → famine.</li>
+              <li>Crop failure and livestock deaths â†’ famine.</li>
               <li>Rivers, lakes, and groundwater dry up.</li>
               <li>Migration and conflicts over water resources.</li>
               <li>Economic collapse in agriculture-based regions.</li>
@@ -871,7 +918,9 @@ const DroughtContent = ({ activeTab }) => {
 
           {/* Recovery Checklist */}
           <div className="drought-checklist">
-            <h3 className="drought-component-title">Post-Drought Recovery Checklist</h3>
+            <h3 className="drought-component-title">
+              Post-Drought Recovery Checklist
+            </h3>
             <div className="drought-checklist-item">
               <div className="drought-checklist-icon">
                 <i className="fas fa-check-circle"></i>
@@ -968,7 +1017,7 @@ const DroughtContent = ({ activeTab }) => {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    Water Conservation Tips – Vikaspedia
+                    Water Conservation Tips â€“ Vikaspedia
                   </a>
                 </li>
                 <li>
@@ -977,7 +1026,7 @@ const DroughtContent = ({ activeTab }) => {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    Rainwater Harvesting in Rural Areas Booklet – CWAS/CEPT
+                    Rainwater Harvesting in Rural Areas Booklet â€“ CWAS/CEPT
                   </a>
                 </li>
                 <li>
@@ -986,7 +1035,7 @@ const DroughtContent = ({ activeTab }) => {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    Technical Manual for Rainwater Harvesting – IndiaWaterPortal
+                    Technical Manual for Rainwater Harvesting â€“ IndiaWaterPortal
                   </a>
                 </li>
                 <li>
@@ -995,7 +1044,7 @@ const DroughtContent = ({ activeTab }) => {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    Rainwater Harvesting Guidelines – MPPCB
+                    Rainwater Harvesting Guidelines â€“ MPPCB
                   </a>
                 </li>
                 <li>
@@ -1004,7 +1053,7 @@ const DroughtContent = ({ activeTab }) => {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    Indoor Water Efficiency / WaterSense Homes Manual – EPA
+                    Indoor Water Efficiency / WaterSense Homes Manual â€“ EPA
                   </a>
                 </li>
               </ul>
@@ -1017,7 +1066,6 @@ const DroughtContent = ({ activeTab }) => {
 };
 
 // Component for Flood Content
-
 
 const FloodContent = ({ activeTab }) => {
   return (
@@ -1043,8 +1091,8 @@ const FloodContent = ({ activeTab }) => {
         <div className="flood-component-section">
           <h3 className="flood-component-title">Understanding Floods</h3>
           <p>
-            Prepare now to protect yourself, your home, and your family during
-            a flood.
+            Prepare now to protect yourself, your home, and your family during a
+            flood.
           </p>
 
           <div className="flood-info">
@@ -1060,7 +1108,10 @@ const FloodContent = ({ activeTab }) => {
               <li>Storm surges from cyclones or tsunamis.</li>
               <li>Melting snow or glaciers.</li>
               <li>Dam breaks or river overflow.</li>
-              <li>Poor drainage and urbanization (concrete surfaces block absorption).</li>
+              <li>
+                Poor drainage and urbanization (concrete surfaces block
+                absorption).
+              </li>
             </ul>
 
             <h3 style={{ color: "rgb(0,121,158)" }}>Human Impact</h3>
@@ -1074,7 +1125,9 @@ const FloodContent = ({ activeTab }) => {
             <h3 style={{ color: "rgb(0,121,158)" }}>Environmental Effects</h3>
             <ul>
               <li>Soil erosion and habitat destruction.</li>
-              <li>Deposits fertile silt in floodplains, improving agriculture.</li>
+              <li>
+                Deposits fertile silt in floodplains, improving agriculture.
+              </li>
             </ul>
 
             <h3 style={{ color: "rgb(0,121,158)" }}>Why They Occur</h3>
@@ -1141,18 +1194,22 @@ const FloodContent = ({ activeTab }) => {
           <i className="fas fa-exclamation-circle"></i> During a Flood
         </h2>
         <div className="flood-component-section">
-          <h3 className="flood-component-title">Staying Safe When Flooding Occurs</h3>
+          <h3 className="flood-component-title">
+            Staying Safe When Flooding Occurs
+          </h3>
           <div className="flood-steps-container">
             <div className="flood-step-card">
               <h4>Stay Informed</h4>
               <p>
-                During a flood, stay updated via local news, weather apps, and emergency alerts.
+                During a flood, stay updated via local news, weather apps, and
+                emergency alerts.
               </p>
             </div>
             <div className="flood-step-card">
               <h4>Avoid Floodwater</h4>
               <p>
-                Never attempt to walk, swim, or drive through floodwater. Stay on higher ground.
+                Never attempt to walk, swim, or drive through floodwater. Stay
+                on higher ground.
               </p>
             </div>
           </div>
@@ -1171,13 +1228,15 @@ const FloodContent = ({ activeTab }) => {
             <div className="flood-step-card">
               <h4>Return When Safe</h4>
               <p>
-                Only return home after authorities confirm safety. Avoid standing water and hazardous debris.
+                Only return home after authorities confirm safety. Avoid
+                standing water and hazardous debris.
               </p>
             </div>
             <div className="flood-step-card">
               <h4>Document Damage</h4>
               <p>
-                Take photos and videos to support insurance claims. Avoid major repairs until professionals assess the property.
+                Take photos and videos to support insurance claims. Avoid major
+                repairs until professionals assess the property.
               </p>
             </div>
           </div>
@@ -1199,17 +1258,29 @@ const FloodContent = ({ activeTab }) => {
               <h4>FEMA Resources</h4>
               <ul>
                 <li>
-                  <a href="https://www.fema.gov/flood-maps" target="_blank" rel="noopener noreferrer">
+                  <a
+                    href="https://www.fema.gov/flood-maps"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     FEMA Flood Map Service Center
                   </a>
                 </li>
                 <li>
-                  <a href="https://www.fema.gov/what-do-during-flood" target="_blank" rel="noopener noreferrer">
+                  <a
+                    href="https://www.fema.gov/what-do-during-flood"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     What to do During a Flood
                   </a>
                 </li>
                 <li>
-                  <a href="https://www.fema.gov/what-do-after-flood" target="_blank" rel="noopener noreferrer">
+                  <a
+                    href="https://www.fema.gov/what-do-after-flood"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     What to do After a Flood
                   </a>
                 </li>
@@ -1219,12 +1290,20 @@ const FloodContent = ({ activeTab }) => {
               <h4>Red Cross</h4>
               <ul>
                 <li>
-                  <a href="https://www.redcross.org/get-help-how-to-prepare-for-emergencies/types-of-emergencies/flood.html" target="_blank" rel="noopener noreferrer">
+                  <a
+                    href="https://www.redcross.org/get-help-how-to-prepare-for-emergencies/types-of-emergencies/flood.html"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     Flood Safety Tips
                   </a>
                 </li>
                 <li>
-                  <a href="https://www.redcross.org/get-help-how-to-prepare-for-emergencies/disaster-and-safety-kit-resources.html" target="_blank" rel="noopener noreferrer">
+                  <a
+                    href="https://www.redcross.org/get-help-how-to-prepare-for-emergencies/disaster-and-safety-kit-resources.html"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     Disaster & Safety Kit Resources
                   </a>
                 </li>
@@ -1233,229 +1312,233 @@ const FloodContent = ({ activeTab }) => {
           </div>
         </div>
       </div>
-
     </div>
   );
 };
-
-
 
 // Component for Wildfire Content
 const WildfireContent = ({ activeTab }) => {
   return (
     <div id="wildfire-content" className="wildfire-disaster-content">
-      {/* Prepare Before Section */}
-      <div id="wildfire-prepare" className="wildfire-content-section">
-        <span className="wildfire-section-indicator" id="prepare"></span>
-        <h2 className="wildfire-section-title">
-          <i className="fas fa-fire"></i> Prepare for a Wildfire
-        </h2>
 
-        {/* YouTube Video */}
-        <div className="wildfire-video-container">
-          <div className="wildfire-video-wrapper">
-            <iframe
-              src="https://www.youtube.com/embed/AcnKlSFqm3Y"
-              title="Wildfire Preparedness Video"
-              allowFullScreen
-            ></iframe>
+      {/* â”€â”€ PREPARE â”€â”€ */}
+      {activeTab === "prepare" && (
+        <div id="wildfire-prepare" className="wildfire-content-section">
+          <h2 className="wildfire-section-title">
+            <i className="fas fa-fire"></i> Prepare for a Wildfire
+          </h2>
+
+          <div className="wildfire-video-container">
+            <div className="wildfire-video-wrapper">
+              <iframe
+                src="https://www.youtube.com/embed/AcnKlSFqm3Y"
+                title="Wildfire Preparedness Video"
+                allowFullScreen
+              ></iframe>
+            </div>
           </div>
-        </div>
 
-        <div className="wildfire-component-section">
-          <h3 className="wildfire-component-title">Understanding Wildfires</h3>
+          <div className="wildfire-component-section">
+            <h3 className="wildfire-component-title">Understanding Wildfires</h3>
+            <div className="wildfire-info">
+              <h2 style={{ color: "rgb(0,121,158)" }}>Wildfires</h2>
+              <p><strong>Definition:</strong> Uncontrolled fires that spread rapidly through vegetation, forests, or grasslands.</p>
+              <h3 style={{ color: "rgb(0,121,158)" }}>Causes</h3>
+              <ul>
+                <li>Lightning strikes during dry conditions.</li>
+                <li>Human activities â€” campfires, discarded cigarettes, power lines.</li>
+                <li>Prolonged drought and heat waves.</li>
+                <li>Strong winds that spread embers over long distances.</li>
+              </ul>
+              <h3 style={{ color: "rgb(0,121,158)" }}>Effects</h3>
+              <ul>
+                <li>Destruction of homes, forests, and wildlife habitats.</li>
+                <li>Air quality deterioration from smoke.</li>
+                <li>Loss of life and forced evacuations.</li>
+                <li>Long-term soil erosion and landscape changes.</li>
+              </ul>
+            </div>
 
-          <div className="wildfire-info-grid">
-            <div className="wildfire-info-card">
-              <div className="wildfire-card-img">
-                <img
-                  src="https://tse2.mm.bing.net/th/id/OIP.NKwf98ETsHV1L6aj9uz2BgHaDV?rs=1&pid=ImgDetMain&o=7&rm=3"
-                  alt="Diagram showing defensible space zones around a house."
-                />
+            <div className="wildfire-info-grid">
+              <div className="wildfire-info-card">
+                <div className="wildfire-card-img">
+                  <img
+                    src="https://tse2.mm.bing.net/th/id/OIP.NKwf98ETsHV1L6aj9uz2BgHaDV?rs=1&pid=ImgDetMain&o=7&rm=3"
+                    alt="Defensible space zones around a house."
+                  />
+                </div>
+                <div className="wildfire-card-content">
+                  <h3>Create Defensible Space</h3>
+                  <p>Clear a perimeter around your home to reduce fire risk.</p>
+                  <ul>
+                    <li>Clear a 30-foot perimeter around your home</li>
+                    <li>Remove dead leaves and debris from roof and gutters</li>
+                    <li>Stack firewood at least 30 feet from your home</li>
+                  </ul>
+                </div>
               </div>
-              <div className="wildfire-card-content">
-                <h3>Create a Defensible Space</h3>
-                <p>
-                  Clear a space around your home to reduce the risk of it
-                  catching fire from embers or direct flame.
-                </p>
+
+              <div className="wildfire-info-card">
+                <div className="wildfire-card-img">
+                  <img
+                    src="https://i.etsystatic.com/12674449/r/il/f4fe26/1926597203/il_fullxfull.1926597203_pvqd.jpg"
+                    alt="Emergency go-bag with supplies."
+                  />
+                </div>
+                <div className="wildfire-card-content">
+                  <h3>Evacuation Planning</h3>
+                  <p>Know your routes and have a ready go-bag.</p>
+                  <ul>
+                    <li>Have a go-bag ready with water, meds, documents</li>
+                    <li>Plan for pets and livestock</li>
+                    <li>Know your community's early warning systems</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div className="wildfire-steps-container" style={{ marginTop: '24px' }}>
+              <div className="wildfire-step-card">
+                <h4>Harden Your Home</h4>
+                <p>Use fire-resistant materials on roofs, vents, decks, and windows to reduce the chance of embers igniting your home.</p>
+              </div>
+              <div className="wildfire-step-card">
+                <h4>Emergency Kit</h4>
                 <ul>
-                  <li>Clear a 30-foot perimeter around your home</li>
-                  <li>
-                    Remove dead leaves, pine needles, and other debris from roof
-                    and gutters
-                  </li>
-                  <li>Stack firewood at least 30 feet from your home</li>
+                  <li>3 days' food & water per person</li>
+                  <li>N95 masks for smoke</li>
+                  <li>Battery radio & flashlight</li>
+                  <li>Important documents (waterproofed)</li>
                 </ul>
               </div>
             </div>
+          </div>
+        </div>
+      )}
 
-            <div className="wildfire-info-card">
-              <div className="wildfire-card-img">
-                <img
-                  src="https://i.etsystatic.com/12674449/r/il/f4fe26/1926597203/il_fullxfull.1926597203_pvqd.jpg"
-                  alt="Emergency go-bag with supplies."
-                />
-              </div>
-              <div className="wildfire-card-content">
-                <h3>Evacuation Planning</h3>
-                <p>
-                  Know your evacuation routes and have a plan for a safe place
-                  to go during a wildfire.
-                </p>
+      {/* â”€â”€ DURING â”€â”€ */}
+      {activeTab === "during" && (
+        <div id="wildfire-during" className="wildfire-content-section">
+          <h2 className="wildfire-section-title">
+            <i className="fas fa-exclamation-circle"></i> During a Wildfire
+          </h2>
+          <div className="wildfire-component-section">
+            <h3 className="wildfire-component-title">What to Do During a Wildfire</h3>
+            <div className="wildfire-steps-container">
+              <div className="wildfire-step-card">
+                <h4>1. Evacuate Early</h4>
+                <p>If authorities issue an evacuation order, leave <strong>immediately</strong>. Do not wait â€” roads become congested and smoke reduces visibility fast.</p>
                 <ul>
-                  <li>Have a go-bag ready with essentials</li>
-                  <li>Plan for pets and livestock</li>
-                  <li>Know your community's early warning systems</li>
+                  <li>Take your go-bag</li>
+                  <li>Follow official evacuation routes</li>
+                  <li>Inform a contact of your plan</li>
+                </ul>
+              </div>
+              <div className="wildfire-step-card">
+                <h4>2. Stay Informed</h4>
+                <p>Monitor local radio, TV, and emergency alerts continuously. Official instructions always take priority over other information sources.</p>
+                <ul>
+                  <li>Keep phone charged + backup power ready</li>
+                  <li>Follow NDRF / state disaster authority updates</li>
+                </ul>
+              </div>
+              <div className="wildfire-step-card">
+                <h4>3. Protect Against Smoke</h4>
+                <p>Smoke inhalation is a serious health risk. Wear an N95 mask outdoors and keep windows closed indoors.</p>
+              </div>
+              <div className="wildfire-step-card">
+                <h4>4. If Trapped in a Vehicle</h4>
+                <p>Park off the road, turn off engine, turn on headlights, get on the floor, and cover yourself with a blanket. Avoid driving through smoke.</p>
+              </div>
+            </div>
+
+            <div className="wildfire-emergency-contact" style={{ marginTop: '24px' }}>
+              <h3><i className="fas fa-phone-alt"></i> Emergency Contacts</h3>
+              <p><strong>National Emergency Number:</strong> 112</p>
+              <p><strong>Forest Department Helpline:</strong> 1926</p>
+              <p><strong>NDRF Helpline:</strong> 011-24363260</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* â”€â”€ AFTER â”€â”€ */}
+      {activeTab === "after" && (
+        <div id="wildfire-after" className="wildfire-content-section">
+          <h2 className="wildfire-section-title">
+            <i className="fas fa-first-aid"></i> After a Wildfire
+          </h2>
+          <div className="wildfire-component-section">
+            <h3 className="wildfire-component-title">Recovery and Safety</h3>
+            <div className="wildfire-steps-container">
+              <div className="wildfire-step-card">
+                <h4>Return Only When Safe</h4>
+                <p>Only return home after authorities confirm it's safe. Areas may still have hot spots, weakened structures, and damaged power lines.</p>
+                <ul>
+                  <li>Wear protective clothing and gloves</li>
+                  <li>Avoid touching or moving debris</li>
+                  <li>If you smell smoke or see instability â€” leave immediately</li>
+                </ul>
+              </div>
+              <div className="wildfire-step-card">
+                <h4>Assess & Document Damage</h4>
+                <p>Photograph and video all damage carefully before touching anything â€” this is critical for insurance claims and disaster assistance.</p>
+                <ul>
+                  <li>Check structural integrity before entering</li>
+                  <li>Don't attempt major repairs alone if structure is unstable</li>
+                  <li>Contact insurance provider promptly</li>
+                </ul>
+              </div>
+              <div className="wildfire-step-card">
+                <h4>Health After a Fire</h4>
+                <p>Ash and soot contain toxic chemicals. Wear N95 masks and gloves when cleaning up. Wash thoroughly after contact with ash.</p>
+              </div>
+              <div className="wildfire-step-card">
+                <h4>Mental Health</h4>
+                <p>Wildfires are traumatic. It's normal to feel anxious or overwhelmed. Seek support from community organizations or counselors.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* â”€â”€ RESOURCES â”€â”€ */}
+      {activeTab === "resources" && (
+        <div id="wildfire-resources" className="wildfire-content-section">
+          <h2 className="wildfire-section-title">
+            <i className="fas fa-book"></i> Additional Resources
+          </h2>
+          <div className="wildfire-component-section">
+            <h3 className="wildfire-component-title">Tools and information to help you prepare for wildfires</h3>
+            <div className="wildfire-resource-grid">
+              <div className="wildfire-resource-card">
+                <h4>India â€” Official Resources</h4>
+                <ul>
+                  <li><a href="https://ndma.gov.in/" target="_blank" rel="noopener noreferrer">NDMA â€” National Disaster Management Authority</a></li>
+                  <li><a href="https://forest.nic.in/" target="_blank" rel="noopener noreferrer">Ministry of Environment, Forest & Climate Change</a></li>
+                  <li><a href="https://fsi.nic.in/" target="_blank" rel="noopener noreferrer">Forest Survey of India â€” Fire Alerts</a></li>
+                </ul>
+              </div>
+              <div className="wildfire-resource-card">
+                <h4>Global Resources</h4>
+                <ul>
+                  <li><a href="https://www.ready.gov/wildfires" target="_blank" rel="noopener noreferrer">Ready.gov â€” Wildfire Preparedness</a></li>
+                  <li><a href="https://www.fire.ca.gov/dspace" target="_blank" rel="noopener noreferrer">Cal Fire â€” Defensible Space Guidelines</a></li>
+                  <li><a href="https://www.who.int/health-topics/wildfires" target="_blank" rel="noopener noreferrer">WHO â€” Health impacts of wildfires</a></li>
+                </ul>
+              </div>
+              <div className="wildfire-resource-card">
+                <h4>Videos & Guides</h4>
+                <ul>
+                  <li><a href="https://www.youtube.com/watch?v=AcnKlSFqm3Y" target="_blank" rel="noopener noreferrer">Wildfire Preparedness Guide (YouTube)</a></li>
+                  <li><a href="https://www.redcross.org/get-help-how-to-prepare-for-emergencies/types-of-emergencies/wildfire.html" target="_blank" rel="noopener noreferrer">Red Cross â€” Wildfire Safety</a></li>
                 </ul>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
 
-      <div id="wildfire-during" className="wildfire-content-section">
-        <span className="wildfire-section-indicator" id="during"></span>
-        <h2 className="wildfire-section-title">
-          <i className="fas fa-exclamation-circle"></i> During a Wildfire
-        </h2>
-        <div className="wildfire-component-section">
-          <h3 className="wildfire-component-title">What to Do During a Wildfire</h3>
-          <div className="wildfire-steps-container">
-            <div className="wildfire-step-card">
-              <h4>Stay Informed</h4>
-              <p>
-                Continuously monitor local radio, TV, official social media
-                accounts, and emergency alert systems for updates on fire
-                location, air quality, and evacuation orders. Official
-                instructions from emergency personnel should always take
-                priority over other sources. Keep your phone charged and have
-                backup power sources ready if possible.
-              </p>
-            </div>
-            <div className="wildfire-step-card">
-              <h4>Evacuate Early</h4>
-              <p>
-                If authorities issue an evacuation order or if you feel unsafe,
-                leave immediately. Do not wait until the last moment, as roads
-                may become congested and smoke can reduce visibility. Plan
-                multiple evacuation routes in advance and have a go-bag ready
-                with essential items such as water, medications, important
-                documents, and clothing. Ensure your pets and livestock are
-                safely secured, and inform family or neighbors of your
-                evacuation plan. Leaving early greatly increases your safety and
-                reduces stress during the emergency.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div id="wildfire-after" className="wildfire-content-section">
-        <span className="wildfire-section-indicator" id="after"></span>
-        <h2 className="wildfire-section-title">
-          <i className="fas fa-first-aid"></i> After a Wildfire
-        </h2>
-        <div className="wildfire-component-section">
-          <h3 className="wildfire-component-title">Recovery and Safety</h3>
-          <div className="wildfire-steps-container">
-            <div className="wildfire-step-card">
-              <h4>Return Safely</h4>
-              <p>
-                Only return to your home after authorities have confirmed that
-                it is safe. Wildfire areas may still contain hidden dangers such
-                as hot spots, weakened or fallen trees, damaged power lines, and
-                unstable structures. Approach your property with caution,
-                wearing protective clothing, gloves, and sturdy footwear. Avoid
-                touching or moving debris that could be hazardous. Keep in mind
-                that roads and sidewalks may be damaged, and some areas could
-                remain impassable. If you notice smoke, unusual odors, or
-                structural instability, leave immediately and report it to local
-                authorities. Your safety should always come first before
-                assessing damage or salvaging belongings.
-              </p>
-            </div>
-            <div className="wildfire-step-card">
-              <h4>Assess Damage</h4>
-              <p>
-                Once it is safe to return, carefully inspect your property for
-                damage. Document everything thoroughly with photos and videos,
-                as this evidence will be essential for insurance claims and
-                disaster assistance. Check the structural integrity of your
-                home, including walls, roofs, foundations, and support beams. Be
-                cautious of hidden hazards such as weakened floors, fallen
-                debris, and damaged utilities like gas, water, or electricity.
-                Do not attempt major repairs on your own if the structure is
-                unstable—contact qualified professionals instead. Additionally,
-                separate salvageable items from those that are unsafe or
-                contaminated by fire, smoke, or soot. Promptly contacting your
-                insurance provider and local recovery services can help ensure a
-                smoother rebuilding and recovery process.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div id="wildfire-resources" className="wildfire-content-section">
-        <span className="wildfire-section-indicator" id="resources"></span>
-        <h2 className="wildfire-section-title">
-          <i className="fas fa-book"></i> Additional Resources
-        </h2>
-        <div className="wildfire-component-section">
-          <h3 className="wildfire-component-title">
-            Tools and information to help you prepare for wildfires
-          </h3>
-          <div className="wildfire-resource-grid">
-            <div className="wildfire-resource-card">
-              <h4>Ready.gov</h4>
-              <ul>
-                <li>
-                  <a
-                    href="https://www.ready.gov/wildfires"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Wildfire Preparedness
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://www.ready.gov/kit"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Build a Kit
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div className="wildfire-resource-card">
-              <h4>Cal Fire</h4>
-              <ul>
-                <li>
-                  <a
-                    href="https://www.fire.ca.gov/dspace"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Defensible Space Guidelines
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="https://www.fire.ca.gov/incidents/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Current Wildfire Incidents
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };

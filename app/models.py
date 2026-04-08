@@ -1,6 +1,5 @@
 from app import db, bcrypt
 from datetime import datetime
-from sqlalchemy.dialects.postgresql import JSON
 
 class User(db.Model):
     """
@@ -10,19 +9,41 @@ class User(db.Model):
     username = db.Column(db.String(64), index=True, unique=True, nullable=False)
     email = db.Column(db.String(120), index=True, unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
-    role = db.Column(db.String(10), default='student', nullable=False) # Roles: 'student', 'admin'
+    role = db.Column(db.String(10), default='student', nullable=False)
+    full_name = db.Column(db.String(150), nullable=True)
+    mobile_number = db.Column(db.String(20), nullable=True)
+    age = db.Column(db.Integer, nullable=True)
+    gender = db.Column(db.String(20), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    quiz_scores = db.relationship('QuizScore', backref='user', lazy='dynamic')
 
     def set_password(self, password):
-        """Hashes the password and stores it."""
         self.password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
 
     def check_password(self, password):
-        """Checks if the provided password matches the stored hash."""
         return bcrypt.check_password_hash(self.password_hash, password)
 
     def __repr__(self):
         return f'<User {self.username}>'
+
+
+class QuizScore(db.Model):
+    """
+    Stores quiz attempt results per user.
+    """
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False, index=True)
+    difficulty = db.Column(db.String(20), nullable=False)   # 'easy' | 'medium' | 'hard'
+    score = db.Column(db.Integer, nullable=False)            # correct answers
+    total = db.Column(db.Integer, nullable=False)            # total questions
+    percentage = db.Column(db.Integer, nullable=False)       # 0-100
+    xp_earned = db.Column(db.Integer, default=0)
+    badges_earned = db.Column(db.Text, default='')           # comma-separated badge keys
+    completed_at = db.Column(db.DateTime, default=datetime.utcnow, index=True)
+
+    def __repr__(self):
+        return f'<QuizScore user={self.user_id} {self.percentage}%>'
+
 
 class DisasterModule(db.Model):
     """
@@ -37,6 +58,7 @@ class DisasterModule(db.Model):
     def __repr__(self):
         return f'<DisasterModule {self.title}>'
 
+
 class Alert(db.Model):
     """
     Model for storing real-time disaster alerts.
@@ -50,6 +72,7 @@ class Alert(db.Model):
 
     def __repr__(self):
         return f'<Alert {self.title}>'
+
 
 class RescueService(db.Model):
     """

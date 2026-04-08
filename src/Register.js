@@ -3,17 +3,15 @@ import {
   FaUser,
   FaLock,
   FaEnvelope,
-  FaUserShield,
-  FaUserGraduate,
-  FaExclamationTriangle,
+  FaCheckCircle,
   FaEye,
   FaEyeSlash,
   FaArrowLeft,
 } from "react-icons/fa";
 import "./Register.css";
+import API_URL from './config';
 
 const Register = ({ onBack, onLoginClick }) => {
-  const [userType, setUserType] = useState("student");
   const [formData, setFormData] = useState({
     fullName: "",
     mobileNumber: "",
@@ -28,6 +26,10 @@ const Register = ({ onBack, onLoginClick }) => {
   const [captchaCode, setCaptchaCode] = useState(generateCaptcha());
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
 
   function generateCaptcha() {
     return Math.random().toString(36).substring(2, 8).toUpperCase();
@@ -43,32 +45,72 @@ const Register = ({ onBack, onLoginClick }) => {
       ...prev,
       [name]: value,
     }));
+    if (errorMessage) setErrorMessage("");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage("");
+    setSuccessMessage("");
+
     if (formData.captcha !== captchaCode) {
-      alert("Captcha code is incorrect. Please try again.");
+      setErrorMessage("Captcha code is incorrect. Please try again.");
       refreshCaptcha();
       return;
     }
     if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match.");
+      setErrorMessage("Passwords do not match.");
       return;
     }
-    console.log("Registration Data:", { ...formData, userType });
-    alert("Account created successfully! Redirecting to login...");
-    setTimeout(() => {
-      if (onLoginClick) onLoginClick();
-    }, 1500);
+    if (formData.password.length < 8) {
+      setErrorMessage("Password must be at least 8 characters long.");
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      // Use the full name (with spaces removed) as the username
+      const username = formData.fullName.replace(/\s+/g, '').toLowerCase();
+
+      const response = await fetch(`${API_URL}/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: username,
+          email: formData.email,
+          password: formData.password,
+          full_name: formData.fullName,
+          mobile_number: formData.mobileNumber,
+          age: formData.age ? parseInt(formData.age) : null,
+          gender: formData.gender,
+          role: 'student',
+        }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setSuccessMessage("Account created successfully! Redirecting to login...");
+        setTimeout(() => {
+          if (onLoginClick) onLoginClick();
+        }, 2000);
+      } else {
+        setErrorMessage(result.error || "Registration failed. Please try again.");
+        if (result.error && result.error.includes("Username")) {
+          // If username conflict, suggest a variation
+          setErrorMessage(result.error + " Try adding numbers to your name.");
+        }
+      }
+    } catch (err) {
+      console.error("Registration error:", err);
+      setErrorMessage("Cannot connect to the server. Make sure the backend is running.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <div className="app">
-      <div className="background-animation"></div>
-      <div className="glossy-overlay"></div>
-      <div className="glossy-shapes"></div>
-
       <div className="auth-container">
         <div className="auth-card">
           {/* Back Button */}
@@ -79,26 +121,6 @@ const Register = ({ onBack, onLoginClick }) => {
           <div className="auth-header">
             <h1>Create Your Account</h1>
             <p>Join our community today</p>
-          </div>
-
-          {/* User Type Selector */}
-          <div className="user-type-selector">
-            <button
-              className={`user-type-btn ${
-                userType === "student" ? "active" : ""
-              }`}
-              onClick={() => setUserType("student")}
-            >
-              <FaUserGraduate /> Student
-            </button>
-            <button
-              className={`user-type-btn ${
-                userType === "admin" ? "active" : ""
-              }`}
-              onClick={() => setUserType("admin")}
-            >
-              <FaUserShield /> Administrator
-            </button>
           </div>
 
           {/* Form */}
@@ -270,8 +292,38 @@ const Register = ({ onBack, onLoginClick }) => {
               </label>
             </div>
 
-            <button type="submit" className="auth-submit-btn">
-              Create Account
+            {errorMessage && (
+              <div style={{
+                background: 'rgba(231, 76, 60, 0.1)',
+                border: '1px solid rgba(231, 76, 60, 0.3)',
+                borderRadius: '8px',
+                padding: '12px 16px',
+                color: '#e74c3c',
+                fontSize: '0.9rem',
+                marginBottom: '12px',
+                textAlign: 'center'
+              }}>
+                {errorMessage}
+              </div>
+            )}
+
+            {successMessage && (
+              <div style={{
+                background: 'rgba(46, 204, 113, 0.1)',
+                border: '1px solid rgba(46, 204, 113, 0.3)',
+                borderRadius: '8px',
+                padding: '12px 16px',
+                color: '#27ae60',
+                fontSize: '0.9rem',
+                marginBottom: '12px',
+                textAlign: 'center'
+              }}>
+                {successMessage}
+              </div>
+            )}
+
+            <button type="submit" className="auth-submit-btn" disabled={isLoading}>
+              {isLoading ? "Creating Account..." : "Create Account"}
             </button>
           </form>
 
@@ -280,19 +332,16 @@ const Register = ({ onBack, onLoginClick }) => {
             <h3>Why create an account?</h3>
             <ul>
               <li>
-                <FaExclamationTriangle /> Access all educational modules
+              <FaCheckCircle style={{ color: '#22c55e' }} /> Access all educational modules
               </li>
               <li>
-                <FaExclamationTriangle /> Track your learning progress
+              <FaCheckCircle style={{ color: '#22c55e' }} /> Track your learning progress
               </li>
               <li>
-                <FaExclamationTriangle /> Test your knowledge with quizzes
+              <FaCheckCircle style={{ color: '#22c55e' }} /> Test your knowledge with quizzes
               </li>
-              <li>
-                <FaExclamationTriangle />{" "}
-                {userType === "admin"
-                  ? "Manage educational content"
-                  : "Receive emergency alerts"}
+                <li>
+              <FaCheckCircle style={{ color: '#22c55e' }} /> Receive emergency alerts
               </li>
             </ul>
           </div>
@@ -305,7 +354,6 @@ const Register = ({ onBack, onLoginClick }) => {
           </p>
         </div>
       </div>
-    </div>
   );
 };
 

@@ -1,4 +1,8 @@
 import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Find the absolute path of the root directory of the project
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -7,12 +11,11 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class Config:
     """Set Flask configuration from default values."""
 
-    # General Config
-    # Using a default secret key for now. We'll move it to .env later.
-    SECRET_KEY = 'a-default-secret-key-for-development'
+    # General Config — loaded from .env
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'a-default-secret-key-for-development'
+    JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY') or 'a-default-jwt-secret-key'
 
     # Database Config
-    # If DATABASE_URL is not set, it defaults to using a simple SQLite database.
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False

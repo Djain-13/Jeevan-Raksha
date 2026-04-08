@@ -1,42 +1,36 @@
-/* Reset and Base Styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+/* ==============================
+   Reset and Base Styles Inherited from index.css
+============================== */
 
-body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  line-height: 1.6;
-  color: #2c3e50;
-  background-color: #ffffff;
-}
-
-/* Landing Page Container */
+/* ==============================
+   Landing Page Container
+============================== */
 .landing-page {
   min-height: 100vh;
-  background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
+  /* Removed white gradient, relying on body background */
 }
 
-/* Navbar Styles */
+/* ==============================
+   Navbar Styles
+============================== */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1.5rem 2rem;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(52, 152, 219, 0.1);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border-bottom: 1px solid var(--glass-border);
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 2px 20px rgba(52, 152, 219, 0.05);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
 }
 
 .logo {
   font-size: 1.5rem;
   font-weight: 700;
-  background: linear-gradient(135deg, #3498db, #2980b9);
+  background: var(--accent-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -58,8 +52,8 @@ body {
 .nav-btn {
   padding: 0.75rem 1.5rem;
   background: transparent;
-  border: 1px solid rgba(52, 152, 219, 0.3);
-  color: #3498db;
+  border: 1px solid transparent;
+  color: var(--text-main);
   border-radius: 8px;
   font-weight: 500;
   cursor: pointer;
@@ -68,34 +62,33 @@ body {
 }
 
 .nav-btn:hover {
-  background: rgba(52, 152, 219, 0.05);
-  border-color: #3498db;
-  transform: translateY(-1px);
+  background: rgba(0, 0, 0, 0.04);
+  border-color: var(--glass-border);
 }
 
 .floating-sos-btn {
   padding: 0.8rem 1.2rem;
-  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  background: var(--danger-gradient);
   color: white;
   border: none;
   border-radius: 25px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
   font-size: 0.9rem;
 }
 
 .floating-sos-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);
 }
 
 .login-btn-nav {
   padding: 0.75rem 1.5rem;
   background: transparent;
-  border: 1px solid #3498db;
-  color: #3498db;
+  border: 1px solid var(--accent-blue);
+  color: var(--accent-blue);
   border-radius: 8px;
   font-weight: 500;
   cursor: pointer;
@@ -104,14 +97,13 @@ body {
 }
 
 .login-btn-nav:hover {
-  background: #3498db;
-  color: white;
+  background: rgba(59, 130, 246, 0.1);
   transform: translateY(-1px);
 }
 
 .register-btn {
   padding: 0.75rem 1.5rem;
-  background: linear-gradient(135deg, #3498db, #2980b9);
+  background: var(--accent-gradient);
   color: white;
   border: none;
   border-radius: 8px;
@@ -119,18 +111,19 @@ body {
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 0.9rem;
-  box-shadow: 0 4px 15px rgba(52, 152, 219, 0.2);
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
 }
 
 .register-btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
 }
 
-/* Hero Section */
+/* ==============================
+   Hero Section
+============================== */
 .hero-section {
   padding: 4rem 2rem;
-  background: linear-gradient(135deg, #ffffff 0%, #f8fbff 50%, #e8f4fd 100%);
   position: relative;
   overflow: hidden;
 }
@@ -149,12 +142,12 @@ body {
   font-weight: 700;
   line-height: 1.1;
   margin-bottom: 1.5rem;
-  color: #2c3e50;
+  color: var(--text-main);
   letter-spacing: -1px;
 }
 
 .text-content h1 span {
-  background: linear-gradient(135deg, #3498db, #2980b9);
+  background: var(--accent-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -162,14 +155,14 @@ body {
 
 .text-content p {
   font-size: 1.2rem;
-  color: #5a6c7d;
+  color: var(--text-muted);
   margin-bottom: 2.5rem;
   line-height: 1.7;
 }
 
 .start-btn-hero {
   padding: 1rem 2rem;
-  background: linear-gradient(135deg, #3498db, #2980b9);
+  background: var(--accent-gradient);
   color: white;
   border: none;
   border-radius: 12px;
@@ -177,37 +170,17 @@ body {
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 8px 25px rgba(52, 152, 219, 0.3);
+  box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
 }
 
 .start-btn-hero:hover {
   transform: translateY(-3px);
-  box-shadow: 0 12px 35px rgba(52, 152, 219, 0.4);
+  box-shadow: 0 12px 35px rgba(59, 130, 246, 0.5);
 }
 
-.image-content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.template-preview {
-  position: relative;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 20px 60px rgba(52, 152, 219, 0.15);
-  background: white;
-  padding: 1rem;
-}
-
-.template-preview img {
-  width: 100%;
-  height: 300px;
-  object-fit: cover;
-  border-radius: 12px;
-}
-
-/* Wave Animation */
+/* ==============================
+   Wave Animation
+============================== */
 .wave-container {
   position: absolute;
   bottom: -1px;
@@ -223,41 +196,33 @@ body {
 }
 
 .wave1, .wave2, .wave3 {
-  fill: white;
-  opacity: 0.8;
+  fill: var(--bg-primary); /* Blend wave into background */
   animation: wave 8s infinite linear;
 }
 
-.wave2 {
-  opacity: 0.6;
-  animation-delay: -2s;
-}
-
-.wave3 {
-  opacity: 0.4;
-  animation-delay: -4s;
-}
+.wave1 { opacity: 0.1; }
+.wave2 { fill: var(--bg-secondary); opacity: 0.3; animation-delay: -2s; }
+.wave3 { fill: var(--bg-primary); opacity: 1; animation-delay: -4s; }
 
 @keyframes wave {
   0% { transform: translateX(0); }
   100% { transform: translateX(-100px); }
 }
 
-/* Maps Section */
+/* ==============================
+   Maps Section
+============================== */
 .maps-section {
   padding: 5rem 2rem;
-  background: white;
+  background: var(--bg-primary);
 }
 
-.maps-section .container {
-  max-width: 1200px;
-  margin: 0 auto;
-}
+.maps-section .container { max-width: 1200px; margin: 0 auto; }
 
 .maps-section h2 {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #2c3e50;
+  color: var(--text-main);
   margin-bottom: 3rem;
   text-align: center;
 }
@@ -265,29 +230,92 @@ body {
 .map-container {
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 15px 50px rgba(52, 152, 219, 0.1);
-  background: white;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  background: var(--bg-secondary);
+  min-height: 400px;
+  border: 1px solid var(--glass-border);
 }
 
-/* Safety Section */
-.safety-section {
+
+/* ==============================
+   Recent Disasters Section
+============================== */
+.recent-disasters-section {
   padding: 5rem 2rem;
-  background: linear-gradient(135deg, #f8fbff 0%, #ffffff 100%);
+  background: var(--bg-primary);
 }
 
-.fancy-title {
+.recent-disasters-section .container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-title {
   text-align: center;
   font-size: 2.5rem;
   font-weight: 700;
-  color: #2c3e50;
-  margin-bottom: 1rem;
+  color: var(--text-main);
+  margin-bottom: 0.5rem;
 }
 
-.subtitle {
+.section-subtitle {
   text-align: center;
-  font-size: 1.2rem;
-  color: #5a6c7d;
+  font-size: 1.1rem;
+  color: var(--text-muted);
   margin-bottom: 3rem;
+}
+
+.disaster-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  backdrop-filter: blur(12px);
+  transition: all 0.3s ease;
+  color: var(--text-main);
+}
+
+.disaster-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border-color: rgba(59, 130, 246, 0.2);
+}
+
+.disaster-icon {
+  font-size: 3rem;
+  background: rgba(59, 130, 246, 0.06);
+  height: 80px;
+  width: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  border: 1px solid rgba(59, 130, 246, 0.1);
+}
+
+/* Scrollbar specifically for horizontal scroll of disasters */
+.disasters-grid::-webkit-scrollbar {
+  height: 8px;
+}
+.disasters-grid::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0.03);
+  border-radius: 8px;
+}
+.disasters-grid::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.12);
+  border-radius: 8px;
+}
+.disasters-grid::-webkit-scrollbar-thumb:hover {
+  background: rgba(0,0,0,0.2);
+}
+
+/* ==============================
+   Safety Section
+============================== */
+.safety-section {
+  padding: 5rem 2rem;
+  background: linear-gradient(180deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+  position: relative;
 }
 
 .safety-flex {
@@ -299,17 +327,25 @@ body {
 }
 
 .safety-card {
-  background: white;
+  background: var(--glass-bg);
   border-radius: 16px;
   padding: 2rem;
-  box-shadow: 0 10px 40px rgba(52, 152, 219, 0.08);
-  border: 1px solid rgba(52, 152, 219, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--glass-border);
   transition: all 0.3s ease;
+  backdrop-filter: blur(12px);
+  position: relative;
+  overflow: hidden;
+  animation: fadeInUp 0.6s ease-out;
 }
+
+.safety-card:nth-child(2) { animation-delay: 0.2s; }
+.safety-card:nth-child(3) { animation-delay: 0.4s; }
 
 .safety-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 20px 60px rgba(52, 152, 219, 0.15);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+  background: var(--glass-bg-hover);
 }
 
 .safety-card h3 {
@@ -318,14 +354,11 @@ body {
   gap: 0.5rem;
   font-size: 1.3rem;
   font-weight: 600;
-  color: #2c3e50;
+  color: var(--text-main);
   margin-bottom: 1.5rem;
 }
 
-.card-icon {
-  font-size: 1.5rem;
-  color: #3498db;
-}
+.card-icon { font-size: 1.5rem; color: var(--accent-blue); }
 
 .icon-grid {
   display: grid;
@@ -337,12 +370,15 @@ body {
   text-align: center;
   padding: 1rem;
   border-radius: 12px;
-  background: rgba(52, 152, 219, 0.03);
+  background: rgba(59, 130, 246, 0.04);
   transition: all 0.3s ease;
+  position: relative;
+  border: 1px solid transparent;
 }
 
 .icon-item:hover {
-  background: rgba(52, 152, 219, 0.08);
+  background: rgba(59, 130, 246, 0.08);
+  border-color: rgba(59, 130, 246, 0.15);
   transform: translateY(-2px);
 }
 
@@ -350,131 +386,16 @@ body {
   display: block;
   font-size: 1.5rem;
   margin-bottom: 0.5rem;
-  color: #3498db;
+  color: var(--accent-blue);
 }
 
 .icon-item p {
   font-weight: 500;
-  color: #2c3e50;
+  color: var(--text-muted);
   font-size: 0.9rem;
 }
 
-/* Floating Alert Button */
-.floating-alert-btn {
-  position: fixed;
-  bottom: 32px;
-  right: 32px;
-  width: 62px;
-  height: 62px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2.1rem;
-  border-radius: 50%;
-  border: 2px solid rgba(52, 152, 219, 0.2);
-  background: linear-gradient(135deg, white 60%, #f8fbff 100%);
-  color: #3498db;
-  box-shadow: 0 8px 30px rgba(52, 152, 219, 0.2);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  z-index: 1000;
-}
-
-.floating-alert-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 40px rgba(52, 152, 219, 0.3);
-  background: linear-gradient(135deg, #3498db 60%, #2980b9 100%);
-  color: white;
-}
-
-/* Footer */
-.footer {
-  background: linear-gradient(135deg, #2c3e50, #34495e);
-  color: white;
-  text-align: center;
-  padding: 2rem;
-  margin-top: 0;
-}
-
-.footer p {
-  font-size: 0.9rem;
-  opacity: 0.8;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .navbar {
-    padding: 1rem;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .nav-right {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .hero-content {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-    text-align: center;
-  }
-
-  .text-content h1 {
-    font-size: 2.5rem;
-  }
-
-  .safety-flex {
-    grid-template-columns: 1fr;
-  }
-
-  .hero-section {
-    padding: 2rem 1rem;
-  }
-
-  .maps-section, .safety-section {
-    padding: 3rem 1rem;
-  }
-
-  .floating-alert-btn {
-    bottom: 20px;
-    right: 20px;
-    width: 50px;
-    height: 50px;
-    font-size: 1.8rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .text-content h1 {
-    font-size: 2rem;
-  }
-
-  .fancy-title {
-    font-size: 2rem;
-  }
-
-  .nav-buttons {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .icon-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Additional professional touches */
-.safety-card.fancy {
-  position: relative;
-  overflow: hidden;
-}
-
+/* Fancy top border for cards */
 .safety-card.fancy::before {
   content: '';
   position: absolute;
@@ -482,52 +403,168 @@ html {
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(135deg, #3498db, #2980b9);
+  background: var(--accent-gradient);
 }
 
-.icon-item.glow {
-  position: relative;
+/* Safety section heading & subtitle */
+.fancy-title {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.5px;
 }
 
-.icon-item.glow::after {
+.subtitle {
+  text-align: center;
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  margin-bottom: 3rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Fade-in animation */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Sticky anchor — sticks to bottom of viewport while inside landing-page */
+.floating-alert-anchor {
+  position: sticky;
+  bottom: 32px;
+  height: 0;           /* takes no space in the flow */
+  overflow: visible;
+  display: flex;
+  justify-content: flex-end;
+  padding-right: 32px;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.floating-alert-btn {
+  pointer-events: all;
+  position: relative;  /* no fixed/sticky — just sits in the anchor */
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  border-radius: 50%;
+  border: 2px solid #b3d9ff;
+  background: linear-gradient(135deg, #e0f2ff 0%, #f0f7ff 100%);
+  color: #2980b9;
+  box-shadow: 0 6px 24px rgba(52, 152, 219, 0.25), 0 2px 8px rgba(0,0,0,0.08);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  /* translate upward by full height so it floats just above the anchor line */
+  transform: translateY(-100%);
+}
+
+/* Pulse ring animation */
+.floating-alert-btn::before {
   content: '';
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 0;
-  height: 0;
-  background: rgba(52, 152, 219, 0.1);
+  inset: -6px;
   border-radius: 50%;
-  transition: all 0.3s ease;
-  z-index: -1;
+  border: 2px solid rgba(52, 152, 219, 0.4);
+  animation: alertPulse 2.2s ease-out infinite;
+  pointer-events: none;
 }
 
-.icon-item.glow:hover::after {
-  width: 100%;
-  height: 100%;
+@keyframes alertPulse {
+  0%   { transform: scale(0.9); opacity: 0.8; }
+  70%  { transform: scale(1.35); opacity: 0; }
+  100% { transform: scale(1.35); opacity: 0; }
 }
 
-/* Loading animation for better UX */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
+.floating-alert-btn:hover {
+  transform: translateY(-100%) scale(1.08);
+  box-shadow: 0 14px 40px rgba(52, 152, 219, 0.4);
+  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+  color: white;
+  border-color: #2980b9;
+}
+
+/* ==============================
+   Footer
+============================== */
+.footer {
+  background: #f1f5f9;
+  border-top: 1px solid rgba(0,0,0,0.06);
+  color: var(--text-muted);
+  text-align: center;
+  padding: 2rem;
+}
+
+.footer p { font-size: 0.9rem; opacity: 0.8; }
+
+/* ==============================
+   Responsive Design
+============================== */
+@media (max-width: 768px) {
+  .navbar { padding: 1rem; flex-direction: column; gap: 1rem; }
+  .nav-right { width: 100%; justify-content: center; }
+  .hero-content { grid-template-columns: 1fr; gap: 2rem; text-align: center; }
+  .text-content h1 { font-size: 2.5rem; }
+  .safety-flex { grid-template-columns: 1fr; }
+  .hero-section { padding: 2rem 1rem; }
+  .maps-section, .safety-section { padding: 3rem 1rem; }
+  .floating-alert-anchor { bottom: 20px; padding-right: 20px; }
+  .floating-alert-btn { width: 50px; height: 50px; font-size: 1.3rem; }
+}
+
+@media (max-width: 480px) {
+  .text-content h1 { font-size: 2rem; }
+  .fancy-title { font-size: 2rem; }
+  .nav-buttons { flex-direction: column; gap: 0.5rem; }
+  .icon-grid { grid-template-columns: 1fr; }
+}
+
+/* ==============================
+   Global Mobile Fixes (≤600px)
+============================== */
+@media (max-width: 600px) {
+  body { overflow-x: hidden; }
+
+  /* Disaster cards — horizontal scroll snap */
+  .disasters-grid {
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 12px;
+    gap: 14px !important;
+    scroll-snap-type: x mandatory;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  .disaster-card {
+    min-width: 290px !important;
+    flex-shrink: 0;
+    scroll-snap-align: start;
   }
-}
 
-.safety-card {
-  animation: fadeInUp 0.6s ease-out;
-}
+  /* Weather widget stack */
+  .weather-widget { flex-direction: column !important; text-align: center; }
 
-.safety-card:nth-child(2) {
-  animation-delay: 0.2s;
-}
+  /* Nav buttons compact */
+  .login-btn-nav, .register-btn, .nav-btn {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
 
-.safety-card:nth-child(3) {
-  animation-delay: 0.4s;
+  /* Container tighter padding */
+  .container {
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+  }
+
+  /* Section titles */
+  .section-title { font-size: 1.5rem !important; }
+
+  /* Modules sidebar collapses */
+  .modules-container { flex-direction: column !important; }
+  .modules-sidebar { width: 100% !important; min-height: unset !important; }
 }

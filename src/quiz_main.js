@@ -2,9 +2,26 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
     faShieldAlt, faChild, faUserGraduate, faUniversity, faUserShield, 
-    faArrowRight, faFlagCheckered, faRedo, faTrophy, faMedal 
+    faArrowRight, faFlagCheckered, faRedo, faTrophy, faMedal
 } from '@fortawesome/free-solid-svg-icons';
 import './quiz_main.css';
+import InternalNav from './InternalNav';
+import API_URL from './config';
+
+// Save completed quiz score to backend (silently — no breaking if offline)
+const saveScoreToBackend = async ({ difficulty, score, total, percentage, xpEarned, badgesEarned }) => {
+    const token = localStorage.getItem('access_token');
+    if (!token) return; // not logged in — skip
+    try {
+        await fetch(`${API_URL}/quiz/score`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+            body: JSON.stringify({ difficulty, score, total, percentage, xp_earned: xpEarned, badges_earned: badgesEarned })
+        });
+    } catch (e) {
+        console.warn('Could not save quiz score to backend:', e.message);
+    }
+};
 
 // --- QUESTION DATABASE ---
 const questions = [
@@ -22,7 +39,7 @@ const questions = [
     { type: "mcq", difficulty: "hard", question: "What is a '100-year flood'?", options: ["A flood every 100 years", "Worst flood in 100 years", "A flood over 100 feet deep", "A flood with a 1% chance of happening in any year"], answer: "d", topic: "floodReady" },
 ];
 
-const Quiz = () => {
+const Quiz = ({ onBack, onProfileClick, onGoToHome, onLogout }) => {
     // Game flow state: 'levelSelection', 'quiz', 'results'
     const [gameState, setGameState] = useState('levelSelection');
     
@@ -98,25 +115,38 @@ const Quiz = () => {
             setIsAnswered(false);
             setSelectedAnswer(null);
         } else {
-            // End of quiz - calculate results
+            // End of quiz — calculate results
             const percentage = Math.round((score / filteredQuestions.length) * 100);
             let earnedBadges = [];
 
-            // Logic to award badges
-            if(score / filteredQuestions.length > 0.5) { // Example: award badge for >50% correct
+            if (score / filteredQuestions.length > 0.5) {
                 const topic = currentQuestion.topic;
-                if(!playerData.badgesEarned.includes(topic)){
+                if (!playerData.badgesEarned.includes(topic)) {
                     earnedBadges.push(topic);
                 }
             }
 
-            if(earnedBadges.length > 0) {
+            // XP earned this session = current level's xp minus starting
+            const xpEarned = score * 10 + streak * 2;
+
+            if (earnedBadges.length > 0) {
                 setNewBadges(earnedBadges);
                 setPlayerData(prev => ({
                     ...prev,
                     badgesEarned: [...prev.badgesEarned, ...earnedBadges]
                 }));
             }
+
+            // ── Save to backend ──
+            saveScoreToBackend({
+                difficulty: filteredQuestions[0]?.difficulty || 'easy',
+                score,
+                total: filteredQuestions.length,
+                percentage,
+                xpEarned,
+                badgesEarned: earnedBadges,
+            });
+
             setGameState('results');
         }
     };
@@ -129,15 +159,18 @@ const Quiz = () => {
 
     if (gameState === 'levelSelection') {
         return (
-            <div className="container">
-                <header className="header fade-in">
-                    <h1><FontAwesomeIcon icon={faShieldAlt} /> JEEVAN RAKSHA</h1>
-                    <p>Disaster Preparedness Quiz Challenge</p>
-                </header>
-                <div className="level-selection fade-in">
-                    <LevelCard icon={faChild} title="Beginner" desc="Learn the fundamental safety basics." reward="🏆 Earn Skill Badges" onClick={() => startQuiz('easy')} />
-                    <LevelCard icon={faUserGraduate} title="Intermediate" desc="Advance your response techniques." reward="⚡ Earn More XP" onClick={() => startQuiz('medium')} />
-                    <LevelCard icon={faUniversity} title="Advance" desc="Master complex scenarios to become a hero." reward="💎 Unlock Hero Badge" onClick={() => startQuiz('hard')} />
+            <div>
+                <InternalNav title="Disaster Quiz" onBack={onBack} onHome={onGoToHome} onProfile={onProfileClick} onLogout={onLogout} />
+                <div className="container" style={{ paddingTop: '30px' }}>
+                    <header className="header fade-in">
+                        <h1><FontAwesomeIcon icon={faShieldAlt} /> JEEVAN RAKSHA</h1>
+                        <p>Disaster Preparedness Quiz Challenge</p>
+                    </header>
+                    <div className="level-selection fade-in">
+                        <LevelCard icon={faChild} title="Beginner" desc="Learn the fundamental safety basics." reward="🏆 Earn Skill Badges" onClick={() => startQuiz('easy')} />
+                        <LevelCard icon={faUserGraduate} title="Intermediate" desc="Advance your response techniques." reward="⚡ Earn More XP" onClick={() => startQuiz('medium')} />
+                        <LevelCard icon={faUniversity} title="Advance" desc="Master complex scenarios to become a hero." reward="💎 Unlock Hero Badge" onClick={() => startQuiz('hard')} />
+                    </div>
                 </div>
             </div>
         );
@@ -213,7 +246,7 @@ const Quiz = () => {
                 )}
                 <div className="results-actions">
                     <button className="nav-button" onClick={resetQuiz}><FontAwesomeIcon icon={faRedo} /> Play Again</button>
-                    <a href="#profile" className="nav-button"><FontAwesomeIcon icon={faTrophy} /> View My Profile</a>
+                    <button className="nav-button" onClick={onProfileClick}><FontAwesomeIcon icon={faTrophy} /> View My Profile</button>
                 </div>
             </div>
         );

@@ -1,403 +1,522 @@
-/* ==================== Reset & Base Styles ==================== */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+/* ==============================
+   Light Glassmorphism (Learning Modules)
+============================== */
 
-body {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  line-height: 1.6;
-  color: #333;
-  background-color: #f8f9fa;
-  scroll-behavior: smooth;
-}
-
-/* ==================== Container ==================== */
+/* Overall Dashboard Container */
 .modules-container {
   display: flex;
-  min-height: 100vh;
+  min-height: calc(100vh - 40px);
+  background: linear-gradient(160deg, #f0f7ff 0%, #f8fafc 60%, #eef2ff 100%);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.06);
+  border-radius: 20px;
+  margin: 20px;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
 }
 
-/* ==================== Sidebar ==================== */
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  color: var(--text-muted);
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.modules-sidebar-header .back-btn {
+  position: relative;
+  top: auto;
+  left: auto;
+  display: inline-flex;
+}
+.back-btn:hover {
+  background: white;
+  color: var(--text-main);
+  transform: translateX(-5px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  border-color: rgba(59, 130, 246, 0.2);
+}
+.modules-sidebar-header .back-btn:hover {
+  background: white;
+  color: var(--text-main);
+  transform: translateX(-5px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  border-color: rgba(59, 130, 246, 0.2);
+}
+
+/* Sidebar */
 .modules-sidebar {
   width: 280px;
-  background: linear-gradient(to bottom, #2c3e50, #4a6580);
-  color: white;
-  padding: 20px 0;
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  overflow-y: auto;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-right: 1px solid rgba(0, 0, 0, 0.06);
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  z-index: 10;
 }
 
 .modules-sidebar-header {
-  padding: 0 20px 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  margin-bottom: 20px;
+  margin-bottom: 40px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: flex-start;
 }
 
 .modules-sidebar-header h2 {
-  font-size: 1.4rem;
-  font-weight: 600;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0;
+  color: var(--text-main);
 }
 
 .modules-disaster-menu {
   list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .modules-disaster-menu li {
-  padding: 15px 30px;
-  margin: 5px 0;
+  padding: 14px 20px;
   cursor: pointer;
-  transition: all 0.3s;
+  border-radius: 12px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   display: flex;
   align-items: center;
-  border-left: 4px solid transparent;
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  border: 1px solid transparent;
 }
 
 .modules-disaster-menu li i {
-  margin-right: 12px;
+  margin-right: 14px;
   font-size: 1.2rem;
+  width: 24px;
+  text-align: center;
+  opacity: 0.7;
+  transition: all 0.3s ease;
 }
 
 .modules-disaster-menu li:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.03);
+  color: var(--text-main);
 }
 
 .modules-disaster-menu li.active {
-  background: rgb(0, 121, 158);
-  border-left: 4px solid #fff;
+  background: rgba(59, 130, 246, 0.08);
+  color: #2563eb;
+  border-color: rgba(59, 130, 246, 0.2);
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.1);
 }
 
-/* ==================== Main Content ==================== */
+.modules-disaster-menu li.active i {
+  color: #3b82f6;
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* Main Content Area */
 .modules-main-content {
-  flex: 1;
-  padding: 0 40px;
+  flex-grow: 1;
+  padding: 0;
+  background: transparent;
   overflow-y: auto;
+  scroll-behavior: smooth;
 }
 
-/* ==================== Header ==================== */
+.modules-main-content::-webkit-scrollbar { width: 6px; }
+.modules-main-content::-webkit-scrollbar-track { background: transparent; }
+.modules-main-content::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.15); border-radius: 10px; }
+.modules-main-content::-webkit-scrollbar-thumb:hover { background: rgba(0, 0, 0, 0.25); }
+
+/* Header */
 .modules-header {
-  height: 250px;
-  background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
-              url("https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80");
-  background-size: cover;
-  background-position: center;
-  color: white;
+  background: linear-gradient(135deg, rgba(239, 246, 255, 0.95), rgba(238, 242, 255, 0.95));
+  text-align: center;
+  padding: 80px 40px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0 40px;
-  position: relative;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .modules-header h1 {
-  font-size: 2.8rem;
-  margin-bottom: 10px;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 16px;
+  color: var(--text-main);
+  letter-spacing: -0.03em;
 }
 
 .modules-header p {
-  font-size: 1.2rem;
-  max-width: 700px;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+  font-size: 1.15rem;
+  color: var(--text-muted);
+  max-width: 600px;
+  line-height: 1.6;
 }
 
-/* ==================== Navigation Tabs ==================== */
+/* Navigation Tabs */
 .modules-nav-tabs {
   display: flex;
-  background: white;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 0 40px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 20;
 }
 
 .modules-nav-tab {
-  padding: 18px 30px;
-  font-size: 1.1rem;
-  font-weight: 600;
+  padding: 20px 24px;
   cursor: pointer;
-  transition: all 0.3s;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-muted);
   border-bottom: 3px solid transparent;
-  color: #555;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .modules-nav-tab:hover {
-  background: #f1f1f1;
+  color: var(--text-main);
 }
 
 .modules-nav-tab.active {
-  border-bottom: 3px solid rgb(0,121,158);
-  color: rgb(0,121,158);
+  color: #3b82f6;
+  border-bottom-color: #3b82f6;
 }
 
-/* ==================== Section Titles ==================== */
-.section-title {
-  font-size: 2rem;
-  color: rgb(0,121,158);
+/* Sections */
+.earthquake-content-section,
+.drought-content-section,
+.flood-content-section,
+.wildfire-content-section {
+  padding: 40px 60px;
+  color: var(--text-main);
+}
+
+@media (max-width: 900px) {
+  .earthquake-content-section,
+  .drought-content-section { padding: 30px 20px; }
+  .modules-container { flex-direction: column; margin: 0; border-radius: 0; }
+  .modules-sidebar { width: 100%; border-right: none; border-bottom: 1px solid rgba(0,0,0,0.06); }
+  .modules-nav-tabs { padding: 0 10px; overflow-x: auto; white-space: nowrap; }
+}
+
+.earthquake-section-title,
+.drought-section-title,
+.flood-section-title,
+.wildfire-section-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--text-main);
   margin-bottom: 30px;
-  padding-bottom: 15px;
-  border-bottom: 2px solid rgb(0,121,158);
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
   display: flex;
   align-items: center;
+  gap: 16px;
 }
 
-.section-title i {
-  margin-right: 15px;
-  color: rgb(0,121,158);
+.earthquake-section-title i,
+.drought-section-title i {
+  color: #3b82f6;
+  font-size: 1.8rem;
 }
 
-/* ==================== Video Containers ==================== */
-.video-container, .flood-video-container, .wildfire-video-container, .drought-video-container {
-  margin: 30px 0;
-  border-radius: 10px;
+/* Video Wrapper */
+.earthquake-video-container,
+.drought-video-container {
+  margin-bottom: 40px;
+  background: white;
+  border-radius: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
   overflow: hidden;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-  max-width: 800px;
+  padding: 10px;
 }
 
-.video-wrapper {
+.earthquake-video-wrapper,
+.drought-video-wrapper {
   position: relative;
   padding-bottom: 56.25%;
-  height: 0;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
-.video-wrapper iframe {
+.earthquake-video-wrapper iframe,
+.drought-video-wrapper iframe {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: none;
+  top: 0; left: 0; width: 100%; height: 100%;
 }
 
-/* ==================== Info Cards ==================== */
-.info-grid, .flood-info-grid, .wildfire-info-grid, .drought-info-grid {
+/* Step Cards */
+.earthquake-steps-container,
+.drought-steps-container,
+.earthquake-info-grid,
+.drought-info-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px,1fr));
-  gap: 25px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
   margin: 30px 0;
 }
 
-.info-card, .flood-info-card, .wildfire-info-card, .drought-info-card {
-  background: white;
-  border-radius: 10px;
+.earthquake-step-card,
+.drought-step-card,
+.earthquake-info-card,
+.drought-info-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   overflow: hidden;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-  transition: transform 0.3s;
 }
 
-.info-card:hover, .flood-info-card:hover, .wildfire-info-card:hover, .drought-info-card:hover {
+.earthquake-step-card:hover,
+.drought-step-card:hover,
+.earthquake-info-card:hover,
+.drought-info-card:hover {
   transform: translateY(-5px);
+  background: white;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.1);
+  border-color: rgba(59, 130, 246, 0.2);
 }
 
-.card-img img {
+.earthquake-step-card h4,
+.drought-step-card h4,
+.earthquake-card-content h3,
+.drought-card-content h3 {
+  color: #2563eb;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0 0 12px 0;
+}
+
+.earthquake-step-card p,
+.drought-step-card p {
+  color: var(--text-muted);
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.earthquake-step-card ul,
+.drought-step-card ul,
+.earthquake-card-content ul {
+  margin-top: 16px;
+  padding: 0;
+  list-style: none;
+}
+
+.earthquake-step-card ul li,
+.drought-step-card ul li,
+.earthquake-card-content ul li {
+  position: relative;
+  padding-left: 28px;
+  margin-bottom: 10px;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.earthquake-step-card ul li::before,
+.drought-step-card ul li::before,
+.earthquake-card-content ul li::before {
+  content: "✦";
+  color: #3b82f6;
+  position: absolute;
+  left: 0;
+  font-size: 1.1rem;
+}
+
+/* Card Images */
+.earthquake-card-img,
+.drought-card-img {
+  width: calc(100% + 60px);
+  margin: -30px -30px 20px -30px;
+  height: 200px;
+  overflow: hidden;
+}
+
+.earthquake-card-img img,
+.drought-card-img img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s;
+  transition: transform 0.5s ease;
 }
 
-.info-card:hover .card-img img {
-  transform: scale(1.05);
+.earthquake-info-card:hover .earthquake-card-img img {
+  transform: scale(1.08);
 }
 
-.card-content h3 {
-  font-size: 1.4rem;
-  color: #2c3e50;
-  margin-bottom: 15px;
-}
-
-.card-content p, .card-content ul, .card-content li {
-  color: #666;
-}
-
-/* ==================== Disaster Sections ==================== */
-.disaster-section {
-  margin: 40px 0;
-  padding: 30px;
-  border-radius: 12px;
-  background: #fff;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-}
-
-.disaster-section h3 {
-  font-size: 1.8rem;
-  margin-bottom: 20px;
+/* Headings */
+.earthquake-component-title,
+.drought-component-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 40px 0 20px 0;
   display: flex;
   align-items: center;
-  color: #00799e;
+  gap: 12px;
 }
 
-.disaster-section h3 i {
-  margin-right: 12px;
-  font-size: 2rem;
+.earthquake-component-title::before,
+.drought-component-title::before {
+  content: "";
+  display: block;
+  width: 6px; height: 24px;
+  background: #3b82f6;
+  border-radius: 4px;
 }
 
-/* Disaster Category Styles */
-.before-disaster {
-  border-left: 6px solid #2ecc71;
-  padding: 20px;
-  margin-bottom: 25px;
-  background: #eafaf1;
-  border-radius: 8px;
+/* Stats */
+.earthquake-stats-container,
+.drought-stats-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
 }
 
-.during-disaster {
-  border-left: 6px solid #e74c3c;
-  padding: 20px;
-  margin-bottom: 25px;
-  background: #fdecea;
-  border-radius: 8px;
+.earthquake-stat-box,
+.drought-stat-box {
+  background: rgba(59, 130, 246, 0.05);
+  border: 1px solid rgba(59, 130, 246, 0.12);
+  border-radius: 20px;
+  padding: 30px 20px;
+  text-align: center;
+  transition: all 0.3s ease;
 }
 
-.after-disaster {
-  border-left: 6px solid #3498db;
-  padding: 20px;
-  margin-bottom: 25px;
-  background: #eaf4fd;
-  border-radius: 8px;
+.earthquake-stat-box:hover,
+.drought-stat-box:hover {
+  background: rgba(59, 130, 246, 0.08);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(59, 130, 246, 0.08);
 }
 
-.disaster-section p, .disaster-section li {
-  font-size: 1rem;
-  line-height: 1.6;
-  color: #333;
-  margin-bottom: 10px;
-}
-
-.disaster-section ul {
-  padding-left: 20px;
-  margin-top: 10px;
-}
-
-.disaster-section li {
+.earthquake-stat-number,
+.drought-stat-number {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #3b82f6;
   margin-bottom: 8px;
 }
 
-.disaster-section li i {
-  margin-right: 8px;
-  color: #00799e;
+.earthquake-stat-box p,
+.drought-stat-box p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin: 0;
 }
 
-/* ==================== Safety Cards / Steps ==================== */
-.steps-container, .numbered-steps, .pictographic-steps {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  margin: 30px 0;
+/* Emergency Contacts / Alert Boxes */
+.earthquake-emergency-contact,
+.earthquake-alert-box,
+.drought-alert-box {
+  background: rgba(239, 68, 68, 0.05);
+  border: 1px solid rgba(239, 68, 68, 0.15);
+  border-left: 4px solid #ef4444;
+  padding: 24px 30px;
+  border-radius: 16px;
+  margin-top: 30px;
+  color: #b91c1c;
 }
 
-.step-card, .numbered-step, .picto-step, .safety-card {
-  background: white;
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-}
-
-.step-card h4, .numbered-step h4, .safety-card h3 {
-  color: rgb(0,121,158);
-  margin-bottom: 15px;
-}
-
-/* ==================== Checklist ==================== */
-.checklist, .drought-checklist, .flood-checklist, .wildfire-checklist {
-  background: #f8f9fa;
-  border-radius: 10px;
-  padding: 20px;
-  margin: 20px 0;
-}
-
-.checklist-item, .drought-checklist-item, .flood-checklist-item, .wildfire-checklist-item {
-  display: flex;
-  align-items: flex-start;
-  margin-bottom: 15px;
-}
-
-.checklist-icon, .drought-checklist-icon, .flood-checklist-icon, .wildfire-checklist-icon {
-  margin-right: 15px;
-  color: rgb(0,121,158);
-  font-size: 1.2rem;
-}
-
-/* ==================== Resource Cards ==================== */
-.resource-grid, .flood-resource-grid, .wildfire-resource-grid, .drought-resource-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
-  gap: 20px;
-  margin: 30px 0;
-}
-
-.resource-card {
-  background: white;
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-}
-
-.resource-card h4 {
-  color: #2c3e50;
-  margin-bottom: 15px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #eee;
-}
-
-.resource-card ul {
-  padding-left: 20px;
-}
-
-.resource-card li {
-  margin-bottom: 10px;
-}
-
-/* ==================== Back Button ==================== */
-.modules-back-btn {
-  position: absolute;
-  top: 22px;
-  left: 22px;
-  z-index: 200;
-  background: #f4f8fb;
-  color: #00799e;
-  border: none;
-  border-radius: 8px;
-  padding: 8px 18px;
-  font-size: 1.08rem;
-  font-weight: 600;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-  cursor: pointer;
+.earthquake-emergency-contact h3,
+.earthquake-alert-box h3,
+.drought-alert-box h3 {
+  color: #dc2626;
+  font-size: 1.3rem;
+  margin: 0 0 12px 0;
   display: flex;
   align-items: center;
-  gap: 8px;
-  transition: background 0.18s, color 0.18s;
+  gap: 10px;
 }
 
-.modules-back-btn:hover {
-  background: #eaf4fd;
-  color: #005a75;
+.earthquake-emergency-contact p,
+.earthquake-alert-box p {
+  color: #991b1b;
+  margin-bottom: 8px;
 }
 
-@media (max-width: 992px) {
-  .modules-container { flex-direction: column; }
-  .modules-sidebar { width: 100%; height: auto; position: relative; padding: 15px; }
-  .modules-disaster-menu { display: flex; flex-wrap: wrap; justify-content: center; }
-  .modules-disaster-menu li { padding: 10px 15px; margin: 5px; border-radius: 5px; }
-  .steps-container, .numbered-steps { flex-direction: column; }
-  .step-card, .numbered-step { flex: 0 0 100%; margin-bottom: 15px; }
-  .content-section { scroll-margin-top: 150px; }
-  .modules-back-btn {
-    position: static;
-    margin: 18px 0 0 12px;
-  }
+.earthquake-emergency-contact strong { color: #7c2d12; }
+
+/* Pictographic steps */
+.drought-pictographic-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 24px;
+  margin: 30px 0;
 }
 
-@media (max-width: 768px) {
-  .modules-header { height: 200px; padding: 0 20px; }
-  .modules-header h1 { font-size: 2rem; }
-  .modules-nav-tabs { flex-wrap: wrap; }
-  .modules-nav-tab { flex: 1 0 50%; text-align: center; padding: 15px; }
-  .content-section { padding: 20px; scroll-margin-top: 200px; }
-  .section-title { font-size: 1.6rem; }
+.drought-picto-step {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  border-radius: 20px;
+  padding: 30px 20px;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.drought-picto-step:hover {
+  background: white;
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+}
+
+.drought-picto-step img {
+  width: 64px; height: 64px;
+  margin-bottom: 16px;
+  filter: drop-shadow(0 4px 8px rgba(59, 130, 246, 0.2));
+}
+
+.drought-picto-step h4 {
+  color: var(--text-main);
+  font-size: 1.1rem;
+  margin: 0 0 8px 0;
+}
+
+.drought-picto-step p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* Resource links */
+.earthquake-resource-card ul li a {
+  color: #3b82f6;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.earthquake-resource-card ul li a:hover {
+  color: #2563eb;
+  text-decoration: underline;
 }

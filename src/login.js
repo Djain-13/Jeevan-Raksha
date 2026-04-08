@@ -5,17 +5,20 @@ import {
   FaEye,
   FaEyeSlash,
   FaUserGraduate,
-  FaUserShield,
+  FaArrowLeft,
 } from "react-icons/fa";
 import "./login.css";
+import API_URL from './config';
 
-const SignInApp = ({onRegisterClick, onLoginSuccess}) => {
-  const [userType, setUserType] = useState("student");
+const SignInApp = ({onBack, onRegisterClick, onLoginSuccess}) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
   const [showPassword, setShowPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,14 +26,41 @@ const SignInApp = ({onRegisterClick, onLoginSuccess}) => {
       ...prev,
       [name]: value,
     }));
+    // Clear error when user starts typing
+    if (errorMessage) setErrorMessage("");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Sign In Data:", { ...formData, userType });
-    alert("Sign in successful! Redirecting to Home Page...");
-    if (onLoginSuccess) onLoginSuccess(); // ✅ Redirect to HomePage
-    // Redirect logic would go here
+    setIsLoading(true);
+    setErrorMessage("");
+
+    try {
+      const response = await fetch(`${API_URL}/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        // Store the JWT token and user info
+        localStorage.setItem("access_token", result.access_token);
+        localStorage.setItem("user", JSON.stringify(result.user));
+        if (onLoginSuccess) onLoginSuccess();
+      } else {
+        setErrorMessage(result.error || "Login failed. Please try again.");
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+      setErrorMessage("Cannot connect to the server. Make sure the backend is running.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleSignUpRedirect = () => {
@@ -39,36 +69,17 @@ const SignInApp = ({onRegisterClick, onLoginSuccess}) => {
   };
 
   return (
-    <div className="app">
-      <div className="background-animation"></div>
-      <div className="glossy-overlay"></div>
-      <div className="glossy-shapes"></div>
-
       <div className="auth-container">
         <div className="auth-card">
+          <button className="back-button" onClick={onBack}>
+            <FaArrowLeft /> Back
+          </button>
+          
           <div className="auth-header">
             <h1>Welcome Back</h1>
             <p>Sign in to continue your learning journey</p>
           </div>
 
-          <div className="user-type-selector">
-            <button
-              className={`user-type-btn ${
-                userType === "student" ? "active" : ""
-              }`}
-              onClick={() => setUserType("student")}
-            >
-              <FaUserGraduate /> Student
-            </button>
-            <button
-              className={`user-type-btn ${
-                userType === "admin" ? "active" : ""
-              }`}
-              onClick={() => setUserType("admin")}
-            >
-              <FaUserShield /> Administrator
-            </button>
-          </div>
 
           <form className="auth-form" onSubmit={handleSubmit}>
             <div className="form-group">
@@ -111,6 +122,21 @@ const SignInApp = ({onRegisterClick, onLoginSuccess}) => {
               </div>
             </div>
 
+            {errorMessage && (
+              <div style={{
+                background: 'rgba(231, 76, 60, 0.1)',
+                border: '1px solid rgba(231, 76, 60, 0.3)',
+                borderRadius: '8px',
+                padding: '12px 16px',
+                color: '#e74c3c',
+                fontSize: '0.9rem',
+                marginBottom: '12px',
+                textAlign: 'center'
+              }}>
+                {errorMessage}
+              </div>
+            )}
+
             <div className="auth-options">
               <label className="remember-me">
                 <input type="checkbox" /> Remember me
@@ -120,8 +146,8 @@ const SignInApp = ({onRegisterClick, onLoginSuccess}) => {
               </a>
             </div>
 
-            <button type="submit" className="auth-submit-btn">
-              Sign In
+            <button type="submit" className="auth-submit-btn" disabled={isLoading}>
+              {isLoading ? "Signing in..." : "Sign In"}
             </button>
           </form>
 
@@ -163,7 +189,6 @@ const SignInApp = ({onRegisterClick, onLoginSuccess}) => {
           </div>
         </div>
       </div>
-    </div>
   );
 };
 
