@@ -96,7 +96,6 @@ const RecentDisastersSection = () => {
             };
           });
           setDisasters(items);
-          setDataSource('live');
           setLoading(false);
           return;
         }
@@ -132,7 +131,6 @@ const RecentDisastersSection = () => {
             };
           });
           setDisasters(items);
-          setDataSource('live');
           setLoading(false);
           return;
         }
