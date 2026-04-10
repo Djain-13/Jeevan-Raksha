@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import "./App.css";
 import DisasterMap from './DisasterMap';
@@ -22,6 +22,22 @@ function getDisasterIcon(typeName) {
   return '⚠️';
 }
 
+// ── Fallback disaster data (module-level constant — stable reference) ──
+const FALLBACK_DISASTERS = [
+  { id: 'f1',  name: 'India: Floods and Landslides – Jul 2024',          type: 'Flood',            date: '30 July 2024' },
+  { id: 'f2',  name: 'India: Wayanad Landslides – Jul 2024',             type: 'Land Slide',       date: '30 July 2024' },
+  { id: 'f3',  name: 'India: Cyclone Remal – May 2024',                  type: 'Tropical Cyclone', date: '26 May 2024' },
+  { id: 'f4',  name: 'India: Sikkim Flash Flood & GLOF – Oct 2023',      type: 'Flash Flood',      date: '4 October 2023' },
+  { id: 'f5',  name: 'India: Cyclone Michaung – Dec 2023',               type: 'Tropical Cyclone', date: '3 December 2023' },
+  { id: 'f6',  name: 'India: North India Floods – Jul 2023',             type: 'Flood',            date: '10 July 2023' },
+  { id: 'f7',  name: 'India: Cyclone Biparjoy – Jun 2023',               type: 'Tropical Cyclone', date: '15 June 2023' },
+  { id: 'f8',  name: 'India: Joshimath Land Subsidence – Jan 2023',      type: 'Land Slide',       date: '7 January 2023' },
+  { id: 'f9',  name: 'India: Floods – Assam & Northeast – Jun 2022',    type: 'Flood',            date: '14 June 2022' },
+  { id: 'f10', name: 'India: Cyclone Asna – Aug 2024',                   type: 'Tropical Cyclone', date: '31 August 2024' },
+  { id: 'f11', name: 'India: Andhra Pradesh & Telangana Floods – Sep 2024', type: 'Flood',         date: '1 September 2024' },
+  { id: 'f12', name: 'India: Kerala Floods – Aug 2018',                  type: 'Flood',            date: '8 August 2018' },
+].map(d => ({ ...d, icon: getDisasterIcon(d.type) }));
+
 // ============================================
 // RecentDisastersSection — Live from ReliefWeb API
 // ============================================
@@ -29,23 +45,6 @@ const RecentDisastersSection = () => {
   const [disasters, setDisasters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [visibleCount, setVisibleCount] = useState(6);
-  const [dataSource, setDataSource] = useState(''); // 'live' | 'fallback'
-
-  // Up-to-date fallback — India disasters 2023–2026
-  const FALLBACK_DISASTERS = [
-    { id: 'f1', name: 'India: Floods and Landslides – Jul 2024', type: 'Flood', date: '30 July 2024' },
-    { id: 'f2', name: 'India: Wayanad Landslides – Jul 2024', type: 'Land Slide', date: '30 July 2024' },
-    { id: 'f3', name: 'India: Cyclone Remal – May 2024', type: 'Tropical Cyclone', date: '26 May 2024' },
-    { id: 'f4', name: 'India: Sikkim Flash Flood & GLOF – Oct 2023', type: 'Flash Flood', date: '4 October 2023' },
-    { id: 'f5', name: 'India: Cyclone Michaung – Dec 2023', type: 'Tropical Cyclone', date: '3 December 2023' },
-    { id: 'f6', name: 'India: North India Floods – Jul 2023', type: 'Flood', date: '10 July 2023' },
-    { id: 'f7', name: 'India: Cyclone Biparjoy – Jun 2023', type: 'Tropical Cyclone', date: '15 June 2023' },
-    { id: 'f8', name: 'India: Manipur Ethnic Violence Displacement 2023', type: 'Civil Unrest', date: '3 May 2023' },
-    { id: 'f9', name: 'India: Joshimath Land Subsidence – Jan 2023', type: 'Land Slide', date: '7 January 2023' },
-    { id: 'f10', name: 'India: Floods – Assam & Northeast – Jun 2022', type: 'Flood', date: '14 June 2022' },
-    { id: 'f11', name: 'India: Cyclone Asna – Aug 2024', type: 'Tropical Cyclone', date: '31 August 2024' },
-    { id: 'f12', name: 'India: Andhra Pradesh & Telangana Floods – Sep 2024', type: 'Flood', date: '1 September 2024' },
-  ].map(d => ({ ...d, icon: getDisasterIcon(d.type) }));
 
   useEffect(() => {
     const fetchDisasters = async () => {
@@ -143,12 +142,12 @@ const RecentDisastersSection = () => {
 
       // ── Strategy 3: Use updated fallback ──
       setDisasters(FALLBACK_DISASTERS);
-      setDataSource('fallback');
       setLoading(false);
     };
 
     fetchDisasters();
-  }, []);
+  }, []); // FALLBACK_DISASTERS is a stable module-level constant
+
 
   return (
     <section className="recent-disasters-section" id="recent-disasters">
@@ -366,9 +365,6 @@ function LandingPage({ onLoginClick, onHelplineClick, onRegisterClick, onSosClic
     }
   }, [darkMode]);
 
-  // Handler functions for navigation
-  const handleSosClick = () => navigate("/sos");
-  const handleAlertClick = () => navigate("/alert");
 
   return (
     <div className="landing-page">

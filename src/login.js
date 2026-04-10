@@ -4,7 +4,6 @@ import {
   FaLock,
   FaEye,
   FaEyeSlash,
-  FaUserGraduate,
   FaArrowLeft,
 } from "react-icons/fa";
 import "./login.css";
@@ -141,9 +140,13 @@ const SignInApp = ({onBack, onRegisterClick, onLoginSuccess}) => {
               <label className="remember-me">
                 <input type="checkbox" /> Remember me
               </label>
-              <a href="#" className="forgot-password">
+              <button
+                type="button"
+                className="forgot-password"
+                style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+              >
                 Forgot password?
-              </a>
+              </button>
             </div>
 
             <button type="submit" className="auth-submit-btn" disabled={isLoading}>
