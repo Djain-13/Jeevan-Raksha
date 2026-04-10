@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 
 import "./App.css";
 import DisasterMap from './DisasterMap';
@@ -348,7 +347,6 @@ const WeatherWidget = () => {
 };
 
 function LandingPage({ onLoginClick, onHelplineClick, onRegisterClick, onSosClick, onAlertClick, onStartLearningClick, isLoggedIn, onGoToHome, onLogout }) {
-  const navigate = useNavigate();
   const [darkMode, setDarkMode] = React.useState(() => {
     return localStorage.getItem('jeevanraksha_theme') === 'dark';
   });
