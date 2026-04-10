@@ -24,11 +24,13 @@
     "react-leaflet": "^5.0.0",
     "react-router-dom": "^7.9.1",
     "react-scripts": "^5.0.1",
+    "serve": "^14.2.4",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "start:prod": "npx serve -s build -l $PORT",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
