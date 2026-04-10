@@ -1,6 +1,8 @@
 // Prism.js
 import { useEffect, useRef } from 'react';
+// eslint-disable-next-line no-unused-vars
 import { Renderer, Triangle, Program, Mesh } from 'ogl';
+
 import './prism.css';
 
 const Prism = ({
