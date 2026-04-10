@@ -17,12 +17,15 @@ def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
 
-    # Initialize extensions
-    import re
+    # Initialize extensions — allow Railway, Vercel, and local dev
     CORS(app, origins=[
-        r"https://.*\.vercel\.app",
         "http://localhost:3000",
         "http://127.0.0.1:3000",
+        "http://localhost:3001",
+    ], supports_credentials=True, origins_regex=[
+        r"https://.*\.vercel\.app",
+        r"https://.*\.railway\.app",
+        r"https://.*\.up\.railway\.app",
     ])
     db.init_app(app)
     migrate.init_app(app, db)
@@ -36,6 +39,15 @@ def create_app(config_class=Config):
     from app.routes import main_bp, api_bp
     app.register_blueprint(main_bp)
     app.register_blueprint(api_bp)
+
+    # Auto-run DB migrations on startup (safe for Railway cold starts)
+    with app.app_context():
+        try:
+            from flask_migrate import upgrade
+            upgrade()
+        except Exception as e:
+            # If migrations fail (e.g. first run), create tables directly
+            db.create_all()
 
     return app
 
