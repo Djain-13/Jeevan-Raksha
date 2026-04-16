@@ -1,0 +1,24 @@
+# Tell Vercel to ignore backend files — this is a React frontend deployment only.
+# The Flask backend is deployed separately on Railway.
+
+# Python backend
+requirements.txt
+run.py
+app/
+config.py
+migrations/
+nixpacks.toml
+railway.toml
+Procfile
+render.yaml
+*.py
+__pycache__/
+*.pyc
+venv/
+app.db
+
+# Local dev files
+.env
+.vscode/
+node_modules/
+build/
