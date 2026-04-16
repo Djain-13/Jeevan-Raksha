@@ -1,15 +1,8 @@
-# Railway Backend Configuration
-# This file is for the BACKEND (Flask/Python) service only.
-# Set this file's path in Railway → Service Settings → Config file path.
-#
-# Frontend service: set Start Command manually in Railway dashboard to:
-#   npx serve -s build -l $PORT
-
+# Railway Backend Configuration — Flask/Python only
 [build]
 builder = "nixpacks"
 
 [deploy]
-# Backend uses Procfile: "web: gunicorn run:app"
-# Do NOT set startCommand here - it applies to both services.
+startCommand = "gunicorn run:app --bind 0.0.0.0:$PORT --workers 2 --timeout 120"
 restartPolicyType = "on_failure"
 restartPolicyMaxRetries = 3
